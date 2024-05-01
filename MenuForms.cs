@@ -12,9 +12,17 @@ namespace Optimization_methods
 {
     public partial class MenuForms : Form
     {
+
         public MenuForms()
         {
             InitializeComponent();
+
+            // Привязываем обработчик события SelectedIndexChanged к ListBox
+            group_of_methods_listBox.SelectedIndexChanged += ListBox_SelectedIndexChanged;
+
+            // Привязываем обработчики событий для нажатия клавиш
+            group_of_methods_listBox.KeyDown += GroupListBox_KeyDown;
+            methods_combobox.KeyDown += MethodsComboBox_KeyDown;
 
             // Добавляем элементы в первый ListBox
             group_of_methods_listBox.Items.Add("Поисковые методы");
@@ -22,13 +30,72 @@ namespace Optimization_methods
             group_of_methods_listBox.Items.Add("Методы, использующие производные");
             group_of_methods_listBox.Items.Add("Метод ломаных");
 
-            // Привязываем обработчик события SelectedIndexChanged к ListBox
-            group_of_methods_listBox.SelectedIndexChanged += ListBox_SelectedIndexChanged;
 
             error_label1.Visible = false; // Скрыть сообщение об ошибке
             error_label2.Visible = false; // Скрыть сообщение об ошибке
         }
-        private void ListBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void GroupListBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Right)
+            {
+                if (group_of_methods_listBox.SelectedIndex != 3) {                 
+                    // Переходим к выбору в methods_combobox
+                methods_combobox.Focus();
+                methods_combobox.DroppedDown = true; // Раскрываем список
+                e.Handled = true;}
+
+            }
+            else if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
+            {
+                // Перемещаем выбор в списке вверх или вниз
+                if (group_of_methods_listBox.Items.Count > 0)
+                {
+                    int currentIndex = group_of_methods_listBox.SelectedIndex;
+                    if (e.KeyCode == Keys.Up && currentIndex > 0)
+                    {
+                        group_of_methods_listBox.SelectedIndex = currentIndex - 1;
+                    }
+                    else if (e.KeyCode == Keys.Down && currentIndex < group_of_methods_listBox.Items.Count - 1)
+                    {
+                        group_of_methods_listBox.SelectedIndex = currentIndex + 1;
+                    }
+                }
+                e.Handled = true;
+            }
+        }
+
+        private void MethodsComboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                // Нажатие Enter для нажатия кнопки start_button
+                start_button.PerformClick();
+            }
+            else if (e.KeyCode == Keys.Left)
+            {
+                // Переходим к выбору в group_of_methods_listBox
+                group_of_methods_listBox.Focus();
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
+            {
+                // Перемещаем выбор в списке вверх или вниз
+                if (methods_combobox.Items.Count > 0)
+                {
+                    int currentIndex = methods_combobox.SelectedIndex;
+                    if (e.KeyCode == Keys.Up && currentIndex > 0)
+                    {
+                        methods_combobox.SelectedIndex = currentIndex - 1;
+                    }
+                    else if (e.KeyCode == Keys.Down && currentIndex < methods_combobox.Items.Count - 1)
+                    {
+                        methods_combobox.SelectedIndex = currentIndex + 1;
+                    }
+                }
+                e.Handled = true;
+            }
+        }
+            private void ListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (group_of_methods_listBox.SelectedIndex)
             {
@@ -63,7 +130,6 @@ namespace Optimization_methods
         {
             error_label1.Visible = false; // Скрыть сообщение об ошибке
             error_label2.Visible = false; // Скрыть сообщение об ошибке
-            this.Refresh();
             if (group_of_methods_listBox.SelectedItem != null)
             {
                 switch (group_of_methods_listBox.SelectedIndex)
@@ -90,7 +156,6 @@ namespace Optimization_methods
                         {
                             error_label2.Text = "Пожалуйста, выберите значение из списка.";
                             error_label2.Visible = true;
-                            this.Refresh();
                         }
                         break;
                     case 1: // Если выбраны "Методы исключения отрезков"
@@ -115,7 +180,6 @@ namespace Optimization_methods
                         {
                             error_label2.Text = "Пожалуйста, выберите значение из списка.";
                             error_label2.Visible = true;
-                            this.Refresh();
                         }
                         break;
                     case 2: // Если выбраны "Методы, использующие производные"
@@ -150,7 +214,6 @@ namespace Optimization_methods
                         {
                             error_label2.Text = "Пожалуйста, выберите значение из списка.";
                             error_label2.Visible = true;
-                            this.Refresh();
                         }
                         break;
                     case 3: // Если выбран "Метод ломаных"
@@ -164,7 +227,6 @@ namespace Optimization_methods
             {
                 error_label1.Text = "Пожалуйста, выберите значение из списка.";
                 error_label1.Visible = true; // Показать сообщение об ошибке
-                this.Refresh();
             }
         }
     }
