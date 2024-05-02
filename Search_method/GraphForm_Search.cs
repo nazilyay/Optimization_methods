@@ -19,11 +19,10 @@ namespace Optimization_methods
         private double currentX; // Текущее значение X
         private double stepSize; // Размер шага перебора
         private double minX; // X-координата минимума
-        private double a; 
+        private double a;
         private double minResult; // Значение функции в минимуме
         private bool isPaused; // Флаг для паузы
         private string functionExpression; // Поле для хранения выражения функции                              
-        private Label coordinateLabel; // Добавляем метку для отображения координат
 
 
         public GraphForm_Search(string functionExpression, double accuracy, double a, double b, double minX, double minResult)
@@ -43,17 +42,15 @@ namespace Optimization_methods
             // Создаем панель для размещения графика
             chartPanel = new Panel();
             chartPanel.Dock = DockStyle.None; // Отменяем автоматическое занимание всей формы
-            chartPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right; // Якорим панель сверху, слева и справа
+            chartPanel.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom; // Якорим панель слева, сверху и снизу
             chartPanel.Width = 500; // Устанавливаем ширину панели (по вашему усмотрению)
             chartPanel.Height = 350; // Устанавливаем высоту панели (по вашему усмотрению)
             chartPanel.BackColor = Color.White;
             Controls.Add(chartPanel);
 
-            // Располагаем панель посередине по вертикали
-            chartPanel.Top = (this.ClientSize.Height - chartPanel.Height) / 2;
-            // Располагаем панель посередине по горизонтали
-            chartPanel.Left = (this.ClientSize.Width - chartPanel.Width) / 2;
-
+            // Располагаем панель слева
+            chartPanel.Left = 50; // Указываем отступ слева (по вашему усмотрению)
+            chartPanel.Top = (this.ClientSize.Height - chartPanel.Height) / 2; // Центрируем по вертикали
 
             // Создание графика
             chart = new Chart();
@@ -68,11 +65,9 @@ namespace Optimization_methods
             timer.Interval = 100; // Интервал таймера в миллисекундах
             timer.Tick += Timer_Tick;
 
-            // Создаем метку для отображения координат
-            coordinateLabel = new Label();
-            coordinateLabel.AutoSize = true;
-            coordinateLabel.Location = new Point(10, 10); // Задаем начальное положение метки
-            chartPanel.Controls.Add(coordinateLabel); // Добавляем метку на панель с графиком
+            // Привязываем обработчик события закрытия формы
+            this.FormClosing += GraphForm_Search_FormClosing;
+            chart.MouseMove += chart_MouseMove;
         }
 
         private void pause_button_Click(object sender, EventArgs e)
@@ -85,6 +80,7 @@ namespace Optimization_methods
                 // Отображаем текущие координаты при нажатии на паузу
                 UpdateCoordinateLabel(currentX, CalculateYValue(currentX));
             }
+            exit_button_search.Enabled = true;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -110,8 +106,10 @@ namespace Optimization_methods
         // Метод для обновления метки с координатами
         private void UpdateCoordinateLabel(double x, double y)
         {
-            coordinateLabel.Text = $"X: {x}, Y: {y}";
+            x_coordinateLabel.Text = $"X: {x}";
+            y_coordinateLabel.Text = $"Y: {y}";
         }
+
         private double CalculateMaxY(string functionExpression, double accuracy, double a, double b)
         {
             double maxY = double.MinValue; // Инициализация максимального значения Y
@@ -201,13 +199,15 @@ namespace Optimization_methods
         }
 
 
-       private void stop_button_Click(object sender, EventArgs e)
+        private void stop_button_Click(object sender, EventArgs e)
         {
             timer.Stop(); // Останавливаем таймер
             currentX = minX; // Сбрасываем текущую позицию до минимума
             currentPositionSeries.Points.Clear();
             currentPositionSeries.Points.AddXY(currentX, minResult);
             isPaused = false;
+            exit_button_search.Enabled = true;
+
         }
 
         private void start_button_Click(object sender, EventArgs e)
@@ -224,6 +224,7 @@ namespace Optimization_methods
                 timer.Start(); // Запускаем таймер для анимации
                 isPaused = false;
             }
+            exit_button_search.Enabled = false;
         }
 
         private double CalculateYValue(double x)
@@ -232,5 +233,38 @@ namespace Optimization_methods
             exp.Parameters["x"] = x;
             return Convert.ToDouble(exp.Evaluate());
         }
+       
+        private void GraphForm_Search_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Проверяем, активен ли таймер
+            if (timer.Enabled)
+            {
+                // Если таймер активен, отменяем закрытие формы
+                e.Cancel = true;
+            }
+        }
+
+        private void chart_MouseMove(object sender, MouseEventArgs e)
+        {
+            // Получаем координаты курсора относительно области графика
+            Point relativeMousePos = chart.PointToClient(MousePosition);
+
+            // Проверяем, что курсор находится в пределах области графика
+            if (chart.ChartAreas.Count > 0)
+            {
+                ChartArea area = chart.ChartAreas[0];
+                try
+                {
+                    double xValue = area.AxisX.PixelPositionToValue(relativeMousePos.X);
+                    double yValue = area.AxisY.PixelPositionToValue(relativeMousePos.Y);
+                    UpdateCoordinateLabel(xValue, yValue);
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+
+
     }
 }

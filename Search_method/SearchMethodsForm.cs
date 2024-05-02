@@ -2,6 +2,7 @@
 using System.Data.Common;
 using System.Windows.Forms;
 using NCalc;
+using Optimization_methods.Search_method;
 
 
 namespace Optimization_methods
@@ -26,13 +27,17 @@ namespace Optimization_methods
             table_search_button.Enabled = false;
             Visualization_button.Enabled = false;
 
+            a_textBox.Enabled = false;
+            b_textBox.Enabled = false;
+            accuracy_textBox.Enabled = false;
+
         }
 
         private void SearchMethodsForm_Load(object sender, EventArgs e)
         {
             // Установка значений по умолчанию для текстовых полей
             function_textBox.Text = "Sin(x)+2"; // Пример выражения функции
-            a_textBox.Text = "0"; // Пример значения a
+            a_textBox.Text = "2"; // Пример значения a
             b_textBox.Text = "5"; // Пример значения b
             accuracy_textBox.Text = "0,1"; // Пример точности
         }
@@ -45,11 +50,11 @@ namespace Optimization_methods
             // Проверка корректности выражения функции
             bool isFunctionValid = IsValidFunctionExpression(functionExpression);
 
-            // Если функция корректна, устанавливаем зеленый цвет фона кнопки, иначе - красный
-            function_button.BackColor = isFunctionValid ? Color.Green : Color.Red;
-
             // Активация/деактивация кнопки calculate_button в зависимости от корректности функции
             calculate_button.Enabled = isFunctionValid;
+            a_textBox.Enabled = isFunctionValid;
+            b_textBox.Enabled = isFunctionValid;
+            accuracy_textBox.Enabled = isFunctionValid;
         }
 
 
@@ -60,6 +65,7 @@ namespace Optimization_methods
                 Expression e = new Expression(expression);
                 e.Parameters["x"] = 1;
                 object result = e.Evaluate();
+                error_func_search.Visible = false;
                 return true;
             }
             catch (Exception)
@@ -75,6 +81,8 @@ namespace Optimization_methods
             double minResult = double.MaxValue;
             double minX = 0;
 
+            double prevResult = double.MaxValue; // Переменная для хранения предыдущего значения функции
+
             for (double x = a; x <= b; x += accuracy)
             {
                 Expression exp = new Expression(expression);
@@ -87,15 +95,25 @@ namespace Optimization_methods
                     minResult = result;
                     minX = x;
                 }
+
+                // Проверяем, началось ли увеличение значения функции после нахождения минимума
+                if (prevResult < minResult && result > minResult)
+                {
+                    break; // Прекращаем перебор, если значение функции начинает расти после минимума
+                }
+
+                prevResult = result; // Сохраняем текущее значение функции для следующей итерации
             }
 
             return (minResult, minX);
         }
 
+
         private void calculate_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
             double a, b, accuracy;
+            error_label.Visible = false;
 
             // Проверка правильности ввода значения a
             if (!double.TryParse(a_textBox.Text, out a))
@@ -130,6 +148,10 @@ namespace Optimization_methods
             func_result_label.Visible = true;
             result_label.Visible = true;
 
+            a_textBox.Enabled = false;
+            b_textBox.Enabled = false;
+            accuracy_textBox.Enabled = false;
+
             table_search_button.Enabled = true;
             button_graph_search.Enabled = true;
             Visualization_button.Enabled = true;
@@ -161,8 +183,14 @@ namespace Optimization_methods
             // Скрываем сообщение об ошибке
             error_label.Visible = false;
             error_func_search.Visible = false;
+
             func_result_label.Visible = false;
             result_label.Visible = false;
+            button_graph_search.Enabled = false;
+            Visualization_button.Enabled = false;
+            a_textBox.Enabled = false;
+            b_textBox.Enabled = false;
+            accuracy_textBox.Enabled = false;
         }
 
         private void table_search_Click(object sender, EventArgs e)
@@ -199,7 +227,8 @@ namespace Optimization_methods
                 !double.TryParse(b_textBox.Text, out b) ||
                 !double.TryParse(accuracy_textBox.Text, out accuracy))
             {
-                MessageBox.Show("Ошибка: Неправильный ввод значений a, b или точности.");
+                error_label.Text = "Ошибка: Неправильный ввод значений a, b или точности.";
+                error_label.Visible = true;
                 return;
             }
 
@@ -221,14 +250,14 @@ namespace Optimization_methods
                 !double.TryParse(b_textBox.Text, out b) ||
                 !double.TryParse(accuracy_textBox.Text, out accuracy))
             {
-                MessageBox.Show("Ошибка: Неправильный ввод значений a, b или точности.");
+                error_label.Text = "Ошибка: Неправильный ввод значений a, b или точности.";
+                error_label.Visible = true;
                 return;
             }
 
-            // Открытие новой формы с графиком функции
-            /*VisualizationForm_Search VisualizationForm = new VisualizationForm_Search(functionExpression, accuracy, a, b);
-            VisualizationForm.Show();*/
-
+            // Создание и отображение новой формы
+            VisualizationForm_Search visualizationForm = new VisualizationForm_Search(functionExpression, a, b, accuracy);
+            visualizationForm.Show();
         }
     }
 

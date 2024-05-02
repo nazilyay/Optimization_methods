@@ -24,7 +24,15 @@ namespace Optimization_methods
 
             // Выполнение метода перебора и заполнение таблицы
             PerformBruteForceMethod();
+
+            // Установка ширины столбцов
+            dataGridView.Columns[0].Width = 100;  
+            dataGridView.Columns[1].Width = 120; 
+            dataGridView.Columns[2].Width = 120; 
+            dataGridView.Columns[3].Width = 120; 
+            dataGridView.Columns[4].Width = 120; 
         }
+
 
         private void PerformBruteForceMethod()
         {
@@ -43,7 +51,7 @@ namespace Optimization_methods
                 double result = CalculateFunctionValue(functionExpression, x);
 
                 // Запись данных итерации в таблицу
-                dataGridView.Rows.Add(iteration, x, result, minX, minResult, accuracy);
+                dataGridView.Rows.Add(iteration, x, result, minX, minResult);
 
                 // Проверка, является ли текущий результат минимальным
                 if (result < minResult)
@@ -53,6 +61,12 @@ namespace Optimization_methods
                 }
 
                 iteration++;
+
+                // Проверка условия остановки: если найден минимум и дальше идет увеличение значения функции, останавливаемся
+                if (minX != x && result > minResult)
+                {
+                    break;
+                }
             }
         }
 

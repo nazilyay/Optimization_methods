@@ -63,7 +63,7 @@
             // 
             // exit_button
             // 
-            exit_button.Location = new Point(595, 508);
+            exit_button.Location = new Point(526, 461);
             exit_button.Margin = new Padding(3, 4, 3, 4);
             exit_button.Name = "exit_button";
             exit_button.Size = new Size(173, 29);
@@ -266,7 +266,7 @@
             // 
             // exit_button_search
             // 
-            exit_button_search.Location = new Point(794, 508);
+            exit_button_search.Location = new Point(742, 461);
             exit_button_search.Margin = new Padding(3, 4, 3, 4);
             exit_button_search.Name = "exit_button_search";
             exit_button_search.Size = new Size(75, 29);
@@ -288,7 +288,7 @@
             // 
             // table_search_button
             // 
-            table_search_button.Location = new Point(448, 221);
+            table_search_button.Location = new Point(526, 231);
             table_search_button.Margin = new Padding(3, 4, 3, 4);
             table_search_button.Name = "table_search_button";
             table_search_button.Size = new Size(173, 29);
@@ -317,7 +317,7 @@
             // 
             // button_graph_search
             // 
-            button_graph_search.Location = new Point(448, 270);
+            button_graph_search.Location = new Point(526, 280);
             button_graph_search.Margin = new Padding(3, 4, 3, 4);
             button_graph_search.Name = "button_graph_search";
             button_graph_search.Size = new Size(173, 29);
@@ -328,7 +328,7 @@
             // 
             // Visualization_button
             // 
-            Visualization_button.Location = new Point(448, 323);
+            Visualization_button.Location = new Point(526, 333);
             Visualization_button.Margin = new Padding(3, 4, 3, 4);
             Visualization_button.Name = "Visualization_button";
             Visualization_button.Size = new Size(173, 34);
@@ -341,7 +341,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(911, 562);
+            ClientSize = new Size(857, 554);
             Controls.Add(Visualization_button);
             Controls.Add(button_graph_search);
             Controls.Add(error_func_search);
