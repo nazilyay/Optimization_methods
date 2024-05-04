@@ -1,13 +1,9 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using NCalc;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace Optimization_methods.Dichotomies_Method
+namespace Optimization_methods.Golden_Methods
 {
-    public partial class GraphForm_Dichotomies : Form
+    public partial class GraphForm_Golden : Form
     {
         private Chart chart;
         private Panel chartPanel;
@@ -15,7 +11,7 @@ namespace Optimization_methods.Dichotomies_Method
         private ChartArea chartArea;
         private Series currentASeries, currentBSeries, currentX1Series, currentX2Series, series_new; // Серия для текущей позиции
         private System.Windows.Forms.Timer timer; // Таймер для анимации
-        private double a, b, accuracy, parameter, minX, minF, currentA_X, currentB_X, currentX_1, currentX_2;
+        private double a, b, accuracy, minX, minF, currentA_X, currentB_X, currentX_1, currentX_2;
         private bool isPaused; // Флаг для паузы
         private string functionExpression; // Поле для хранения выражения функции                              
 
@@ -26,19 +22,17 @@ namespace Optimization_methods.Dichotomies_Method
         private int animationStep = 0; // Переменная для отслеживания текущего шага анимации
 
 
-        public GraphForm_Dichotomies(string functionExpression, double accuracy, double a, double b, double parameter)
+        public GraphForm_Golden(string functionExpression, double accuracy, double a, double b)
         {
             InitializeComponent();
             // Инициализация переменных
             this.a = a;
             this.b = b;
             this.accuracy = accuracy;
-            this.parameter = parameter;
             this.functionExpression = functionExpression; // Сохраняем выражение функции
 
             // Однократное вычисление массивов значений x и f(x)
-            (aValues, bValues, x_1_Values, x_2_Values, minX, minF) = CalculateFunctionOnInterval(a, b, accuracy, parameter);
-
+            (aValues, bValues, x_1_Values, x_2_Values, minX, minF) = CalculateFunctionOnInterval(a, b, accuracy) ;
             // Создаем панель для размещения графика
             chartPanel = new Panel();
             chartPanel.Dock = DockStyle.None; // Отменяем автоматическое занимание всей формы
@@ -67,39 +61,50 @@ namespace Optimization_methods.Dichotomies_Method
             // Привязываем обработчик события закрытия формы
             this.FormClosing += GraphForm_Search_FormClosing;
             chart.MouseMove += chart_MouseMove;
-            ab_coordinateLabel.Visible = false;
-            x_1_label.Visible = false;
-            x_2_label.Visible = false;
         }
-
-        private (double[] aValues, double[] bValues, double[] x_1Values, double[] x_2Values, double minX, double minResult) CalculateFunctionOnInterval(double a, double b, double accuracy, double parameter)
+        private (double[] aValues, double[] bValues, double[] x_1Values, double[] x_2Values, double minX, double minResult) CalculateFunctionOnInterval(double a, double b, double accuracy)
         {
             List<double> aValues = new List<double>();
             List<double> bValues = new List<double>();
             List<double> x_1Values = new List<double>();
             List<double> x_2Values = new List<double>();
 
-            while ((b - a) / 2 > accuracy)
+            double tau = (Math.Sqrt(5) - 1) / 2; // Golden ratio
+
+            double x1 = a + (3 - Math.Sqrt(5)) / 2 * (b - a);
+            double x2 = a + tau * (b - a);
+
+            double f1 = CalculateFunctionValue(x1);
+            double f2 = CalculateFunctionValue(x2);
+
+            double epsilon = (b - a) / 2;
+
+            while (epsilon > accuracy)
             {
-                double x1 = (a + b - parameter) / 2;
-                double x2 = (a + b + parameter) / 2;
                 aValues.Add(a);
                 bValues.Add(b);
                 x_1Values.Add(x1);
                 x_2Values.Add(x2);
 
-                double f1 = CalculateFunctionValue(x1);
-                double f2 = CalculateFunctionValue(x2);
+                // Сравнение значений функции для определения нового отрезка
                 if (f1 <= f2)
+                {
                     b = x2;
+                    x2 = x1;
+                    f2 = f1;
+                    x1 = b + a - x2;
+                    f1 = CalculateFunctionValue(x1);
+                }
                 else
+                {
                     a = x1;
+                    x1 = x2;
+                    f1 = f2;
+                    x2 = b + a - x1;
+                    f2 = CalculateFunctionValue(x2);
+                }
+                epsilon = tau * epsilon;
             }
-
-            aValues.Add(a);
-            bValues.Add(b);
-            x_1Values.Add(a);
-            x_2Values.Add(b);
 
             double minX = (a + b) / 2;
             double minResult = CalculateFunctionValue(minX);
@@ -123,11 +128,8 @@ namespace Optimization_methods.Dichotomies_Method
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            ab_coordinateLabel.Visible = true;
-            x_1_label.Visible = true;
-            x_2_label.Visible = true;
             // Проверяем, что текущий шаг анимации находится в пределах массива 
-            if (animationStep < aValues.Length)
+            if (animationStep < aValues.Length - 1)
             {
                 // Получаем текущее значение x и f(x) из массивов
                 currentA_X = aValues[animationStep];
@@ -153,6 +155,7 @@ namespace Optimization_methods.Dichotomies_Method
                 currentX2Series.Points.AddXY(currentX_2, currentY_2);
 
                 chart.Series.Remove(series_new);
+
                 series_new = new Series();
                 series_new.ChartType = SeriesChartType.Line;
                 series_new.BorderWidth = 2;
@@ -193,18 +196,9 @@ namespace Optimization_methods.Dichotomies_Method
         // Метод для обновления метки с координатами
         private void UpdateCoordinateLabel(double a, double b, double x1, double x2)
         {
-            if (animationStep < aValues.Length)
-            {
-                ab_coordinateLabel.Text = $"Интервал: ({Math.Round(a, 4)}; {Math.Round(b, 4)})";
-                x_1_label.Text = $"x_1: ({Math.Round(x1, 4)}, {Math.Round(CalculateFunctionValue(x1), 4)})";
-                x_2_label.Text = $"x_2: ({Math.Round(x2, 4)}, {Math.Round(CalculateFunctionValue(x2), 4)})";
-            }
-            else 
-            {
-                ab_coordinateLabel.Text = $"Интервал: ({Math.Round(a, 4)}; {Math.Round(b, 4)})";
-                x_1_label.Text = $"";
-                x_2_label.Text = $"";
-            }
+            ab_coordinateLabel.Text = $"Интервал: ({Math.Round(a, 4)}; {Math.Round(b, 4)})";
+            x_1_label.Text = $"x1: ({Math.Round(x1, 4)}, {Math.Round(CalculateFunctionValue(x1), 4)})";
+            x_2_label.Text = $"x2: ({Math.Round(x2, 4)}, {Math.Round(CalculateFunctionValue(x2), 4)})";
         }
 
         private void UpdateCoordinateLabel(double x, double y)
@@ -335,11 +329,6 @@ namespace Optimization_methods.Dichotomies_Method
                 return double.NaN; // В случае ошибки возвращаем NaN
             }
         }
-        private void exit_button_search_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
 
         private void stop_button_Click(object sender, EventArgs e)
         {
@@ -361,6 +350,7 @@ namespace Optimization_methods.Dichotomies_Method
 
             currentX2Series.Points.Clear();
             currentX2Series.Points.AddXY(currentX_2, CalculateFunctionValue(currentX_2)); // Обновляем точку текущей позиции
+
             chart.Series.Remove(series_new);
 
             isPaused = false;
@@ -409,5 +399,9 @@ namespace Optimization_methods.Dichotomies_Method
             }
         }
 
+        private void exit_button_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

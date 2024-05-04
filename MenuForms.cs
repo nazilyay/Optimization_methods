@@ -1,4 +1,5 @@
 ﻿using Optimization_methods.Dichotomies_Method;
+using Optimization_methods.Golden_Methods;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -176,7 +177,7 @@ namespace Optimization_methods
                                     this.Hide();
                                     break;
                                 case 1: // Если выбрано "Золотое сечение"
-                                    GoldenMethodsForm goldenMethods = new GoldenMethodsForm();
+                                    GoldenMethodsForm goldenMethods = new GoldenMethodsForm(this);
                                     goldenMethods.Show();
                                     this.Hide();
                                     break;
@@ -236,15 +237,6 @@ namespace Optimization_methods
             }
         }
     }
-
-    public partial class GoldenMethodsForm : Form
-    {
-        public GoldenMethodsForm()
-        {
-            /*InitializeComponent();*/
-        }
-    }
-
 
     public partial class PolylinesMethodsForm : Form
     {

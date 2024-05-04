@@ -1,6 +1,6 @@
-﻿namespace Optimization_methods.Dichotomies_Method
+﻿namespace Optimization_methods.Golden_Methods
 {
-    partial class GraphForm_Dichotomies
+    partial class GraphForm_Golden
     {
         /// <summary>
         /// Required designer variable.
@@ -47,10 +47,10 @@
             groupBox2.Controls.Add(x_2_label);
             groupBox2.Controls.Add(x_1_label);
             groupBox2.Controls.Add(ab_coordinateLabel);
-            groupBox2.Location = new Point(585, 66);
+            groupBox2.Location = new Point(598, 62);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(203, 77);
-            groupBox2.TabIndex = 25;
+            groupBox2.Size = new Size(191, 77);
+            groupBox2.TabIndex = 29;
             groupBox2.TabStop = false;
             // 
             // x_2_label
@@ -85,10 +85,10 @@
             groupBox1.Controls.Add(start_button);
             groupBox1.Controls.Add(stop_button);
             groupBox1.Controls.Add(pause_button);
-            groupBox1.Location = new Point(667, 149);
+            groupBox1.Location = new Point(668, 145);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(121, 196);
-            groupBox1.TabIndex = 24;
+            groupBox1.TabIndex = 28;
             groupBox1.TabStop = false;
             groupBox1.Text = "Визуализация";
             // 
@@ -127,26 +127,26 @@
             // 
             // info_button
             // 
-            info_button.Location = new Point(688, 30);
+            info_button.Location = new Point(689, 26);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
             info_button.Size = new Size(100, 29);
-            info_button.TabIndex = 23;
+            info_button.TabIndex = 27;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
             // 
             // exit_button
             // 
-            exit_button.Location = new Point(713, 362);
+            exit_button.Location = new Point(714, 358);
             exit_button.Margin = new Padding(3, 4, 3, 4);
             exit_button.Name = "exit_button";
             exit_button.Size = new Size(75, 29);
-            exit_button.TabIndex = 22;
+            exit_button.TabIndex = 26;
             exit_button.Text = "Выход";
             exit_button.UseVisualStyleBackColor = true;
-            exit_button.Click += exit_button_search_Click;
+            exit_button.Click += exit_button_Click;
             // 
-            // GraphForm_Dichotomies
+            // GraphForm_Golden
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -155,7 +155,7 @@
             Controls.Add(groupBox1);
             Controls.Add(info_button);
             Controls.Add(exit_button);
-            Name = "GraphForm_Dichotomies";
+            Name = "GraphForm_Golden";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "График";
             groupBox2.ResumeLayout(false);
@@ -167,6 +167,8 @@
         #endregion
 
         private GroupBox groupBox2;
+        private Label x_2_label;
+        private Label x_1_label;
         private Label ab_coordinateLabel;
         private GroupBox groupBox1;
         private Button start_button;
@@ -174,7 +176,5 @@
         private Button pause_button;
         private Button info_button;
         private Button exit_button;
-        private Label x_2_label;
-        private Label x_1_label;
     }
 }
