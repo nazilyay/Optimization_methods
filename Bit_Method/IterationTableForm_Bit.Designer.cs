@@ -1,4 +1,4 @@
-﻿namespace Optimization_methods
+﻿namespace Optimization_methods.Bit_Method
 {
     partial class IterationTableForm
     {
@@ -28,37 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView = new DataGridView();
-            exit_button_search = new Button();
             info_button = new Button();
+            exit_button_search = new Button();
+            dataGridView = new DataGridView();
             iteration = new DataGridViewTextBoxColumn();
             x = new DataGridViewTextBoxColumn();
             result = new DataGridViewTextBoxColumn();
-            minX = new DataGridViewTextBoxColumn();
-            minResult = new DataGridViewTextBoxColumn();
+            step = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
-            // 
-            // dataGridView
-            // 
-            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView.Columns.AddRange(new DataGridViewColumn[] { iteration, x, result, minX, minResult });
-            dataGridView.Location = new Point(34, 68);
-            dataGridView.Name = "dataGridView";
-            dataGridView.RowHeadersWidth = 51;
-            dataGridView.Size = new Size(653, 322);
-            dataGridView.TabIndex = 0;
-            // 
-            // exit_button_search
-            // 
-            exit_button_search.Location = new Point(612, 412);
-            exit_button_search.Margin = new Padding(3, 4, 3, 4);
-            exit_button_search.Name = "exit_button_search";
-            exit_button_search.Size = new Size(75, 29);
-            exit_button_search.TabIndex = 13;
-            exit_button_search.Text = "Выход";
-            exit_button_search.UseVisualStyleBackColor = true;
-            exit_button_search.Click += exit_button_search_Click;
             // 
             // info_button
             // 
@@ -66,9 +44,30 @@
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
             info_button.Size = new Size(100, 29);
-            info_button.TabIndex = 14;
+            info_button.TabIndex = 17;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            // 
+            // exit_button_search
+            // 
+            exit_button_search.Location = new Point(487, 408);
+            exit_button_search.Margin = new Padding(3, 4, 3, 4);
+            exit_button_search.Name = "exit_button_search";
+            exit_button_search.Size = new Size(75, 29);
+            exit_button_search.TabIndex = 16;
+            exit_button_search.Text = "Выход";
+            exit_button_search.UseVisualStyleBackColor = true;
+            exit_button_search.Click += exit_button_search_Click_1;
+            // 
+            // dataGridView
+            // 
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView.Columns.AddRange(new DataGridViewColumn[] { iteration, x, result, step });
+            dataGridView.Location = new Point(34, 68);
+            dataGridView.Name = "dataGridView";
+            dataGridView.RowHeadersWidth = 51;
+            dataGridView.Size = new Size(528, 322);
+            dataGridView.TabIndex = 15;
             // 
             // iteration
             // 
@@ -77,6 +76,7 @@
             iteration.MinimumWidth = 6;
             iteration.Name = "iteration";
             iteration.SortMode = DataGridViewColumnSortMode.NotSortable;
+            iteration.Width = 125;
             // 
             // x
             // 
@@ -92,44 +92,34 @@
             result.Name = "result";
             result.Width = 125;
             // 
-            // minX
+            // step
             // 
-            minX.HeaderText = "x_min";
-            minX.MinimumWidth = 6;
-            minX.Name = "minX";
-            minX.Width = 125;
-            // 
-            // minResult
-            // 
-            minResult.HeaderText = "F(x_min)";
-            minResult.MinimumWidth = 6;
-            minResult.Name = "minResult";
-            minResult.Width = 125;
+            step.HeaderText = "h";
+            step.MinimumWidth = 6;
+            step.Name = "step";
+            step.Width = 125;
             // 
             // IterationTableForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(721, 459);
+            ClientSize = new Size(600, 459);
             Controls.Add(info_button);
             Controls.Add(exit_button_search);
             Controls.Add(dataGridView);
             Name = "IterationTableForm";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "IterationTableForm";
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private DataGridView dataGridView;
-        private Button exit_button_search;
         private Button info_button;
+        private Button exit_button_search;
+        private DataGridView dataGridView;
         private DataGridViewTextBoxColumn iteration;
         private DataGridViewTextBoxColumn x;
         private DataGridViewTextBoxColumn result;
-        private DataGridViewTextBoxColumn minX;
-        private DataGridViewTextBoxColumn minResult;
+        private DataGridViewTextBoxColumn step;
     }
 }

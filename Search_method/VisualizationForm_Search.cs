@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using NCalc;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Optimization_methods.Search_method
 {
@@ -11,8 +12,7 @@ namespace Optimization_methods.Search_method
         private Chart chart;
         private double a, b, accuracy;
         private string functionExpression;
-        private double currentX, currentY, x_min, f_x_min;
-        private double step;
+        private double currentX, currentY, x_min, f_x_min, step;
         private int iterationNumber;
         private bool isMinimumFound;
 
@@ -25,34 +25,35 @@ namespace Optimization_methods.Search_method
             this.b = b;
             this.accuracy = accuracy;
 
-            Expression exp = new Expression(functionExpression);
-            exp.Parameters["x"] = a;
-            double y = Convert.ToDouble(exp.Evaluate());
-
             // Инициализация переменных
             currentX = a;
-            currentY = y; // Установим высокое значение, чтобы точка была видна на графике
+            currentY = CalculateFunctionValue(currentX);
             x_min = a;
-
-            f_x_min = y; // Инициализируем f(x_min) большим значением для корректного поиска минимума
-            step = accuracy; // Шаг метода перебора
+            f_x_min = currentY;
+            step = accuracy;
             iterationNumber = 0;
             isMinimumFound = false;
+
+            // Установка ширины столбцов
+            dataGridView.Columns[0].Width = 50;
+            dataGridView.Columns[1].Width = 100;
+            dataGridView.Columns[2].Width = 100;
+            dataGridView.Columns[3].Width = 100;
+            dataGridView.Columns[4].Width = 100;
 
             // Отображение функции на графике
             DisplayFunctionGraph();
 
-            // Обновление меток
-            UpdateLabels();
-
-            // Заблокировать кнопки
-            yes_button.Enabled = false;
-            no_button.Enabled = false;
+            previous_step_button.Enabled = false;
+            stop_button.Enabled = false;
+            next_step_button.Enabled = false;
+            end_button.Enabled = false;
+            begin_button.Enabled = false;
             Error_number_label.Visible = false;
-            error_label.Visible = false;
+            Result_label.Visible = false;
+            label1.Visible = false;
+            min_button.Visible = false;
         }
-
-
 
         private void DisplayFunctionGraph()
         {
@@ -71,9 +72,7 @@ namespace Optimization_methods.Search_method
             double maxY = double.MinValue;
             for (double x = a; x <= b; x += accuracy)
             {
-                Expression exp = new Expression(functionExpression);
-                exp.Parameters["x"] = x;
-                double y = Convert.ToDouble(exp.Evaluate());
+                double y = CalculateFunctionValue(x);
                 if (y < minY) minY = y;
                 if (y > maxY) maxY = y;
             }
@@ -91,9 +90,7 @@ namespace Optimization_methods.Search_method
             // Добавление точек на график
             for (double x = a; x <= b; x += accuracy)
             {
-                Expression exp = new Expression(functionExpression);
-                exp.Parameters["x"] = x;
-                double y = Convert.ToDouble(exp.Evaluate());
+                double y = CalculateFunctionValue(x);
                 series.Points.AddXY(x, y);
             }
 
@@ -105,53 +102,61 @@ namespace Optimization_methods.Search_method
             pointSeries.ChartType = SeriesChartType.Point;
             pointSeries.MarkerStyle = MarkerStyle.Circle;
             pointSeries.MarkerSize = 10;
-            pointSeries.Color = System.Drawing.Color.Red;
+            pointSeries.Color = Color.Red;
 
             // Добавление начальной точки на график
             pointSeries.Points.AddXY(currentX, currentY);
             chart.Series.Add(pointSeries);
-
         }
 
-        private void UpdateLabels()
+        private double CalculateFunctionValue(double x)
         {
-            x_out_label.Text = currentX.ToString();
-            f_out_label.Text = currentY.ToString();
-            x_min_out_label.Text = x_min.ToString();
-            f_min_out_label.Text = f_x_min.ToString();
-            step_out_label.Text = iterationNumber.ToString();
+            Expression exp = new Expression(functionExpression);
+            exp.Parameters["x"] = x;
+            return Convert.ToDouble(exp.Evaluate());
+        }
+
+        private void AddRowToDataGridView(double step, double x, double fx, double xmin, double fxmin)
+        {
+            dataGridView.Rows.Add(step, x, fx, xmin, fxmin);
+        }
+
+        private void RemoveRowFromDataGridView(int rowIndex)
+        {
+            if (rowIndex > 0 && rowIndex < dataGridView.Rows.Count)
+            {
+                dataGridView.Rows.RemoveAt(rowIndex - 1);
+            }
         }
 
         private void stop_button_Click(object sender, EventArgs e)
         {
             // Сброс переменных к исходным значениям
             currentX = a;
-            Expression exp = new Expression(functionExpression);
-            exp.Parameters["x"] = currentX;
-            currentY = Convert.ToDouble(exp.Evaluate());
+            currentY = CalculateFunctionValue(currentX);
             x_min = a;
             f_x_min = currentY;
             iterationNumber = 0;
             isMinimumFound = false;
-            number_button.BackColor = DefaultBackColor;
+            number_textBox.Enabled = true;
+            number_button.Enabled = true;
+            previous_step_button.Enabled = false;
+            next_step_button.Enabled = false;
+            end_button.Enabled = false;
+            begin_button.Enabled = false;
+            label1.Visible = false;
+            min_button.Visible = false;
+            min_button.BackColor = DefaultBackColor;
+            Result_label.Visible = false;
 
             // Обновляем координаты точки на графике
             chart.Series[1].Points[0].XValue = currentX;
             chart.Series[1].Points[0].YValues[0] = currentY;
 
-            // Обновление меток
-            UpdateLabels();
-
-            // Активация кнопок next_step_button и previous_step_button
-            next_step_button.Enabled = true;
-            previous_step_button.Enabled = true;
-            number_button.Enabled = true;
-            number_textBox.Enabled = true;
-
-            // Делаем кнопки yes_button и no_button недоступными
-            yes_button.Enabled = false;
-            no_button.Enabled = false;
+            // Очищаем DataGridView
+            dataGridView.Rows.Clear();
         }
+
         private void Next_step_button_Click(object sender, EventArgs e)
         {
             // Переходим к следующей итерации
@@ -165,24 +170,9 @@ namespace Optimization_methods.Search_method
             }
 
             // Вычисляем значение функции для текущего X
-            Expression exp = new Expression(functionExpression);
-            exp.Parameters["x"] = currentX;
-            double Y = Convert.ToDouble(exp.Evaluate());
-            exp.Parameters["x"] = currentX + accuracy;
-            double nextY = Convert.ToDouble(exp.Evaluate());
+            double Y = CalculateFunctionValue(currentX);
+            double nextY = CalculateFunctionValue(currentX + accuracy);
 
-            // Проверяем, началось ли увеличение значения функции после нахождения минимума
-            if (Y > currentY && isMinimumFound)
-            {
-                next_step_button.Enabled = false; // Останавливаем дальнейший перебор
-                return;
-            }
-
-            // Проверяем, началось ли увеличение значения функции после нахождения минимума
-            if (nextY > Y)
-            {
-                next_step_button.Enabled = false; // Останавливаем дальнейший перебор
-            }
             currentY = Y; // Обновляем значение текущего Y
 
             // Если найден новый минимум, обновляем значения x_min и f_x_min
@@ -200,17 +190,23 @@ namespace Optimization_methods.Search_method
             if (currentY == CalculateFunctionOnInterval(functionExpression, a, b, accuracy))
             {
                 isMinimumFound = true;
-            }
 
-            // Обновляем метки
-            UpdateLabels();
+                // Показать label1 и min_button
+                label1.Visible = true;
+                min_button.Visible = true;
+            }
 
             previous_step_button.Enabled = true;
 
+            // Добавляем данные в DataGridView
+            AddRowToDataGridView(iterationNumber, currentX, currentY, x_min, f_x_min);
         }
+
 
         private void Previous_step_button_Click(object sender, EventArgs e)
         {
+            label1.Visible = false;
+            min_button.Visible = false;
             // Переходим к предыдущей итерации
             currentX -= step;
             iterationNumber--;
@@ -229,82 +225,16 @@ namespace Optimization_methods.Search_method
             }
 
             // Вычисляем значение функции для текущего X
-            Expression exp = new Expression(functionExpression);
-            exp.Parameters["x"] = currentX;
-            currentY = Convert.ToDouble(exp.Evaluate());
+            currentY = CalculateFunctionValue(currentX);
 
             // Обновляем координаты точки на графике
             chart.Series[1].Points[0].XValue = currentX;
             chart.Series[1].Points[0].YValues[0] = currentY;
 
-            // Обновляем метки
-            UpdateLabels();
-
             next_step_button.Enabled = true;
-        }
 
-
-        private void yes_button_Click(object sender, EventArgs e)
-        {
-            number_button.BackColor = DefaultBackColor;
-            error_label.Visible = false;
-
-            // Если пользователь нажал, значит минимум еще не найден
-            if (isMinimumFound)
-            {
-                error_label.Text = "Ошибка! Минимум уже найден.";
-                error_label.Visible = true;
-                yes_button.Enabled = false;
-                return;
-            }
-
-            // Переходим к следующей итерации
-            currentX += step;
-            iterationNumber++;
-
-            if (currentX > b)
-            {
-                return;
-            }
-
-            // Вычисляем значение функции для текущего X
-            Expression exp = new Expression(functionExpression);
-            exp.Parameters["x"] = currentX;
-            currentY = Convert.ToDouble(exp.Evaluate());
-
-            // Если найден новый минимум, обновляем значения x_min и f_x_min
-            if (currentY < f_x_min)
-            {
-                x_min = currentX;
-                f_x_min = currentY;
-            }
-            // Обновляем положение точки на графике
-            chart.Series[1].Points[0].XValue = currentX;
-            chart.Series[1].Points[0].YValues[0] = currentY;
-
-            if (currentY == CalculateFunctionOnInterval(functionExpression, a, b, accuracy))
-            {
-                isMinimumFound = true;
-            }
-            // Обновляем метки
-            UpdateLabels();
-        }
-
-        private void no_button_Click(object sender, EventArgs e)
-        {
-            error_label.Visible = false;
-            // Если пользователь нажал, значит минимум найден
-            if (!isMinimumFound)
-            {
-                error_label.Text = "Ошибка! Минимум не найден.";
-                error_label.Visible = true;
-                return;
-            }
-            number_button.Enabled = true;
-            yes_button.Enabled = false;
-            no_button.Enabled = false;
-            error_label.Text = "Верно! Вычисления окончены!";
-            error_label.Visible = true;
+            // Удаляем последнюю строку из DataGridView
+            RemoveRowFromDataGridView(dataGridView.Rows.Count - 1);
         }
 
         private double CalculateFunctionOnInterval(string expression, double a, double b, double accuracy)
@@ -314,9 +244,7 @@ namespace Optimization_methods.Search_method
 
             for (double x = a; x <= b; x += accuracy)
             {
-                Expression exp = new Expression(expression);
-                exp.Parameters["x"] = x;
-                double result = Convert.ToDouble(exp.Evaluate());
+                double result = CalculateFunctionValue(x);
 
                 // Находим минимальное значение функции
                 if (result < minResult)
@@ -334,22 +262,21 @@ namespace Optimization_methods.Search_method
             // Заблокировать кнопки
             previous_step_button.Enabled = false;
             next_step_button.Enabled = false;
-            yes_button.Enabled = false;
-            no_button.Enabled = false;
+            end_button.Enabled = false;
+            begin_button.Enabled = false;
             Error_number_label.Visible = false;
+            Result_label.Visible = false;
+            label1.Visible = false;
+            min_button.Visible = false;
+            min_button.BackColor = DefaultBackColor;
 
             // Сброс переменных к исходным значениям
             currentX = a;
-            Expression exp = new Expression(functionExpression);
-            exp.Parameters["x"] = currentX;
-            currentY = Convert.ToDouble(exp.Evaluate());
+            currentY = CalculateFunctionValue(currentX);
             x_min = a;
             f_x_min = currentY;
             iterationNumber = 0;
             isMinimumFound = false;
-
-            // Обновление меток
-            UpdateLabels();
 
             // Считываем значение из number_textBox
             double value;
@@ -359,21 +286,17 @@ namespace Optimization_methods.Search_method
                 if (Math.Abs(n - Math.Round(value)) < double.Epsilon)
                 {
                     number_textBox.Enabled = false;
-
-                    yes_button.Enabled = true;
-                    no_button.Enabled = true;
-
                     number_button.Enabled = false;
-
-                    number_button.BackColor = Color.Green;
-
+                    previous_step_button.Enabled = true;
+                    stop_button.Enabled = true;
+                    next_step_button.Enabled = true;
+                    end_button.Enabled = true;
+                    begin_button.Enabled = true;
                 }
                 else
                 {
                     Error_number_label.Text = "Ошибка!";
                     Error_number_label.Visible = true;
-                    number_button.BackColor = Color.Red;
-
                 }
             }
             else
@@ -382,10 +305,85 @@ namespace Optimization_methods.Search_method
                 Error_number_label.Visible = true;
             }
         }
-
         private void exit_button_search_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+
+        private void end_button_Click(object sender, EventArgs e)
+        {
+            // Переходим на последний шаг
+            while (currentX + accuracy <= b)
+            {
+                Next_step_button_Click(sender, e);
+            }
+        }
+
+        private void begin_button_Click(object sender, EventArgs e)
+        {
+            label1.Visible = false;
+            min_button.Visible = false;
+            // Переходим на первый шаг
+            while (currentX - accuracy >= a)
+            {
+                Previous_step_button_Click(sender, e);
+            }
+        }
+
+        private void min_button_Click(object sender, EventArgs e)
+        {
+            double minFx = f_x_min;
+
+            // Проверяем, есть ли выбранная строка с минимальным значением f(x)
+            bool selectedMinimum = false;
+            foreach (DataGridViewRow row in dataGridView.SelectedRows)
+            {
+                double fx = Convert.ToDouble(row.Cells[2].Value);
+                if (Math.Abs(fx - minFx) < double.Epsilon)
+                {
+                    selectedMinimum = true;
+                    break;
+                }
+            }
+
+            // Если строка с минимальным значением f(x) выбрана, загораем кнопку зеленым
+            if (selectedMinimum)
+            {
+                min_button.BackColor = Color.LightGreen;
+                Result_label.Text = "Верно!";
+                Result_label.Visible = true;
+                Result_label.BackColor = Color.LightGreen;
+                // Сброс переменных к исходным значениям
+                currentX = a;
+                currentY = CalculateFunctionValue(currentX);
+                x_min = a;
+                f_x_min = currentY;
+                iterationNumber = 0;
+                isMinimumFound = false;
+                number_textBox.Enabled = true;
+                number_button.Enabled = true;
+                previous_step_button.Enabled = false;
+                next_step_button.Enabled = false;
+                end_button.Enabled = false;
+                begin_button.Enabled = false;
+
+                // Обновляем координаты точки на графике
+                chart.Series[1].Points[0].XValue = currentX;
+                chart.Series[1].Points[0].YValues[0] = currentY;
+
+                // Очищаем DataGridView
+                dataGridView.Rows.Clear();
+            }
+            else
+            {
+                min_button.BackColor = Color.Red;
+                Result_label.Text = "Не верно!";
+                Result_label.Visible = true;
+                Result_label.BackColor = Color.Red;
+            }
+        }
+
     }
 }
+

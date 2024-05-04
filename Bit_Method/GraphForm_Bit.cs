@@ -6,7 +6,7 @@ using NCalc;
 
 namespace Optimization_methods
 {
-    public partial class GraphForm_Search : Form
+    public partial class GraphForm_Bit : Form
     {
         private Chart chart;
         private Panel chartPanel;
@@ -17,17 +17,20 @@ namespace Optimization_methods
         private Series minimumSeries; // Серия для точки минимума
         private System.Windows.Forms.Timer timer; // Таймер для анимации
         private double currentX; // Текущее значение X
-        private double stepSize; // Размер шага перебора
+        private double accuracy; // Размер шага перебора
         private double minX; // X-координата минимума
         private double a;
         private double b;
-
         private double minResult; // Значение функции в минимуме
         private bool isPaused; // Флаг для паузы
         private string functionExpression; // Поле для хранения выражения функции                              
 
+        private double[] xValues;
+        private double[] fxValues;
+        private int animationStep = 0; // Переменная для отслеживания текущего шага анимации
 
-        public GraphForm_Search(string functionExpression, double accuracy, double a, double b, double minX, double minResult)
+
+        public GraphForm_Bit(string functionExpression, double accuracy, double a, double b, double minX, double minResult)
         {
             InitializeComponent();
 
@@ -35,12 +38,14 @@ namespace Optimization_methods
             currentX = a;
             this.a = a;
             this.b = b;
-
-            stepSize = accuracy;
+            this.accuracy = accuracy;
             this.minX = minX;
             this.minResult = minResult;
             isPaused = false;
             this.functionExpression = functionExpression; // Сохраняем выражение функции
+
+            // Однократное вычисление массивов значений x и f(x)
+            (xValues, fxValues) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
 
             // Создаем панель для размещения графика
             chartPanel = new Panel();
@@ -65,8 +70,8 @@ namespace Optimization_methods
 
             // Инициализация таймера для анимации
             timer = new System.Windows.Forms.Timer();
-            timer.Interval = 400; // Задаем интервал
             timer.Tick += Timer_Tick;
+            timer.Interval = 400; // Задаем интервал в 200 миллисекунд
 
             // Привязываем обработчик события закрытия формы
             this.FormClosing += GraphForm_Search_FormClosing;
@@ -81,30 +86,102 @@ namespace Optimization_methods
                 isPaused = true;
 
                 // Отображаем текущие координаты при нажатии на паузу
-                UpdateCoordinateLabel(currentX, CalculateYValue(currentX));
+                UpdateCoordinateLabel(currentX, CalculateFunctionValue(currentX));
             }
             exit_button_search.Enabled = true;
         }
 
+
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // Перемещаем текущую позицию на шаг вперед
-            currentX += stepSize;
-
-            // Обновляем координаты точки текущей позиции
-            double y = CalculateYValue(currentX); // Вычисляем значение Y для текущей позиции
-            currentPositionSeries.Points.Clear();
-            currentPositionSeries.Points.AddXY(currentX, y);
-            UpdateCoordinateLabel(currentX, y);
-            // Если текущая позиция достигла минимума или нажата кнопка паузы, останавливаем анимацию
-            if (currentX >= b || isPaused)
+            currentX = xValues[animationStep]; // Обновляем текущее значение X
+            // Проверяем, что текущий шаг анимации находится в пределах массива xValues
+            if (animationStep < xValues.Length - 1)
             {
-                timer.Stop();
-                exit_button_search.Enabled = true;
+                // Получаем текущее значение x и f(x) из массивов
+                double currentX = xValues[animationStep];
+                double currentY = fxValues[animationStep];
 
-                // Отображаем текущие координаты при достижении минимума
-                UpdateCoordinateLabel(currentX, y);
+                // Обновляем координаты точки текущей позиции
+                currentPositionSeries.Points.Clear();
+                currentPositionSeries.Points.AddXY(currentX, currentY);
+
+                // Если текущая позиция достигла минимума или нажата кнопка паузы, останавливаем анимацию
+                if (isPaused)
+                {
+                    timer.Stop();
+                    animationStep = 0;
+                    // Отображаем текущие координаты при достижении минимума
+                    UpdateCoordinateLabel(currentX, currentY);
+                }
+
+                // Увеличиваем шаг анимации для следующего вызова
+                animationStep++;
+                UpdateCoordinateLabel(currentX, currentY);
             }
+            else
+            {
+                // Если все значения анимации были использованы, останавливаем таймер
+                timer.Stop();
+                animationStep = 0;
+            }
+        }
+
+        private (double[], double[]) CalculateFunctionOnInterval(string expression, double a, double b, double accuracy)
+        {
+            // Начальный шаг
+            double h = (b - a) / 4.0;
+            // Начальное значение x
+            double x = a;
+            double prevResult = CalculateFunctionValue(x);
+
+            List<double> xValues = new List<double>(); // Создаем список для хранения значений x
+            List<double> fxValues = new List<double>(); // Создаем список для хранения значений f(x)
+
+            // Цикл поиска минимума
+            while (true)
+            {
+                // Вычисление значения функции в следующей точке
+                double nextX = x + h;
+                double nextResult = CalculateFunctionValue(nextX);
+                xValues.Add(nextX); // Добавляем значение x в список
+                fxValues.Add(nextResult); // Добавляем значение f(x) в список
+
+                // Сравнение значений функции
+                if (prevResult > nextResult)
+                {
+                    x = nextX;
+                    prevResult = nextResult;
+
+                    // Проверка условия a < x < b
+                    if (a < x && x < b)
+                        continue;
+                    else
+                    {  // Проверка условия окончания поиска
+                        if (Math.Abs(h) <= accuracy)
+                            break;
+                        // Изменение направления и шага поиска
+                        h = -h / 4.0;
+
+                        x = nextX;
+                        prevResult = nextResult;
+                    }
+                }
+                else
+                {
+                    // Проверка условия окончания поиска
+                    if (Math.Abs(h) <= accuracy)
+                        break;
+                    // Изменение направления и шага поиска
+                    h = -h / 4.0;
+
+                    x = nextX;
+                    prevResult = nextResult;
+                }
+            }
+
+            // Возвращаем массивы значений x и f(x)
+            return (xValues.ToArray(), fxValues.ToArray());
         }
 
         // Метод для обновления метки с координатами
@@ -121,18 +198,15 @@ namespace Optimization_methods
             // Вычисление максимального значения Y
             for (double x = a; x <= b; x += accuracy)
             {
-                Expression exp = new Expression(functionExpression);
-                exp.Parameters["x"] = x;
-                double y = Convert.ToDouble(exp.Evaluate());
+                double y = CalculateFunctionValue(x);
                 if (y > maxY)
                 {
                     maxY = y; // Обновляем максимальное значение, если текущее значение больше
                 }
             }
-
             return maxY;
         }
-
+        
         private void DisplayFunctionGraph(string functionExpression, double accuracy, double a, double b, double minX, double minResult)
         {
             // Создание области для графика
@@ -167,11 +241,11 @@ namespace Optimization_methods
             // Добавление точек на график
             for (double x = a; x <= b; x += accuracy)
             {
-                double y = CalculateFunctionValue(functionExpression, x);
+                double y = CalculateFunctionValue(x);
                 series.Points.AddXY(x, y);
             }
 
-            double currentY = CalculateFunctionValue(functionExpression, currentX);
+            double currentY = CalculateFunctionValue(currentX);
 
             // Добавление серии данных на график
             chart.Series.Add(series);
@@ -196,13 +270,14 @@ namespace Optimization_methods
             currentPositionSeries.LegendText = "Current Position";
             chart.Series.Add(currentPositionSeries);
         }
-        private double CalculateFunctionValue(string expression, double x)
+        private double CalculateFunctionValue(double x)
         {
+
             try
             {
-                Expression e = new Expression(expression);
-                e.Parameters["x"] = x;
-                object result = e.Evaluate();
+                Expression exp = new Expression(functionExpression);
+                exp.Parameters["x"] = x;
+                double result = Convert.ToDouble(exp.Evaluate());
                 return Convert.ToDouble(result);
             }
             catch (Exception)
@@ -219,10 +294,10 @@ namespace Optimization_methods
         private void stop_button_Click(object sender, EventArgs e)
         {
             timer.Stop(); // Останавливаем таймер
+            animationStep = 0;
             currentX = a; // Устанавливаем текущую позицию в начало
             currentPositionSeries.Points.Clear();
-            currentPositionSeries.Points.AddXY(currentX, CalculateYValue(currentX)); // Обновляем точку текущей позиции
-            UpdateCoordinateLabel(currentX, CalculateYValue(currentX)); // Обновляем метку с координатами
+            currentPositionSeries.Points.AddXY(currentX, CalculateFunctionValue(currentX)); // Обновляем точку текущей позиции
             isPaused = false;
             exit_button_search.Enabled = true;
         }
@@ -234,6 +309,7 @@ namespace Optimization_methods
             {
                 currentX = a; // Сбрасываем текущую позицию до минимума
             }
+
             // Перезапуск таймера
             if (!timer.Enabled)
             {
@@ -242,14 +318,6 @@ namespace Optimization_methods
             }
             exit_button_search.Enabled = false;
         }
-
-        private double CalculateYValue(double x)
-        {
-            Expression exp = new Expression(functionExpression);
-            exp.Parameters["x"] = x;
-            return Convert.ToDouble(exp.Evaluate());
-        }
-       
         private void GraphForm_Search_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Проверяем, активен ли таймер

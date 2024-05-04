@@ -1,3 +1,5 @@
+using Optimization_methods.Bit_Method;
+
 namespace Optimization_methods
 {
     internal static class Program
@@ -11,7 +13,7 @@ namespace Optimization_methods
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new SearchMethodsForm());
+            Application.Run(new MenuForms());
         }
     }
 }

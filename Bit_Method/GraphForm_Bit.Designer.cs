@@ -1,6 +1,6 @@
 ﻿namespace Optimization_methods
 {
-    partial class GraphForm_Search
+    partial class GraphForm_Bit
     {
         /// <summary>
         /// Required designer variable.

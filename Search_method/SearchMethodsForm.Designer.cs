@@ -70,6 +70,7 @@
             exit_button.TabIndex = 0;
             exit_button.Text = "На главную страницу";
             exit_button.UseVisualStyleBackColor = true;
+            exit_button.Click += exit_button_Click;
             // 
             // info_button
             // 

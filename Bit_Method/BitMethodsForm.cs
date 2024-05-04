@@ -1,18 +1,22 @@
 ﻿using System;
-using System.Data.Common;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using NCalc;
-using Optimization_methods.Search_method;
-
+using Optimization_methods.Bit_Method;
 
 namespace Optimization_methods
 {
-    public partial class SearchMethodsForm : Form
+    public partial class BitMethodsForm : Form
     {
         private MenuForms menuForm; // Добавляем поле для хранения ссылки на экземпляр формы MenuForms
 
         // Добавляем конструктор, который принимает ссылку на экземпляр формы MenuForms
-        public SearchMethodsForm(MenuForms menuForm)
+        public BitMethodsForm(MenuForms menuForm)
         {
             InitializeComponent();
 
@@ -21,17 +25,17 @@ namespace Optimization_methods
             this.FormClosing += GraphForm_Search_FormClosing; // Подключение обработчика к событию FormClosing
 
             // Добавляем обработчик события загрузки формы
-            this.Load += SearchMethodsForm_Load;
+            this.Load += bitMethodsForm_Load;
 
             // Скрыть сообщение об ошибке
-            error_func_search.Visible = false;
+            error_func_bit.Visible = false;
             error_label.Visible = false;
             result_label.Visible = false;
             func_result_label.Visible = false;
 
             calculate_button.Enabled = false;
-            button_graph_search.Enabled = false;
-            table_search_button.Enabled = false;
+            button_graph_bit.Enabled = false;
+            table_bit_button.Enabled = false;
             Visualization_button.Enabled = false;
 
             a_textBox.Enabled = false;
@@ -40,7 +44,7 @@ namespace Optimization_methods
 
         }
 
-        private void SearchMethodsForm_Load(object sender, EventArgs e)
+        private void bitMethodsForm_Load(object sender, EventArgs e)
         {
             // Установка значений по умолчанию для текстовых полей
             function_textBox.Text = "Sin(x)+2"; // Пример выражения функции
@@ -69,53 +73,86 @@ namespace Optimization_methods
         {
             try
             {
-                Expression e = new Expression(expression);
-                e.Parameters["x"] = 1;
-                object result = e.Evaluate();
-                error_func_search.Visible = false;
+                object result = CalculateFunctionValue(expression, 1);
+                error_func_bit.Visible = false;
                 return true;
             }
             catch (Exception)
             {
-                error_func_search.Text = "Ошибка: Неправильный ввод функции.";
-                error_func_search.Visible = true;
+                error_func_bit.Text = "Ошибка: Неправильный ввод функции.";
+                error_func_bit.Visible = true;
                 return false;
             }
         }
 
         private (double minResult, double minX) CalculateFunctionOnInterval(string expression, double a, double b, double accuracy)
         {
-            double minResult = double.MaxValue;
-            double minX = 0;
+            // Начальный шаг
+            double h = (b - a) / 4.0;
+            // Начальное значение x
+            double x = a;
+            double prevResult = CalculateFunctionValue(expression,x);
 
-            double prevResult = double.MaxValue; // Переменная для хранения предыдущего значения функции
-
-            for (double x = a; x <= b; x += accuracy)
+            // Цикл поиска минимума
+            while (true)
             {
-                Expression exp = new Expression(expression);
-                exp.Parameters["x"] = x;
-                double result = Convert.ToDouble(exp.Evaluate());
+                // Вычисление значения функции в следующей точке
+                double nextX = x + h;
+                double nextResult = CalculateFunctionValue(expression,nextX);
 
-                // Находим минимальное значение функции
-                if (result < minResult)
+                // Сравнение значений функции
+                if (prevResult > nextResult)
                 {
-                    minResult = result;
-                    minX = x;
-                }
+                    x = nextX;
+                    prevResult = nextResult;
 
-                // Проверяем, началось ли увеличение значения функции после нахождения минимума
-                if (prevResult < minResult && result > minResult)
+                    // Проверка условия a < x < b
+                    if (a < x && x < b)
+                        continue;
+                    else
+                    {  // Проверка условия окончания поиска
+                        if (Math.Abs(h) <= accuracy)
+                            break;
+
+                        // Изменение направления и шага поиска
+                        h = -h / 4.0;
+
+                        x = nextX;
+                        prevResult = nextResult;
+                    }
+                }
+                else
                 {
-                    break; // Прекращаем перебор, если значение функции начинает расти после минимума
-                }
+                    // Проверка условия окончания поиска
+                    if (Math.Abs(h) <= accuracy)
+                        break;
 
-                prevResult = result; // Сохраняем текущее значение функции для следующей итерации
+                    // Изменение направления и шага поиска
+                    h = -h / 4.0;
+
+                    x = nextX;
+                    prevResult = nextResult;
+                }
             }
 
-            return (minResult, minX);
+            // Возвращаем найденный минимум
+            return (prevResult, x);
         }
 
-
+        private double CalculateFunctionValue(string expression, double x)
+        {
+            try
+            {
+                Expression e = new Expression(expression);
+                e.Parameters["x"] = x;
+                object result = e.Evaluate();
+                return Convert.ToDouble(result);
+            }
+            catch (Exception)
+            {
+                return double.NaN; // В случае ошибки возвращаем NaN
+            }
+        }
         private void calculate_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
@@ -159,11 +196,11 @@ namespace Optimization_methods
             b_textBox.Enabled = false;
             accuracy_textBox.Enabled = false;
 
-            table_search_button.Enabled = true;
-            button_graph_search.Enabled = true;
+            table_bit_button.Enabled = true;
+            button_graph_bit.Enabled = true;
             Visualization_button.Enabled = true;
         }
-        private void exit_button_search_Click(object sender, EventArgs e)
+        private void exit_button_bit_Click(object sender, EventArgs e)
         {
             // Получаем массив всех открытых форм
             Form[] forms = Application.OpenForms.Cast<Form>().ToArray();
@@ -183,24 +220,24 @@ namespace Optimization_methods
             b_textBox.Clear();
             accuracy_textBox.Clear();
             calculate_button.Enabled = false;
-            table_search_button.Enabled = false;
+            table_bit_button.Enabled = false;
             // Убираем цвет фона у кнопки function_button
             function_button.BackColor = DefaultBackColor;
 
             // Скрываем сообщение об ошибке
             error_label.Visible = false;
-            error_func_search.Visible = false;
+            error_func_bit.Visible = false;
 
             func_result_label.Visible = false;
             result_label.Visible = false;
-            button_graph_search.Enabled = false;
+            button_graph_bit.Enabled = false;
             Visualization_button.Enabled = false;
             a_textBox.Enabled = false;
             b_textBox.Enabled = false;
             accuracy_textBox.Enabled = false;
         }
 
-        private void table_search_Click(object sender, EventArgs e)
+        private void table_bit_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
             double a, b, accuracy;
@@ -216,7 +253,7 @@ namespace Optimization_methods
             }
 
             // Создание новой формы для отображения таблицы итерационных вычислений
-            IterationTableForm_Search iterationTableForm = new IterationTableForm_Search(functionExpression, a, b, accuracy);
+            IterationTableForm iterationTableForm = new IterationTableForm(functionExpression, a, b, accuracy);
             iterationTableForm.Show(); // Открываем форму модально (блокирует доступ к предыдущей форме)
 
             // Скрываем сообщение об ошибке после закрытия формы
@@ -224,7 +261,7 @@ namespace Optimization_methods
 
         }
 
-        private void button_graph_search_Click(object sender, EventArgs e)
+        private void button_graph_bit_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
             double a, b, accuracy;
@@ -242,8 +279,8 @@ namespace Optimization_methods
             // Вычисление минимума функции
             (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
 
-            // Открытие новой формы с графиком функции и выделенной точкой минимума
-            GraphForm_Search graphForm = new GraphForm_Search(functionExpression, accuracy, a, b, minX, minResult);
+           // Открытие новой формы с графиком функции и выделенной точкой минимума
+            GraphForm_Bit graphForm = new GraphForm_Bit(functionExpression, accuracy, a, b, minX, minResult);
             graphForm.Show();
         }
 
@@ -261,7 +298,9 @@ namespace Optimization_methods
                 error_label.Visible = true;
                 return;
             }
-            VisualizationForm_Search visualizationForm = new VisualizationForm_Search(functionExpression, a, b, accuracy);
+
+            // Создание и отображение новой формы
+            VisualizationForm_Bit visualizationForm = new VisualizationForm_Bit(functionExpression, a, b, accuracy);
             visualizationForm.Show();
         }
         private void exit_button_Click(object sender, EventArgs e)
@@ -271,17 +310,10 @@ namespace Optimization_methods
             // Закрываем текущую форму
             this.Close();
         }
-
         private void GraphForm_Search_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Отображаем предыдущее скрытое окно
-            try
-            {
-                menuForm.Show();
-            }
-            catch (Exception ex) { }
-
+            menuForm.Show();
         }
     }
-
 }

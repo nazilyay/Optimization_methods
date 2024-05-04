@@ -12,10 +12,15 @@ namespace Optimization_methods
 {
     public partial class MenuForms : Form
     {
+        private MenuForms menuForm;
 
         public MenuForms()
         {
             InitializeComponent();
+
+            // Сохраняем ссылку на экземпляр формы MenuForms
+            this.menuForm = menuForm;
+
 
             // Привязываем обработчик события SelectedIndexChanged к ListBox
             group_of_methods_listBox.SelectedIndexChanged += ListBox_SelectedIndexChanged;
@@ -141,12 +146,12 @@ namespace Optimization_methods
                             switch (methods_combobox.SelectedIndex)
                             {
                                 case 0:  // Если выбран "Метод перебора"
-                                    SearchMethodsForm searchMethods = new SearchMethodsForm();
+                                    SearchMethodsForm searchMethods = new SearchMethodsForm(this);
                                     searchMethods.Show();
                                     this.Hide();
                                     break;
                                 case 1: // Если выбран "Метод поразрядного поиска"
-                                    BitMethodsForm bitMethods = new BitMethodsForm();
+                                    BitMethodsForm bitMethods = new BitMethodsForm(this);
                                     bitMethods.Show();
                                     this.Hide();
                                     break;
@@ -154,7 +159,7 @@ namespace Optimization_methods
                         }
                         else
                         {
-                            error_label2.Text = "Пожалуйста, выберите значение из списка.";
+                            error_label2.Text = "Выберите значение из списка.";
                             error_label2.Visible = true;
                         }
                         break;
@@ -178,7 +183,7 @@ namespace Optimization_methods
                         }
                         else
                         {
-                            error_label2.Text = "Пожалуйста, выберите значение из списка.";
+                            error_label2.Text = "Выберите значение из списка.";
                             error_label2.Visible = true;
                         }
                         break;
@@ -212,7 +217,7 @@ namespace Optimization_methods
                         }
                         else
                         {
-                            error_label2.Text = "Пожалуйста, выберите значение из списка.";
+                            error_label2.Text = "Выберите значение из списка.";
                             error_label2.Visible = true;
                         }
                         break;
@@ -225,18 +230,9 @@ namespace Optimization_methods
             }
             else
             {
-                error_label1.Text = "Пожалуйста, выберите значение из списка.";
+                error_label1.Text = "Выберите значение из списка.";
                 error_label1.Visible = true; // Показать сообщение об ошибке
             }
-        }
-    }
-
-
-    public partial class BitMethodsForm : Form
-    {
-        public BitMethodsForm()
-        {
-            /*InitializeComponent();*/
         }
     }
 

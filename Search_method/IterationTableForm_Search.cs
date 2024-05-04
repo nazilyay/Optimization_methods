@@ -6,14 +6,14 @@ using NCalc;
 
 namespace Optimization_methods
 {
-    public partial class IterationTableForm : Form
+    public partial class IterationTableForm_Search : Form
     {
         private string functionExpression;
         private double a;
         private double b;
         private double accuracy;
 
-        public IterationTableForm(string functionExpression, double a, double b, double accuracy)
+        public IterationTableForm_Search(string functionExpression, double a, double b, double accuracy)
         {
             InitializeComponent();
 
@@ -30,7 +30,11 @@ namespace Optimization_methods
             dataGridView.Columns[1].Width = 120; 
             dataGridView.Columns[2].Width = 120; 
             dataGridView.Columns[3].Width = 120; 
-            dataGridView.Columns[4].Width = 120; 
+            dataGridView.Columns[4].Width = 120;
+
+            // Добавление обработчика события CellFormatting
+            dataGridView.CellFormatting += DataGridView_CellFormatting;
+
         }
 
 
@@ -40,8 +44,8 @@ namespace Optimization_methods
             dataGridView.Rows.Clear();
 
             // Начальное значение минимального результата и соответствующего x
-            double minResult = double.MaxValue;
-            double minX = 0;
+            double minResult = CalculateFunctionValue(functionExpression, a);
+            double minX = a;
 
             // Вычисление минимального значения функции на отрезке с использованием перебора
             int iteration = 0;
@@ -50,9 +54,6 @@ namespace Optimization_methods
                 // Вычисление значения функции для текущего x
                 double result = CalculateFunctionValue(functionExpression, x);
 
-                // Запись данных итерации в таблицу
-                dataGridView.Rows.Add(iteration, x, result, minX, minResult);
-
                 // Проверка, является ли текущий результат минимальным
                 if (result < minResult)
                 {
@@ -60,12 +61,23 @@ namespace Optimization_methods
                     minX = x;
                 }
 
-                iteration++;
+                // Запись данных итерации в таблицу
+                dataGridView.Rows.Add(iteration, x, result, minX, minResult);
 
-                // Проверка условия остановки: если найден минимум и дальше идет увеличение значения функции, останавливаемся
-                if (minX != x && result > minResult)
+                iteration++;
+            }
+        }
+
+        private void DataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Проверка условия, чтобы выделить клетку с f(x), если не выполняется условие if (prevResult > nextResult)
+            if ((e.ColumnIndex == 2 || e.ColumnIndex == 4) && e.RowIndex < dataGridView.Rows.Count - 1 && e.RowIndex >= 1) // проверяем, что это столбец с f(x) и это не последняя строка
+            {
+                double prevResultValue = Convert.ToDouble(dataGridView.Rows[e.RowIndex - 1].Cells[2].Value);
+                double nextResultValue = Convert.ToDouble(dataGridView.Rows[e.RowIndex].Cells[2].Value); // Получаем значение из следующей строки
+                if (!(prevResultValue > nextResultValue))
                 {
-                    break;
+                    e.CellStyle.BackColor = Color.Red; // устанавливаем красный цвет фона для ячейки с f(x)
                 }
             }
         }
