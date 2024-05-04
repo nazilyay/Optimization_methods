@@ -296,11 +296,11 @@
             // question_1_label
             // 
             question_1_label.AutoSize = true;
-            question_1_label.Location = new Point(134, 22);
+            question_1_label.Location = new Point(128, 27);
             question_1_label.Name = "question_1_label";
-            question_1_label.Size = new Size(98, 20);
+            question_1_label.Size = new Size(110, 20);
             question_1_label.TabIndex = 61;
-            question_1_label.Text = "f(x_0)>f(x_1)?";
+            question_1_label.Text = "F(x_0) > F(x_1)?";
             // 
             // yes_button
             // 

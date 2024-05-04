@@ -77,7 +77,7 @@ namespace Optimization_methods
             }
             catch (Exception)
             {
-                error_func_search.Text = "Ошибка: Неправильный ввод функции.";
+                error_func_search.Text = "Некорректный ввод функции.";
                 error_func_search.Visible = true;
                 return false;
             }
@@ -125,7 +125,7 @@ namespace Optimization_methods
             // Проверка правильности ввода значения a
             if (!double.TryParse(a_textBox.Text, out a))
             {
-                error_label.Text = "Ошибка: Неправильный ввод значения a.";
+                error_label.Text = "Некорректный ввод значения a.";
                 error_label.Visible = true;
                 return;
             }
@@ -133,7 +133,7 @@ namespace Optimization_methods
             // Проверка правильности ввода значения b
             if (!double.TryParse(b_textBox.Text, out b))
             {
-                error_label.Text = "Ошибка: Неправильный ввод значения b.";
+                error_label.Text = "Некорректный ввод значения b.";
                 error_label.Visible = true;
                 return;
             }
@@ -141,7 +141,15 @@ namespace Optimization_methods
             // Проверка правильности ввода значения accuracy
             if (!double.TryParse(accuracy_textBox.Text, out accuracy))
             {
-                error_label.Text = "Ошибка: Неправильный ввод значения точности.";
+                error_label.Text = "Некорректный ввод значения точности.";
+                error_label.Visible = true;
+                return;
+            }
+
+
+            if (a >= b)
+            {
+                error_label.Text = "Некорректный ввод значения a, b.";
                 error_label.Visible = true;
                 return;
             }
@@ -208,9 +216,10 @@ namespace Optimization_methods
             // Проверка правильности ввода значений a, b и точности
             if (!double.TryParse(a_textBox.Text, out a) ||
                 !double.TryParse(b_textBox.Text, out b) ||
-                !double.TryParse(accuracy_textBox.Text, out accuracy))
+                !double.TryParse(accuracy_textBox.Text, out accuracy) ||
+                (a >= b))
             {
-                error_label.Text = "Ошибка: Неправильный ввод значений a, b или точности.";
+                error_label.Text = "Некорректный ввод значений a, b или точности.";
                 error_label.Visible = true;
                 return;
             }
@@ -232,9 +241,10 @@ namespace Optimization_methods
             // Получение значений a, b и точности
             if (!double.TryParse(a_textBox.Text, out a) ||
                 !double.TryParse(b_textBox.Text, out b) ||
-                !double.TryParse(accuracy_textBox.Text, out accuracy))
+                !double.TryParse(accuracy_textBox.Text, out accuracy) ||
+                (a >= b))
             {
-                error_label.Text = "Ошибка: Неправильный ввод значений a, b или точности.";
+                error_label.Text = "Некорректный ввод значений a, b или точности.";
                 error_label.Visible = true;
                 return;
             }
@@ -255,9 +265,10 @@ namespace Optimization_methods
             // Получение значений a, b и точности
             if (!double.TryParse(a_textBox.Text, out a) ||
                 !double.TryParse(b_textBox.Text, out b) ||
-                !double.TryParse(accuracy_textBox.Text, out accuracy))
+                !double.TryParse(accuracy_textBox.Text, out accuracy) ||
+                (a >= b))
             {
-                error_label.Text = "Ошибка: Неправильный ввод значений a, b или точности.";
+                error_label.Text = "Некорректный ввод значений a, b или точности.";
                 error_label.Visible = true;
                 return;
             }

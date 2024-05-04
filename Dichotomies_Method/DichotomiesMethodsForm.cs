@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Optimization_methods.Bit_Method;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,16 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NCalc;
-using Optimization_methods.Bit_Method;
+using System.Reflection.Metadata;
+using System.Data.Common;
 
-namespace Optimization_methods
+namespace Optimization_methods.Dichotomies_Method
 {
-    public partial class BitMethodsForm : Form
+    public partial class DichotomiesMethodsForm : Form
     {
         private MenuForms menuForm; // Добавляем поле для хранения ссылки на экземпляр формы MenuForms
 
         // Добавляем конструктор, который принимает ссылку на экземпляр формы MenuForms
-        public BitMethodsForm(MenuForms menuForm)
+        public DichotomiesMethodsForm(MenuForms menuForm)
         {
             InitializeComponent();
 
@@ -34,14 +36,14 @@ namespace Optimization_methods
             func_result_label.Visible = false;
 
             calculate_button.Enabled = false;
-            button_graph_bit.Enabled = false;
-            table_bit_button.Enabled = false;
-            Visualization_button.Enabled = false;
+            button_dichotomies_graph.Enabled = false;
+            table_dichotomies_button.Enabled = false;
+            visualization_button.Enabled = false;
 
             a_textBox.Enabled = false;
             b_textBox.Enabled = false;
             accuracy_textBox.Enabled = false;
-
+            parameter_textBox.Enabled = false;
         }
 
         private void bitMethodsForm_Load(object sender, EventArgs e)
@@ -51,6 +53,7 @@ namespace Optimization_methods
             a_textBox.Text = "2"; // Пример значения a
             b_textBox.Text = "5"; // Пример значения b
             accuracy_textBox.Text = "0,1"; // Пример точности
+            parameter_textBox.Text = "0,1"; // Пример точности
         }
 
 
@@ -66,6 +69,7 @@ namespace Optimization_methods
             a_textBox.Enabled = isFunctionValid;
             b_textBox.Enabled = isFunctionValid;
             accuracy_textBox.Enabled = isFunctionValid;
+            parameter_textBox.Enabled = isFunctionValid;
         }
 
 
@@ -85,58 +89,27 @@ namespace Optimization_methods
             }
         }
 
-        private (double minResult, double minX) CalculateFunctionOnInterval(string expression, double a, double b, double accuracy)
+        private (double minResult, double minX) CalculateFunctionOnInterval(string expression, double a, double b, double accuracy, double parameter)
         {
-            // Начальный шаг
-            double h = (b - a) / 4.0;
-            // Начальное значение x
-            double x = a;
-            double prevResult = CalculateFunctionValue(expression,x);
 
-            // Цикл поиска минимума
-            while (true)
+            while ((b - a) / 2 > accuracy)
             {
-                // Вычисление значения функции в следующей точке
-                double nextX = x + h;
-                double nextResult = CalculateFunctionValue(expression,nextX);
+                double x1 = (a + b - parameter) / 2;
+                double x2 = (a + b + parameter) / 2;
 
-                // Сравнение значений функции
-                if (prevResult > nextResult)
-                {
-                    x = nextX;
-                    prevResult = nextResult;
+                double f1 = CalculateFunctionValue(expression, x1);
+                double f2 = CalculateFunctionValue(expression, x2);
 
-                    // Проверка условия a < x < b
-                    if (a < x && x < b)
-                        continue;
-                    else
-                    {  // Проверка условия окончания поиска
-                        if (Math.Abs(h) <= accuracy)
-                            break;
-
-                        // Изменение направления и шага поиска
-                        h = -h / 4.0;
-
-                        x = nextX;
-                        prevResult = nextResult;
-                    }
-                }
+                if (f1 <= f2)
+                    b = x2;
                 else
-                {
-                    // Проверка условия окончания поиска
-                    if (Math.Abs(h) <= accuracy)
-                        break;
-
-                    // Изменение направления и шага поиска
-                    h = -h / 4.0;
-
-                    x = nextX;
-                    prevResult = nextResult;
-                }
+                    a = x1;
             }
 
-            // Возвращаем найденный минимум
-            return (prevResult, x);
+            double minX = (a + b) / 2;
+            double minResult = CalculateFunctionValue(expression, minX);
+
+            return (minResult, minX);
         }
 
         private double CalculateFunctionValue(string expression, double x)
@@ -156,7 +129,7 @@ namespace Optimization_methods
         private void calculate_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
-            double a, b, accuracy;
+            double a, b, accuracy, parameter;
             error_label.Visible = false;
 
             // Проверка правильности ввода значения a
@@ -175,7 +148,7 @@ namespace Optimization_methods
                 return;
             }
 
-            if ( a >= b )
+            if (a >= b)
             {
                 error_label.Text = "Некорректный ввод значения a, b.";
                 error_label.Visible = true;
@@ -190,8 +163,23 @@ namespace Optimization_methods
                 return;
             }
 
+            // Проверка правильности ввода значения parameter
+            if (!double.TryParse(parameter_textBox.Text, out parameter))
+            {
+                error_label.Text = "Некорректный ввод значения параметра алгоритма.";
+                error_label.Visible = true;
+                return;
+            }
+
+            if (!(parameter > 0 && parameter < 2* accuracy))
+            {
+                error_label.Text = "Некорректный ввод значения параметра алгоритма.";
+                error_label.Visible = true;
+                return;
+            }
+
             // Вычисление минимума функции на отрезке методом перебора
-            (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
+            (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy, parameter);
 
             // Вывод результатов на форму
             func_result_label.Text = minResult.ToString();
@@ -202,10 +190,11 @@ namespace Optimization_methods
             a_textBox.Enabled = false;
             b_textBox.Enabled = false;
             accuracy_textBox.Enabled = false;
+            parameter_textBox.Enabled = false;
 
-            table_bit_button.Enabled = true;
-            button_graph_bit.Enabled = true;
-            Visualization_button.Enabled = true;
+            button_dichotomies_graph.Enabled = true;
+            table_dichotomies_button.Enabled = true;
+            visualization_button.Enabled = true;
         }
         private void exit_button_bit_Click(object sender, EventArgs e)
         {
@@ -226,8 +215,9 @@ namespace Optimization_methods
             a_textBox.Clear();
             b_textBox.Clear();
             accuracy_textBox.Clear();
+            parameter_textBox.Clear();  
             calculate_button.Enabled = false;
-            table_bit_button.Enabled = false;
+            table_dichotomies_button.Enabled = false;
             // Убираем цвет фона у кнопки function_button
             function_button.BackColor = DefaultBackColor;
 
@@ -237,31 +227,33 @@ namespace Optimization_methods
 
             func_result_label.Visible = false;
             result_label.Visible = false;
-            button_graph_bit.Enabled = false;
-            Visualization_button.Enabled = false;
+            button_dichotomies_graph.Enabled = false;
+            visualization_button.Enabled = false;
             a_textBox.Enabled = false;
             b_textBox.Enabled = false;
             accuracy_textBox.Enabled = false;
+            parameter_textBox.Enabled = false;
         }
 
-        private void table_bit_Click(object sender, EventArgs e)
+        private void table_dichotomies_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
-            double a, b, accuracy;
+            double a, b, accuracy, parameter;
 
             // Проверка правильности ввода значений a, b и точности
             if (!double.TryParse(a_textBox.Text, out a) ||
                 !double.TryParse(b_textBox.Text, out b) ||
-                !double.TryParse(accuracy_textBox.Text, out accuracy) ||
-                (a >= b))
+                !double.TryParse(accuracy_textBox.Text, out accuracy)||
+                !double.TryParse(parameter_textBox.Text, out parameter) ||
+                (a >= b) || (!(parameter > 0 && parameter < 2 * accuracy)))
             {
-                error_label.Text = "Некорректный ввод значений a, b или точности.";
+                error_label.Text = "Некорректный ввод значений a, b, точности или параметра алгоритма";
                 error_label.Visible = true;
                 return;
             }
 
             // Создание новой формы для отображения таблицы итерационных вычислений
-            IterationTableForm iterationTableForm = new IterationTableForm(functionExpression, a, b, accuracy);
+            IterationTableForm_Dichotomies iterationTableForm = new IterationTableForm_Dichotomies(functionExpression, a, b, accuracy, parameter);
             iterationTableForm.Show(); // Открываем форму модально (блокирует доступ к предыдущей форме)
 
             // Скрываем сообщение об ошибке после закрытия формы
@@ -269,48 +261,50 @@ namespace Optimization_methods
 
         }
 
-        private void button_graph_bit_Click(object sender, EventArgs e)
+        private void button_dichotomies_graph_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
-            double a, b, accuracy;
+            double a, b, accuracy, parameter;
 
-            // Получение значений a, b и точности
+            // Проверка правильности ввода значений a, b и точности
             if (!double.TryParse(a_textBox.Text, out a) ||
                 !double.TryParse(b_textBox.Text, out b) ||
                 !double.TryParse(accuracy_textBox.Text, out accuracy) ||
-                (a >= b))
+                !double.TryParse(parameter_textBox.Text, out parameter) ||
+                (a >= b) || (!(parameter > 0 && parameter < 2 * accuracy)))
             {
-                error_label.Text = "Некорректный ввод значений a, b или точности.";
+                error_label.Text = "Некорректный ввод значений a, b, точности или параметра алгоритма";
                 error_label.Visible = true;
                 return;
             }
 
             // Вычисление минимума функции
-            (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
+            (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy, parameter);
 
-           // Открытие новой формы с графиком функции и выделенной точкой минимума
-            GraphForm_Bit graphForm = new GraphForm_Bit(functionExpression, accuracy, a, b, minX, minResult);
+            // Открытие новой формы с графиком функции и выделенной точкой минимума
+            GraphForm_Dichotomies graphForm = new GraphForm_Dichotomies(functionExpression, accuracy, a, b, parameter);
             graphForm.Show();
         }
 
-        private void Visualization_button_Click(object sender, EventArgs e)
+        private void visualization_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
-            double a, b, accuracy;
+            double a, b, accuracy, parameter;
 
-            // Получение значений a, b и точности
+            // Проверка правильности ввода значений a, b и точности
             if (!double.TryParse(a_textBox.Text, out a) ||
                 !double.TryParse(b_textBox.Text, out b) ||
-                !double.TryParse(accuracy_textBox.Text, out accuracy)
-                || (a >= b))
+                !double.TryParse(accuracy_textBox.Text, out accuracy) ||
+                !double.TryParse(parameter_textBox.Text, out parameter) ||
+                (a >= b) || (!(parameter > 0 && parameter < 2 * accuracy)))
             {
-                error_label.Text = "Некорректный ввод значений a, b или точности.";
+                error_label.Text = "Некорректный ввод значений a, b, точности или параметра алгоритма";
                 error_label.Visible = true;
                 return;
             }
 
             // Создание и отображение новой формы
-            VisualizationForm_Bit visualizationForm = new VisualizationForm_Bit(functionExpression, a, b, accuracy);
+            VisualizationForm visualizationForm = new VisualizationForm(functionExpression, a, b, accuracy, parameter);
             visualizationForm.Show();
         }
         private void exit_button_Click(object sender, EventArgs e)

@@ -81,6 +81,10 @@ namespace Optimization_methods.Bit_Method
             }
             chartArea.AxisY.Minimum = Math.Round(minY - 5);
             chartArea.AxisY.Maximum = Math.Round(maxY + 5);
+            // Подписываем ось X
+            chartArea.AxisX.Title = "X";
+            // Подписываем ось Y
+            chartArea.AxisY.Title = "Y";
 
             // Добавление области на график
             chart.ChartAreas.Add(chartArea);
@@ -148,7 +152,6 @@ namespace Optimization_methods.Bit_Method
 
         private void Next_step_button_Click(object sender, EventArgs e)
         {
-            question_1_label.Visible = false;
             question_1_label.BackColor = DefaultBackColor;
 
             // Сохраняем значения текущего шага в качестве значений предыдущего шага
@@ -181,7 +184,6 @@ namespace Optimization_methods.Bit_Method
             {
                 // Выводим вопрос f(x_0) > f(x_1)
                 question_1_label.Visible = true;
-                question_1_label.Text = "f(x_0) > f(x_1)?";
                 next_step_button.Enabled = false;
                 yes_button.Enabled = true;
                 no_button.Enabled = true;
@@ -200,7 +202,7 @@ namespace Optimization_methods.Bit_Method
             {
                 // Выводим результаты 
                 x_new_label.Text = $"x_min = {currentX}";
-                f_new_label.Text = $"f(x_min) = {currentY}";
+                f_new_label.Text = $"F(x_min) = {currentY}";
 
                 // Переходим к следующему шагу
                 yes_button.Enabled = false;
@@ -376,7 +378,7 @@ namespace Optimization_methods.Bit_Method
             {
                 // Выводим результаты 
                 x_new_label.Text = $"x_min = {currentX}";
-                f_new_label.Text = $"f(x_min) = {currentY}";
+                f_new_label.Text = $"F(x_min) = {currentY}";
                 new_step_label.Text = $"h = {-(currentX - prevX) / 4}";
 
                 // Переходим к следующему шагу

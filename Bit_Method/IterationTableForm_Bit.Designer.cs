@@ -31,10 +31,10 @@
             info_button = new Button();
             exit_button_search = new Button();
             dataGridView = new DataGridView();
-            iteration = new DataGridViewTextBoxColumn();
-            x = new DataGridViewTextBoxColumn();
-            result = new DataGridViewTextBoxColumn();
             step = new DataGridViewTextBoxColumn();
+            result = new DataGridViewTextBoxColumn();
+            x = new DataGridViewTextBoxColumn();
+            iteration = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -69,21 +69,12 @@
             dataGridView.Size = new Size(528, 322);
             dataGridView.TabIndex = 15;
             // 
-            // iteration
+            // step
             // 
-            iteration.Frozen = true;
-            iteration.HeaderText = "Итерация";
-            iteration.MinimumWidth = 6;
-            iteration.Name = "iteration";
-            iteration.SortMode = DataGridViewColumnSortMode.NotSortable;
-            iteration.Width = 125;
-            // 
-            // x
-            // 
-            x.HeaderText = "x";
-            x.MinimumWidth = 6;
-            x.Name = "x";
-            x.Width = 125;
+            step.HeaderText = "h";
+            step.MinimumWidth = 6;
+            step.Name = "step";
+            step.Width = 125;
             // 
             // result
             // 
@@ -92,12 +83,21 @@
             result.Name = "result";
             result.Width = 125;
             // 
-            // step
+            // x
             // 
-            step.HeaderText = "h";
-            step.MinimumWidth = 6;
-            step.Name = "step";
-            step.Width = 125;
+            x.HeaderText = "x";
+            x.MinimumWidth = 6;
+            x.Name = "x";
+            x.Width = 125;
+            // 
+            // iteration
+            // 
+            iteration.Frozen = true;
+            iteration.HeaderText = "Итерация";
+            iteration.MinimumWidth = 6;
+            iteration.Name = "iteration";
+            iteration.SortMode = DataGridViewColumnSortMode.NotSortable;
+            iteration.Width = 125;
             // 
             // IterationTableForm
             // 
@@ -108,6 +108,7 @@
             Controls.Add(exit_button_search);
             Controls.Add(dataGridView);
             Name = "IterationTableForm";
+            StartPosition = FormStartPosition.CenterScreen;
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ResumeLayout(false);
         }

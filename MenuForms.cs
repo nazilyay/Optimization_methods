@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Optimization_methods.Dichotomies_Method;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -170,7 +171,7 @@ namespace Optimization_methods
                             switch (methods_combobox.SelectedIndex)
                             {
                                 case 0:  // Если выбрана "Дихотомия"
-                                    DichotomiesMethodsForm dichotomiesMethods = new DichotomiesMethodsForm();
+                                    DichotomiesMethodsForm dichotomiesMethods = new DichotomiesMethodsForm(this);
                                     dichotomiesMethods.Show();
                                     this.Hide();
                                     break;
@@ -233,14 +234,6 @@ namespace Optimization_methods
                 error_label1.Text = "Выберите значение из списка.";
                 error_label1.Visible = true; // Показать сообщение об ошибке
             }
-        }
-    }
-
-    public partial class DichotomiesMethodsForm : Form
-    {
-        public DichotomiesMethodsForm()
-        {
-            /*InitializeComponent();*/
         }
     }
 

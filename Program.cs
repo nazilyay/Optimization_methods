@@ -1,4 +1,5 @@
 using Optimization_methods.Bit_Method;
+using Optimization_methods.Dichotomies_Method;
 
 namespace Optimization_methods
 {
