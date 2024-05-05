@@ -96,7 +96,7 @@ namespace Optimization_methods.Dichotomies_Method
             double f_x_min = CalculateFunctionValue(x_min);
 
 
-            dataGridView.Rows.Add(iteration + 1, a, b, accuracy, "", "", "", "");
+            dataGridView.Rows.Add(iteration + 1, a, b, (b - a) / 2, "", "", "", "");
             // Проверка изменения значений a и b в последней строке и выделение соответствующих ячеек
             if (previousA != a)
             {
@@ -107,7 +107,7 @@ namespace Optimization_methods.Dichotomies_Method
                 dataGridView.Rows[iteration].Cells[2].Style.BackColor = Color.Yellow; // выделение ячейки с измененным b
             }
 
-            dataGridView.Rows.Add("Результат", "", "", "", x_min, f_x_min, "", "");
+            dataGridView.Rows.Add("Результат", "", "x_min = ", x_min, "f (x_min) = ", f_x_min, "", "");
         }
 
         private double CalculateFunctionValue(double x)

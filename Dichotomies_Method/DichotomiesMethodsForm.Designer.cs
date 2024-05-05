@@ -394,7 +394,7 @@
             Controls.Add(exit_button);
             Name = "DichotomiesMethodsForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Дихотомия";
+            Text = "Метод дихотомии";
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             groupBox2.ResumeLayout(false);

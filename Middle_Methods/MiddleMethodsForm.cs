@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NCalc;
-using Optimization_methods.Dichotomies_Method;
 
-namespace Optimization_methods.Golden_Methods
+namespace Optimization_methods.Middle_Methods
 {
-    public partial class GoldenMethodsForm : Form
+    public partial class MiddleMethodsForm : Form
     {
         private MenuForms menuForm; // Поле для хранения ссылки на экземпляр формы MenuForms
 
-        public GoldenMethodsForm(MenuForms menuForm)
+        public MiddleMethodsForm(MenuForms menuForm)
         {
             InitializeComponent();
 
             this.menuForm = menuForm; // Сохранение ссылки на экземпляр формы MenuForms
 
             // Добавляем обработчик события загрузки формы
-            this.Load += GoldenMethodsForm_Load;
+            this.Load += MiddleMethodsForm_Load;
 
-            this.FormClosing += GoldenMethodsForm_FormClosing; // Подключение обработчика к событию FormClosing
+            this.FormClosing += MiddleMethodsForm_FormClosing; // Подключение обработчика к событию FormClosing
 
             // Скрыть сообщение об ошибке
             error_func_bit.Visible = false;
@@ -33,15 +33,16 @@ namespace Optimization_methods.Golden_Methods
             func_result_label.Visible = false;
 
             calculate_button.Enabled = false;
-            button_golden_graph.Enabled = false;
-            table_golden_button.Enabled = false;
-            visualization_golden_button.Enabled = false;
+            button_middle_graph.Enabled = false;
+            table_middle_button.Enabled = false;
+            visualization_middle_button.Enabled = false;
 
             a_textBox.Enabled = false;
             b_textBox.Enabled = false;
             accuracy_textBox.Enabled = false;
         }
-        private void GoldenMethodsForm_FormClosing(object sender, FormClosingEventArgs e)
+
+        private void MiddleMethodsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Получаем массив всех открытых форм
             Form[] forms = Application.OpenForms.Cast<Form>().ToArray();
@@ -57,18 +58,21 @@ namespace Optimization_methods.Golden_Methods
 
             // Отображаем предыдущее скрытое окно
             menuForm.Show();
+
         }
+
         private void exit_button_Click(object sender, EventArgs e)
         {
-            // Закрываем текущую форму
             this.Close();
         }
 
-        private void exit_button_golden_Click(object sender, EventArgs e)
+        private void exit_button_middle_Click(object sender, EventArgs e)
         {
             menuForm.Close();
+
         }
-        private void GoldenMethodsForm_Load(object sender, EventArgs e)
+
+        private void MiddleMethodsForm_Load(object sender, EventArgs e)
         {
             // Установка значений по умолчанию для текстовых полей
             function_textBox.Text = "Sin(x)+2"; // Пример выражения функции
@@ -106,44 +110,43 @@ namespace Optimization_methods.Golden_Methods
                 return false;
             }
         }
-
         private (double minResult, double minX) CalculateFunctionOnInterval(string expression, double a, double b, double accuracy)
         {
-            double tau = (Math.Sqrt(5) - 1) / 2; // Параметр алгоритма
-            double x1 = a + (3 - Math.Sqrt(5)) / 2 * (b - a);
-            double x2 = a + (Math.Sqrt(5) - 1) / 2 * (b - a);
-
-            double f1 = CalculateFunctionValue(expression, x1);
-            double f2 = CalculateFunctionValue(expression, x2);
-
-            double epsilon = (b - a) / 2;
+            double x = (a + b) / 2; // Начальное значение средней точки
+            double epsilon = (b - a) / 2; // Начальная половина длины интервала
 
             while (Math.Abs(epsilon) > accuracy)
             {
-                if (f1 < f2)
+                double derivative = CalculateDerivative(expression, x);
+
+                if (derivative > 0)
                 {
-                    b = x2;
-                    x2 = x1;
-                    f2 = f1;
-                    x1 = b + a - x2;
-                    f1 = CalculateFunctionValue(expression, x1);
+                    b = x;
                 }
                 else
                 {
-                    a = x1;
-                    x1 = x2;
-                    f1 = f2;
-                    x2 = b + a - x1;
-                    f2 = CalculateFunctionValue(expression, x2);
+                    a = x;
                 }
 
-                epsilon *= tau;
+                x = (a + b) / 2; // Новое значение средней точки
+                epsilon = (b - a) / 2; // Новая половина длины интервала
             }
 
-            double minX = (a + b) / 2;
-            double minResult = CalculateFunctionValue(expression, minX);
+            double minResult = CalculateFunctionValue(expression, x);
 
-            return (minResult, minX);
+            return (minResult, x);
+        }
+
+        private double CalculateDerivative(string expression, double x)
+        {
+            double h = 0.0001; // Шаг для численного дифференцирования
+            double xPlusH = x + h;
+            double xMinusH = x - h;
+
+            double fPlusH = CalculateFunctionValue(expression, xPlusH);
+            double fMinusH = CalculateFunctionValue(expression, xMinusH);
+
+            return (fPlusH - fMinusH) / (2 * h);
         }
 
         private double CalculateFunctionValue(string expression, double x)
@@ -160,11 +163,11 @@ namespace Optimization_methods.Golden_Methods
                 return double.NaN; // В случае ошибки возвращаем NaN
             }
         }
-
         private void calculate_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
             double a, b, accuracy;
+
 
             // Проверка правильности ввода значения a
             if (!double.TryParse(a_textBox.Text, out a))
@@ -210,15 +213,9 @@ namespace Optimization_methods.Golden_Methods
             b_textBox.Enabled = false;
             accuracy_textBox.Enabled = false;
 
-            button_golden_graph.Enabled = true;
-            table_golden_button.Enabled = true;
-            visualization_golden_button.Enabled = true;
-        }
-
-        private void exit_button_bit_Click(object sender, EventArgs e)
-        {
-            // Закрыть все формы приложения
-            Application.Exit();
+            button_middle_graph.Enabled = true;
+            table_middle_button.Enabled = true;
+            visualization_middle_button.Enabled = true;
         }
 
         private void data_reset_button_Click(object sender, EventArgs e)
@@ -229,7 +226,7 @@ namespace Optimization_methods.Golden_Methods
             b_textBox.Clear();
             accuracy_textBox.Clear();
             calculate_button.Enabled = false;
-            table_golden_button.Enabled = false;
+            table_middle_button.Enabled = false;
 
             // Убрать цвет фона у кнопки function_button
             function_button.BackColor = DefaultBackColor;
@@ -239,23 +236,23 @@ namespace Optimization_methods.Golden_Methods
             error_func_bit.Visible = false;
             func_result_label.Visible = false;
             result_label.Visible = false;
-            button_golden_graph.Enabled = false;
-            visualization_golden_button.Enabled = false;
+            button_middle_graph.Enabled = false;
+            visualization_middle_button.Enabled = false;
             a_textBox.Enabled = false;
             b_textBox.Enabled = false;
             accuracy_textBox.Enabled = false;
         }
 
-        private void table_golden_button_Click(object sender, EventArgs e)
+        private void table_middle_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
             double a, b, accuracy;
 
             // Проверка правильности ввода значений a, b и точности
             if (!double.TryParse(a_textBox.Text, out a) ||
-                !double.TryParse(b_textBox.Text, out b) ||
-                !double.TryParse(accuracy_textBox.Text, out accuracy) ||
-                (a >= b))
+            !double.TryParse(b_textBox.Text, out b) ||
+            !double.TryParse(accuracy_textBox.Text, out accuracy) ||
+            (a >= b))
             {
                 error_label.Text = "Некорректный ввод значений a, b, точности или параметра алгоритма";
                 error_label.Visible = true;
@@ -263,13 +260,13 @@ namespace Optimization_methods.Golden_Methods
             }
 
             // Создание новой формы для отображения таблицы итерационных вычислений
-            IterationTableForm_Golden iterationTableForm = new IterationTableForm_Golden(functionExpression, a, b, accuracy);
+            IterationTableForm_Middle iterationTableForm = new IterationTableForm_Middle(functionExpression, a, b, accuracy);
             iterationTableForm.Show(); // Открываем форму модально (блокирует доступ к предыдущей форме)
             // Скрываем сообщение об ошибке после закрытия формы
             error_label.Visible = false;
         }
 
-        private void button_golden_graph_Click(object sender, EventArgs e)
+        private void button_middle_graph_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
             double a, b, accuracy;
@@ -289,11 +286,11 @@ namespace Optimization_methods.Golden_Methods
             (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
 
             // Открытие новой формы с графиком функции и выделенной точкой минимума
-            GraphForm_Golden graphForm = new GraphForm_Golden(functionExpression, accuracy, a, b);
-            graphForm.Show();
+             GraphForm_Middle graphForm = new GraphForm_Middle(functionExpression, accuracy, a, b);
+             graphForm.Show();
         }
 
-        private void visualization_golden_button_Click(object sender, EventArgs e)
+        private void visualization_middle_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
             double a, b, accuracy;
@@ -310,10 +307,8 @@ namespace Optimization_methods.Golden_Methods
             }
 
             // Создание и отображение новой формы
-            VisualizationForm visualizationForm = new VisualizationForm(functionExpression, a, b, accuracy);
-            visualizationForm.Show();
+            visualizationForm_Middle visualizationForm = new visualizationForm_Middle(functionExpression, a, b, accuracy);
+              visualizationForm.Show();
         }
-
-        
     }
 }

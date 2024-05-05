@@ -22,10 +22,10 @@ namespace Optimization_methods
 
             this.menuForm = menuForm; // Сохраняем ссылку на экземпляр формы MenuForms
 
-            this.FormClosing += GraphForm_Search_FormClosing; // Подключение обработчика к событию FormClosing
-
             // Добавляем обработчик события загрузки формы
             this.Load += bitMethodsForm_Load;
+
+            this.FormClosing += BitMethodsForm_FormClosing; // Подключение обработчика к событию FormClosing
 
             // Скрыть сообщение об ошибке
             error_func_bit.Visible = false;
@@ -43,7 +43,32 @@ namespace Optimization_methods
             accuracy_textBox.Enabled = false;
 
         }
+        private void BitMethodsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Получаем массив всех открытых форм
+            Form[] forms = Application.OpenForms.Cast<Form>().ToArray();
 
+            // Закрываем каждую форму, кроме menuForm
+            foreach (Form form in forms)
+            {
+                if (form != menuForm && form != this )
+                {
+                    form.Close();
+                }
+            }
+
+            // Отображаем предыдущее скрытое окно
+            menuForm.Show();
+        }
+        private void exit_button_bit_Click(object sender, EventArgs e)
+        {
+            menuForm.Close();
+        }
+        private void exit_button_Click(object sender, EventArgs e)
+        {
+            // Закрываем текущую форму
+            this.Close();
+        }
         private void bitMethodsForm_Load(object sender, EventArgs e)
         {
             // Установка значений по умолчанию для текстовых полей
@@ -207,17 +232,7 @@ namespace Optimization_methods
             button_graph_bit.Enabled = true;
             Visualization_button.Enabled = true;
         }
-        private void exit_button_bit_Click(object sender, EventArgs e)
-        {
-            // Получаем массив всех открытых форм
-            Form[] forms = Application.OpenForms.Cast<Form>().ToArray();
-
-            // Закрываем каждую форму
-            foreach (Form form in forms)
-            {
-                form.Close();
-            }
-        }
+        
 
         private void data_reset_button_Click(object sender, EventArgs e)
         {
@@ -313,17 +328,6 @@ namespace Optimization_methods
             VisualizationForm_Bit visualizationForm = new VisualizationForm_Bit(functionExpression, a, b, accuracy);
             visualizationForm.Show();
         }
-        private void exit_button_Click(object sender, EventArgs e)
-        {
-            // Отображаем предыдущее скрытое окно
-            menuForm.Show();
-            // Закрываем текущую форму
-            this.Close();
-        }
-        private void GraphForm_Search_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Отображаем предыдущее скрытое окно
-            menuForm.Show();
-        }
+
     }
 }

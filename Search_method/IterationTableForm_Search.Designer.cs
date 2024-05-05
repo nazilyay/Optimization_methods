@@ -77,12 +77,14 @@
             iteration.MinimumWidth = 6;
             iteration.Name = "iteration";
             iteration.SortMode = DataGridViewColumnSortMode.NotSortable;
+            iteration.Width = 125;
             // 
             // x
             // 
             x.HeaderText = "x";
             x.MinimumWidth = 6;
             x.Name = "x";
+            x.SortMode = DataGridViewColumnSortMode.NotSortable;
             x.Width = 125;
             // 
             // result
@@ -90,6 +92,7 @@
             result.HeaderText = "F(x)";
             result.MinimumWidth = 6;
             result.Name = "result";
+            result.SortMode = DataGridViewColumnSortMode.NotSortable;
             result.Width = 125;
             // 
             // minX
@@ -97,6 +100,7 @@
             minX.HeaderText = "x_min";
             minX.MinimumWidth = 6;
             minX.Name = "minX";
+            minX.SortMode = DataGridViewColumnSortMode.NotSortable;
             minX.Width = 125;
             // 
             // minResult
@@ -104,6 +108,7 @@
             minResult.HeaderText = "F(x_min)";
             minResult.MinimumWidth = 6;
             minResult.Name = "minResult";
+            minResult.SortMode = DataGridViewColumnSortMode.NotSortable;
             minResult.Width = 125;
             // 
             // IterationTableForm_Search

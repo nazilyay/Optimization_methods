@@ -31,10 +31,10 @@
             info_button = new Button();
             exit_button_search = new Button();
             dataGridView = new DataGridView();
-            step = new DataGridViewTextBoxColumn();
-            result = new DataGridViewTextBoxColumn();
-            x = new DataGridViewTextBoxColumn();
             iteration = new DataGridViewTextBoxColumn();
+            x = new DataGridViewTextBoxColumn();
+            result = new DataGridViewTextBoxColumn();
+            step = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -69,27 +69,6 @@
             dataGridView.Size = new Size(528, 322);
             dataGridView.TabIndex = 15;
             // 
-            // step
-            // 
-            step.HeaderText = "h";
-            step.MinimumWidth = 6;
-            step.Name = "step";
-            step.Width = 125;
-            // 
-            // result
-            // 
-            result.HeaderText = "F(x)";
-            result.MinimumWidth = 6;
-            result.Name = "result";
-            result.Width = 125;
-            // 
-            // x
-            // 
-            x.HeaderText = "x";
-            x.MinimumWidth = 6;
-            x.Name = "x";
-            x.Width = 125;
-            // 
             // iteration
             // 
             iteration.Frozen = true;
@@ -98,6 +77,30 @@
             iteration.Name = "iteration";
             iteration.SortMode = DataGridViewColumnSortMode.NotSortable;
             iteration.Width = 125;
+            // 
+            // x
+            // 
+            x.HeaderText = "x";
+            x.MinimumWidth = 6;
+            x.Name = "x";
+            x.SortMode = DataGridViewColumnSortMode.NotSortable;
+            x.Width = 125;
+            // 
+            // result
+            // 
+            result.HeaderText = "F(x)";
+            result.MinimumWidth = 6;
+            result.Name = "result";
+            result.SortMode = DataGridViewColumnSortMode.NotSortable;
+            result.Width = 125;
+            // 
+            // step
+            // 
+            step.HeaderText = "h";
+            step.MinimumWidth = 6;
+            step.Name = "step";
+            step.SortMode = DataGridViewColumnSortMode.NotSortable;
+            step.Width = 125;
             // 
             // IterationTableForm
             // 

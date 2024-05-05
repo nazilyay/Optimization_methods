@@ -1,5 +1,6 @@
 ﻿using Optimization_methods.Dichotomies_Method;
 using Optimization_methods.Golden_Methods;
+using Optimization_methods.Middle_Methods;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -113,7 +114,7 @@ namespace Optimization_methods
                     break;
                 case 1: // Если выбраны "Методы исключения отрезков"
                     methods_combobox.Items.Clear();
-                    methods_combobox.Items.AddRange(new string[] { "Дихотомия", "Золотое сечение" });
+                    methods_combobox.Items.AddRange(new string[] { "Метод дихотомии", "Метод золотого сечения" });
                     methods_combobox.Enabled = true;
                     break;
                 case 2: // Если выбраны "Методы, использующие производные"
@@ -176,7 +177,7 @@ namespace Optimization_methods
                                     dichotomiesMethods.Show();
                                     this.Hide();
                                     break;
-                                case 1: // Если выбрано "Золотое сечение"
+                                case 1: // Если выбрано "Метод золотого сечения"
                                     GoldenMethodsForm goldenMethods = new GoldenMethodsForm(this);
                                     goldenMethods.Show();
                                     this.Hide();
@@ -196,7 +197,7 @@ namespace Optimization_methods
                             switch (methods_combobox.SelectedIndex)
                             {
                                 case 0:  // Если выбран "Метод средней точки"
-                                    MiddleMethodsForm middleMethods = new MiddleMethodsForm();
+                                    MiddleMethodsForm middleMethods = new MiddleMethodsForm(this);
                                     middleMethods.Show();
                                     this.Hide();
                                     break;
@@ -264,14 +265,6 @@ namespace Optimization_methods
     public partial class CubicMethodsForm : Form
     {
         public CubicMethodsForm()
-        {
-            /*InitializeComponent();*/
-        }
-    }
-
-    public partial class MiddleMethodsForm : Form
-    {
-        public MiddleMethodsForm()
         {
             /*InitializeComponent();*/
         }

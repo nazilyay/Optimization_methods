@@ -71,7 +71,7 @@
             groupBox6.Controls.Add(no_button_2);
             groupBox6.Controls.Add(question_2_label);
             groupBox6.Controls.Add(yes_button_2);
-            groupBox6.Location = new Point(454, 543);
+            groupBox6.Location = new Point(454, 538);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(352, 103);
             groupBox6.TabIndex = 79;
@@ -121,7 +121,7 @@
             groupBox4.Controls.Add(new_eps_label);
             groupBox4.Controls.Add(label1);
             groupBox4.Controls.Add(new_ab_label);
-            groupBox4.Location = new Point(454, 324);
+            groupBox4.Location = new Point(454, 420);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(352, 102);
             groupBox4.TabIndex = 77;
@@ -207,7 +207,7 @@
             // Stop_label
             // 
             Stop_label.AutoSize = true;
-            Stop_label.Location = new Point(403, 680);
+            Stop_label.Location = new Point(368, 680);
             Stop_label.Name = "Stop_label";
             Stop_label.Size = new Size(137, 20);
             Stop_label.TabIndex = 74;
@@ -270,7 +270,7 @@
             groupBox2.Controls.Add(x_1_out_label);
             groupBox2.Controls.Add(ab_out_label);
             groupBox2.Controls.Add(x_2_out_label);
-            groupBox2.Location = new Point(454, 83);
+            groupBox2.Location = new Point(454, 120);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(352, 225);
             groupBox2.TabIndex = 70;
@@ -376,7 +376,7 @@
             Controls.Add(exit_button);
             Name = "VisualizationForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Дихотомия";
+            Text = "Метод дихотомии";
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
             groupBox4.ResumeLayout(false);

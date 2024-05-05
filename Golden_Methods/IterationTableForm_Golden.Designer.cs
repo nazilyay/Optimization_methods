@@ -87,6 +87,7 @@
             step_a.HeaderText = "a";
             step_a.MinimumWidth = 6;
             step_a.Name = "step_a";
+            step_a.SortMode = DataGridViewColumnSortMode.NotSortable;
             step_a.Width = 125;
             // 
             // step_b
@@ -94,6 +95,7 @@
             step_b.HeaderText = "b";
             step_b.MinimumWidth = 6;
             step_b.Name = "step_b";
+            step_b.SortMode = DataGridViewColumnSortMode.NotSortable;
             step_b.Width = 125;
             // 
             // epsilon
@@ -101,6 +103,7 @@
             epsilon.HeaderText = "ε_n";
             epsilon.MinimumWidth = 6;
             epsilon.Name = "epsilon";
+            epsilon.SortMode = DataGridViewColumnSortMode.NotSortable;
             epsilon.Width = 125;
             // 
             // x_1
@@ -108,6 +111,7 @@
             x_1.HeaderText = "x_1";
             x_1.MinimumWidth = 6;
             x_1.Name = "x_1";
+            x_1.SortMode = DataGridViewColumnSortMode.NotSortable;
             x_1.Width = 125;
             // 
             // f_x_1
@@ -115,6 +119,7 @@
             f_x_1.HeaderText = "F(x_1)";
             f_x_1.MinimumWidth = 6;
             f_x_1.Name = "f_x_1";
+            f_x_1.SortMode = DataGridViewColumnSortMode.NotSortable;
             f_x_1.Width = 125;
             // 
             // x_2
@@ -122,6 +127,7 @@
             x_2.HeaderText = "x_2";
             x_2.MinimumWidth = 6;
             x_2.Name = "x_2";
+            x_2.SortMode = DataGridViewColumnSortMode.NotSortable;
             x_2.Width = 125;
             // 
             // f_x_2
@@ -129,6 +135,7 @@
             f_x_2.HeaderText = "F(x_2)";
             f_x_2.MinimumWidth = 6;
             f_x_2.Name = "f_x_2";
+            f_x_2.SortMode = DataGridViewColumnSortMode.NotSortable;
             f_x_2.Width = 125;
             // 
             // IterationTableForm_Golden
@@ -141,7 +148,6 @@
             Controls.Add(dataGridView);
             Name = "IterationTableForm_Golden";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "IterationTableForm_Golden";
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ResumeLayout(false);
         }

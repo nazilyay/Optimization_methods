@@ -39,7 +39,33 @@ namespace Optimization_methods
             accuracy_textBox.Enabled = false;
 
         }
+        private void exit_button_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void exit_button_search_Click(object sender, EventArgs e)
+        {
+            menuForm.Close();
+        }
 
+        private void GraphForm_Search_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Получаем массив всех открытых форм
+            Form[] forms = Application.OpenForms.Cast<Form>().ToArray();
+
+            // Закрываем каждую форму, кроме menuForm
+            foreach (Form form in forms)
+            {
+                if (form != menuForm && form != this)
+                {
+                    form.Close();
+                }
+            }
+
+            // Отображаем предыдущее скрытое окно
+            menuForm.Show();
+
+        }
         private void SearchMethodsForm_Load(object sender, EventArgs e)
         {
             // Установка значений по умолчанию для текстовых полей
@@ -171,18 +197,7 @@ namespace Optimization_methods
             button_graph_search.Enabled = true;
             Visualization_button.Enabled = true;
         }
-        private void exit_button_search_Click(object sender, EventArgs e)
-        {
-            // Получаем массив всех открытых форм
-            Form[] forms = Application.OpenForms.Cast<Form>().ToArray();
-
-            // Закрываем каждую форму
-            foreach (Form form in forms)
-            {
-                form.Close();
-            }
-        }
-
+       
         private void data_reset_button_Click(object sender, EventArgs e)
         {
             // Очистка значений всех текстовых полей
@@ -275,24 +290,7 @@ namespace Optimization_methods
             VisualizationForm_Search visualizationForm = new VisualizationForm_Search(functionExpression, a, b, accuracy);
             visualizationForm.Show();
         }
-        private void exit_button_Click(object sender, EventArgs e)
-        {
-            // Отображаем предыдущее скрытое окно
-            menuForm.Show();
-            // Закрываем текущую форму
-            this.Close();
-        }
-
-        private void GraphForm_Search_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Отображаем предыдущее скрытое окно
-            try
-            {
-                menuForm.Show();
-            }
-            catch (Exception ex) { }
-
-        }
+      
     }
 
 }
