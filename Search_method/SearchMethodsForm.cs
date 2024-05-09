@@ -83,6 +83,7 @@ namespace Optimization_methods
             // Проверка корректности выражения функции
             bool isFunctionValid = IsValidFunctionExpression(functionExpression);
 
+            error_label.Visible = false;
             // Активация/деактивация кнопки calculate_button в зависимости от корректности функции
             calculate_button.Enabled = isFunctionValid;
             a_textBox.Enabled = isFunctionValid;

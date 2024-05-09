@@ -1,6 +1,7 @@
 ﻿using Optimization_methods.Dichotomies_Method;
 using Optimization_methods.Golden_Methods;
 using Optimization_methods.Middle_Methods;
+using Optimization_methods.Newton_Methods;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -202,7 +203,7 @@ namespace Optimization_methods
                                     this.Hide();
                                     break;
                                 case 1: // Если выбран "Метод Ньютона"
-                                    NewtonMethodsForm newtonMethods = new NewtonMethodsForm();
+                                    NewtonMethodsForm newtonMethods = new NewtonMethodsForm(this);
                                     newtonMethods.Show();
                                     this.Hide();
                                     break;
@@ -255,13 +256,7 @@ namespace Optimization_methods
         }
     }
 
-    public partial class NewtonMethodsForm : Form
-    {
-        public NewtonMethodsForm()
-        {
-            /*InitializeComponent();*/
-        }
-    }
+
     public partial class CubicMethodsForm : Form
     {
         public CubicMethodsForm()

@@ -139,7 +139,6 @@
             Controls.Add(dataGridView);
             Name = "IterationTableForm_Middle";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "IterationTableForm_Middle";
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ResumeLayout(false);
         }

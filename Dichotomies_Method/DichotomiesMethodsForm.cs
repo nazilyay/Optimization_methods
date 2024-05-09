@@ -87,6 +87,7 @@ namespace Optimization_methods.Dichotomies_Method
         private void function_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
+            error_label.Visible = false;
 
             // Проверка корректности выражения функции
             bool isFunctionValid = IsValidFunctionExpression(functionExpression);
@@ -104,7 +105,9 @@ namespace Optimization_methods.Dichotomies_Method
         {
             try
             {
-                object result = CalculateFunctionValue(expression, 1);
+                Expression e = new Expression(expression);
+                e.Parameters["x"] = 1;
+                object result = e.Evaluate();
                 error_func_bit.Visible = false;
                 return true;
             }
@@ -115,7 +118,6 @@ namespace Optimization_methods.Dichotomies_Method
                 return false;
             }
         }
-
         private (double minResult, double minX) CalculateFunctionOnInterval(string expression, double a, double b, double accuracy, double parameter)
         {
 

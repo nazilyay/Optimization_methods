@@ -148,6 +148,22 @@ namespace Optimization_methods.Middle_Methods
             // Добавление серии данных на график
             chart.Series.Add(series);
 
+            // Создание серии данных для горизонтальной линии y=0
+            Series horizontalLineSeries = new Series();
+            horizontalLineSeries.ChartType = SeriesChartType.Line;
+            horizontalLineSeries.BorderWidth = 1;
+            horizontalLineSeries.Color = Color.Red; // Цвет линии можно выбрать по вашему усмотрению
+
+
+            // Добавление точек на график, чтобы создать линию y=0
+            for (double x = chartArea.AxisX.Minimum; x <= chartArea.AxisX.Maximum; x += accuracy)
+            {
+                double y = 0; // y=0
+                horizontalLineSeries.Points.AddXY(x, y);
+            }
+
+            // Добавление серии данных на график
+            chart.Series.Add(horizontalLineSeries);
 
             // Создание серии данных для производной функции
             Series Fseries = new Series();

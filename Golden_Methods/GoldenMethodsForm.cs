@@ -83,6 +83,7 @@ namespace Optimization_methods.Golden_Methods
 
             // Проверка корректности выражения функции
             bool isFunctionValid = IsValidFunctionExpression(functionExpression);
+            error_label.Visible = false;
 
             // Активация/деактивация кнопки calculate_button в зависимости от корректности функции
             calculate_button.Enabled = isFunctionValid;
@@ -95,7 +96,9 @@ namespace Optimization_methods.Golden_Methods
         {
             try
             {
-                object result = CalculateFunctionValue(expression, 1);
+                Expression e = new Expression(expression);
+                e.Parameters["x"] = 1;
+                object result = e.Evaluate();
                 error_func_bit.Visible = false;
                 return true;
             }
@@ -106,7 +109,6 @@ namespace Optimization_methods.Golden_Methods
                 return false;
             }
         }
-
         private (double minResult, double minX) CalculateFunctionOnInterval(string expression, double a, double b, double accuracy)
         {
             double tau = (Math.Sqrt(5) - 1) / 2; // Параметр алгоритма
