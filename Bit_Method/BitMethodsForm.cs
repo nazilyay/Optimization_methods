@@ -164,7 +164,17 @@ namespace Optimization_methods
             // Возвращаем найденный минимум
             return (prevResult, x);
         }
+        private double CalculateDerivative(string expression, double x)
+        {
+            double h = 0.0001; // Шаг для численного дифференцирования
+            double xPlusH = x + h;
+            double xMinusH = x - h;
 
+            double fPlusH = CalculateFunctionValue(expression, xPlusH);
+            double fMinusH = CalculateFunctionValue(expression, xMinusH);
+
+            return (fPlusH - fMinusH) / (2 * h);
+        }
         private double CalculateFunctionValue(string expression, double x)
         {
             try
@@ -212,6 +222,13 @@ namespace Optimization_methods
             if (!double.TryParse(accuracy_textBox.Text, out accuracy))
             {
                 error_label.Text = "Некорректный ввод значения точности.";
+                error_label.Visible = true;
+                return;
+            }
+
+            if (CalculateDerivative(functionExpression, a) * CalculateDerivative(functionExpression, b) > 0)
+            {
+                error_label.Text = "Рассматриваемая функция не является унимодальной на данном отрезке!";
                 error_label.Visible = true;
                 return;
             }

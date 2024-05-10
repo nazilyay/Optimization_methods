@@ -1,28 +1,35 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using NCalc;
-namespace Optimization_methods.Golden_Methods
+
+namespace Optimization_methods.Cubic_Methods
 {
-    public partial class GraphForm_Golden : Form
+    public partial class GraphForm_Cubic : Form
     {
         private Chart chart;
         private Panel chartPanel;
         private Point mouseDownPoint;
         private ChartArea chartArea;
-        private Series currentASeries, currentBSeries, currentX1Series, currentX2Series, series_new; // Серия для текущей позиции
+        private Series currentABSeries, currentX0Series, series_new, horizontalLineSeries; // Серия для текущей позиции
         private System.Windows.Forms.Timer timer; // Таймер для анимации
-        private double a, b, accuracy, minX, minF, currentA_X, currentB_X, currentX_1, currentX_2;
+        private double a, b, accuracy, parameter, minX, minF, currentA_X, currentB_X, currentX_0;
         private bool isPaused; // Флаг для паузы
         private string functionExpression; // Поле для хранения выражения функции                              
-
+        private TableLayoutPanel tableLayoutPanel;
         private double[] aValues;
         private double[] bValues;
-        private double[] x_1_Values;
-        private double[] x_2_Values;
+        private double[] x_0_Values;
         private int animationStep = 0; // Переменная для отслеживания текущего шага анимации
 
 
-        public GraphForm_Golden(string functionExpression, double accuracy, double a, double b)
+        public GraphForm_Cubic(string functionExpression, double accuracy, double a, double b)
         {
             InitializeComponent();
             // Инициализация переменных
@@ -32,7 +39,8 @@ namespace Optimization_methods.Golden_Methods
             this.functionExpression = functionExpression; // Сохраняем выражение функции
 
             // Однократное вычисление массивов значений x и f(x)
-            (aValues, bValues, x_1_Values, x_2_Values, minX, minF) = CalculateFunctionOnInterval(a, b, accuracy) ;
+            (aValues, bValues, x_0_Values, minX, minF) = CalculateFunctionOnInterval(a, b, accuracy);
+
             // Создаем панель для размещения графика
             chartPanel = new Panel();
             chartPanel.Dock = DockStyle.None; // Отменяем автоматическое занимание всей формы
@@ -53,63 +61,57 @@ namespace Optimization_methods.Golden_Methods
 
             // Отображение функции на графике
             DisplayFunctionGraph(accuracy, a, b, minX, minF);
+
             // Инициализация таймера для анимации
             timer = new System.Windows.Forms.Timer();
             timer.Tick += Timer_Tick;
-            timer.Interval = 400; // Задаем интервал в 200 миллисекунд
+            timer.Interval = 1000; // Задаем интервал в 200 миллисекунд
 
             // Привязываем обработчик события закрытия формы
             this.FormClosing += GraphForm_Search_FormClosing;
             chart.MouseMove += chart_MouseMove;
         }
-        private (double[] aValues, double[] bValues, double[] x_1Values, double[] x_2Values, double minX, double minResult) CalculateFunctionOnInterval(double a, double b, double accuracy)
+    
+        private (double[] aValues, double[] bValues, double[] x_0Values, double minX, double minResult) CalculateFunctionOnInterval(double a, double b, double accuracy)
         {
             List<double> aValues = new List<double>();
             List<double> bValues = new List<double>();
-            List<double> x_1Values = new List<double>();
-            List<double> x_2Values = new List<double>();
-
-            double tau = (Math.Sqrt(5) - 1) / 2; // Golden ratio
-
-            double x1 = a + (3 - Math.Sqrt(5)) / 2 * (b - a);
-            double x2 = a + tau * (b - a);
-
-            double f1 = CalculateFunctionValue(x1);
-            double f2 = CalculateFunctionValue(x2);
-
-            double epsilon = (b - a) / 2;
-
+            List<double> x_0Values = new List<double>();
+            double x1 = a;
+            double x2 = b;
+            double epsilon = Math.Abs(x2 - x1);
+            double x0 = 0;
             while (epsilon > accuracy)
             {
-                aValues.Add(a);
-                bValues.Add(b);
-                x_1Values.Add(x1);
-                x_2Values.Add(x2);
+                aValues.Add(x1);
+                bValues.Add(x2);
+                double y1 = CalculateFunctionValue(x1);
+                double y2 = CalculateFunctionValue(x2);
+                double y11 = CalculateDerivative(x1);
+                double y12 = CalculateDerivative(x2);
 
-                // Сравнение значений функции для определения нового отрезка
-                if (f1 <= f2)
+                double z = y11 + y12 - 3 * (y2 - y1) / (x2 - x1);
+                double omega = Math.Sqrt(Math.Pow(z, 2) - y11 * y12);
+                double mu = (omega + z - y11) / (2 * omega - y11 + y12);
+                x0 = x1 + mu * (x2 - x1);
+
+                x_0Values.Add(x0);
+                double y0_derivative = CalculateDerivative(x0);
+                if (y0_derivative * y11 < 0)
                 {
-                    b = x2;
-                    x2 = x1;
-                    f2 = f1;
-                    x1 = b + a - x2;
-                    f1 = CalculateFunctionValue(x1);
+                    x1 = x0;
                 }
-                else
+                else if (y0_derivative * y12 < 0)
                 {
-                    a = x1;
-                    x1 = x2;
-                    f1 = f2;
-                    x2 = b + a - x1;
-                    f2 = CalculateFunctionValue(x2);
+                    x2 = x0;
                 }
-                epsilon = tau * epsilon;
+                
+                epsilon = Math.Abs(x2 - x1);
             }
-
-            double minX = (a + b) / 2;
+            double minX = x0;
             double minResult = CalculateFunctionValue(minX);
 
-            return (aValues.ToArray(), bValues.ToArray(), x_1Values.ToArray(), x_2Values.ToArray(), minX, minResult);
+            return (aValues.ToArray(), bValues.ToArray(), x_0Values.ToArray(), minX, minResult);
         }
 
         private void pause_button_Click(object sender, EventArgs e)
@@ -120,47 +122,57 @@ namespace Optimization_methods.Golden_Methods
                 isPaused = true;
 
                 // Отображаем текущие координаты при нажатии на паузу
-                UpdateCoordinateLabel(currentA_X, currentB_X, currentX_1, currentX_2);
+                UpdateCoordinateLabel(currentA_X, currentB_X, currentX_0);
             }
             exit_button.Enabled = true;
+        }
+        private double CalculateDerivative(double x)
+        {
+            double h = 0.0001; // Шаг для численного дифференцирования
+            double xPlusH = x + h;
+            double xMinusH = x - h;
+
+            double fPlusH = CalculateFunctionValue(xPlusH);
+            double fMinusH = CalculateFunctionValue(xMinusH);
+
+            return (fPlusH - fMinusH) / (2 * h);
         }
 
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+            ab_coordinateLabel.Visible = true;
+            x_0_label.Visible = true;
+            f_0_label.Visible = true;
             // Проверяем, что текущий шаг анимации находится в пределах массива 
-            if (animationStep < aValues.Length - 1)
+            if (animationStep < aValues.Length)
             {
                 // Получаем текущее значение x и f(x) из массивов
                 currentA_X = aValues[animationStep];
                 currentB_X = bValues[animationStep];
-                currentX_1 = x_1_Values[animationStep];
-                currentX_2 = x_2_Values[animationStep];
+                currentX_0 = x_0_Values[animationStep];
                 double currentA_Y = CalculateFunctionValue(currentA_X);
                 double currentB_Y = CalculateFunctionValue(currentB_X);
-                double currentY_1 = CalculateFunctionValue(currentX_1);
-                double currentY_2 = CalculateFunctionValue(currentX_2);
+                double currentY_0 = CalculateFunctionValue(currentX_0);
 
                 // Обновляем координаты точки текущей позиции
-                currentASeries.Points.Clear();
-                currentASeries.Points.AddXY(currentA_X, currentA_Y);
+                currentABSeries.Points.Clear();
+                currentABSeries.Points.AddXY(currentB_X, currentB_Y);
+                currentABSeries.Points.AddXY(currentB_X, CalculateDerivative(currentB_X));
+                currentABSeries.Points.AddXY(currentA_X, currentA_Y);
+                currentABSeries.Points.AddXY(currentA_X, CalculateDerivative(currentA_X));
 
-                currentBSeries.Points.Clear();
-                currentBSeries.Points.AddXY(currentB_X, currentB_Y);
-
-                currentX1Series.Points.Clear();
-                currentX1Series.Points.AddXY(currentX_1, currentY_1);
-
-                currentX2Series.Points.Clear();
-                currentX2Series.Points.AddXY(currentX_2, currentY_2);
+                currentX0Series.Points.Clear();
+                currentX0Series.Points.AddXY(currentX_0, currentY_0);
+                currentX0Series.Points.AddXY(currentX_0, CalculateDerivative(currentX_0));
 
                 chart.Series.Remove(series_new);
-
                 series_new = new Series();
                 series_new.ChartType = SeriesChartType.Line;
                 series_new.BorderWidth = 2;
                 series_new.Color = System.Drawing.Color.Red;
 
+                UpdateCoordinateLabel(currentA_X, currentB_X, currentX_0);
                 // Добавление точек на график
                 for (double x = currentA_X; x <= currentB_X; x += accuracy)
                 {
@@ -177,12 +189,12 @@ namespace Optimization_methods.Golden_Methods
                     timer.Stop();
                     animationStep = 0;
                     // Отображаем текущие координаты при достижении минимума
-                    UpdateCoordinateLabel(currentA_X, currentB_X, currentX_1, currentX_2);
+                    UpdateCoordinateLabel(currentA_X, currentB_X, currentX_0);
                 }
 
                 // Увеличиваем шаг анимации для следующего вызова
                 animationStep++;
-                UpdateCoordinateLabel(currentA_X, currentB_X, currentX_1, currentX_2);
+                UpdateCoordinateLabel(currentA_X, currentB_X, currentX_0);
             }
             else
             {
@@ -194,18 +206,21 @@ namespace Optimization_methods.Golden_Methods
 
 
         // Метод для обновления метки с координатами
-        private void UpdateCoordinateLabel(double a, double b, double x1, double x2)
+        private void UpdateCoordinateLabel(double a, double b, double x0)
         {
-            ab_coordinateLabel.Text = $"Интервал: ({Math.Round(a, 4)}; {Math.Round(b, 4)})";
-            x_1_label.Text = $"x1: ({Math.Round(x1, 4)}, {Math.Round(CalculateFunctionValue(x1), 4)})";
-            x_2_label.Text = $"x2: ({Math.Round(x2, 4)}, {Math.Round(CalculateFunctionValue(x2), 4)})";
+            if (animationStep < aValues.Length)
+            {
+                ab_coordinateLabel.Text = $"Интервал: ({Math.Round(a, 4)}; {Math.Round(b, 4)})";
+                x_0_label.Text = $"x_0: {Math.Round(x0, 4)}";
+                f_0_label.Text = $"F(x_0): {Math.Round(CalculateFunctionValue(x0), 4)}";
+            }
         }
 
         private void UpdateCoordinateLabel(double x, double y)
         {
             ab_coordinateLabel.Text = $"X: {Math.Round(x, 4)}";
-            x_1_label.Text = $"Y: {Math.Round(y, 4)}";
-            x_2_label.Text = $"";
+            x_0_label.Text = $"Y: {Math.Round(y, 4)}";
+            f_0_label.Text = $"";
         }
 
         private double CalculateMaxY(string functionExpression, double accuracy, double a, double b)
@@ -223,9 +238,40 @@ namespace Optimization_methods.Golden_Methods
             }
             return maxY;
         }
-
-        private void DisplayFunctionGraph(double accuracy, double a, double b, double minX, double minResult)
+        void AddLineAndLabel(Color color, string labelText, int lineHeight, int topMargin, int bottomMargin, TableLayoutPanel panel, int rowIndex)
         {
+            Panel linePanel = new Panel
+            {
+                BackColor = color,
+                Height = lineHeight,
+                Margin = new Padding(0, topMargin, 0, bottomMargin)
+            };
+            panel.Controls.Add(linePanel, 1, rowIndex); // Добавляем линию во второй столбец
+
+            Label label = new Label
+            {
+                Text = labelText,
+                AutoSize = false,
+                Font = new Font("Times New Roman", 9, FontStyle.Regular),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Anchor = AnchorStyles.None
+            };
+            panel.Controls.Add(label, 0, rowIndex); // Добавляем текст в первый столбец
+        }
+            private void DisplayFunctionGraph(double accuracy, double a, double b, double minX, double minResult)
+        {
+            tableLayoutPanel = new TableLayoutPanel();
+            tableLayoutPanel.RowCount = 2;
+            tableLayoutPanel.ColumnCount = 2;
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel.Dock = DockStyle.Fill;
+            panel1.Controls.Add(tableLayoutPanel);
+
+            // Добавляем текст и линии в соответствующие строки
+            AddLineAndLabel(Color.Blue, "y = f(x)", 2, 15, 10, tableLayoutPanel, 0);
+            AddLineAndLabel(Color.Black, "y = f'(x)", 1, 15, 10, tableLayoutPanel, 1);
+
             // Создание области для графика
             chartArea = new ChartArea(); // Используем поле класса
             chartArea.AxisX.Minimum = a - 2;
@@ -254,7 +300,7 @@ namespace Optimization_methods.Golden_Methods
             series.BorderWidth = 2;
 
             // Добавление точек на график
-            for (double x = a; x <= b; x += accuracy)
+            for (double x = a - 2; x <= b + 2; x += accuracy)
             {
                 double y = CalculateFunctionValue(x);
                 series.Points.AddXY(x, y);
@@ -265,54 +311,66 @@ namespace Optimization_methods.Golden_Methods
 
             double currentA_X = aValues[animationStep];
             double currentA_Y = CalculateFunctionValue(currentA_X);
-
-            // Инициализация a b
-            currentASeries = new Series();
-            currentASeries.ChartType = SeriesChartType.Point;
-            currentASeries.Points.AddXY(currentA_X, currentA_Y); // Начальная позиция - точка минимума
-            currentASeries.Color = System.Drawing.Color.Blue;
-            currentASeries.MarkerSize = 5;
-            currentASeries.MarkerStyle = MarkerStyle.Circle;
-            currentASeries.LegendText = "a";
-            chart.Series.Add(currentASeries);
-
             double currentB_X = bValues[animationStep];
             double currentB_Y = CalculateFunctionValue(currentB_X);
 
-            currentBSeries = new Series();
-            currentBSeries.ChartType = SeriesChartType.Point;
-            currentBSeries.Points.AddXY(currentB_X, currentB_Y); // Начальная позиция - точка минимума
-            currentBSeries.Color = System.Drawing.Color.Blue;
-            currentBSeries.MarkerSize = 5;
-            currentBSeries.MarkerStyle = MarkerStyle.Circle;
-            currentBSeries.LegendText = "b";
-            chart.Series.Add(currentBSeries);
+            // Инициализация a b
+            currentABSeries = new Series();
+            currentABSeries.ChartType = SeriesChartType.Point;
+            currentABSeries.Points.AddXY(currentA_X, currentA_Y);
+            currentABSeries.Points.AddXY(currentA_X, CalculateDerivative(currentA_X));
+            currentABSeries.Color = System.Drawing.Color.Blue;
+            currentABSeries.MarkerSize = 5;
+            currentABSeries.MarkerStyle = MarkerStyle.Circle;
+            currentABSeries.Points.AddXY(currentB_X, currentB_Y);
+            currentABSeries.Points.AddXY(currentB_X, CalculateDerivative(currentB_X));
 
-            // Инициализация x_1, x_2
-            double currentX_1 = x_1_Values[animationStep];
-            double currentY_1 = CalculateFunctionValue(currentX_1);
+            chart.Series.Add(currentABSeries);
 
-            currentX1Series = new Series();
-            currentX1Series.ChartType = SeriesChartType.Point;
-            currentX1Series.Points.AddXY(currentX_1, currentY_1); // Начальная позиция - точка минимума
-            currentX1Series.Color = System.Drawing.Color.Black;
-            currentX1Series.MarkerSize = 5;
-            currentX1Series.MarkerStyle = MarkerStyle.Circle;
-            currentX1Series.LegendText = "x_1";
-            chart.Series.Add(currentX1Series);
+            // Инициализация x_0
+            double currentX_0 = x_0_Values[animationStep];
+            double currentY_0 = CalculateFunctionValue(currentX_0);
 
-            double currentX_2 = x_2_Values[animationStep];
-            double currentY_2 = CalculateFunctionValue(currentX_2);
+            currentX0Series = new Series();
+            currentX0Series.ChartType = SeriesChartType.Point;
+            currentX0Series.Points.AddXY(currentX_0, currentY_0);
+            currentX0Series.Points.AddXY(currentX_0, CalculateDerivative(currentX_0));
+            currentX0Series.Color = System.Drawing.Color.Red;
+            currentX0Series.MarkerSize = 5;
+            currentX0Series.MarkerStyle = MarkerStyle.Circle;
+            chart.Series.Add(currentX0Series);
 
-            currentX2Series = new Series();
-            currentX2Series.ChartType = SeriesChartType.Point;
-            currentX2Series.Points.AddXY(currentX_2, currentY_2); // Начальная позиция - точка минимума
-            currentX2Series.Color = System.Drawing.Color.Black;
-            currentX2Series.MarkerSize = 5;
-            currentX2Series.MarkerStyle = MarkerStyle.Circle;
-            currentX2Series.LegendText = "x_2";
-            chart.Series.Add(currentX2Series);
+            // Создание серии данных для горизонтальной линии y=0
+            horizontalLineSeries = new Series();
+            horizontalLineSeries.ChartType = SeriesChartType.Line;
+            horizontalLineSeries.BorderWidth = 1;
 
+            // Добавление точек на график, чтобы создать линию y=0
+            for (double x = chartArea.AxisX.Minimum; x <= chartArea.AxisX.Maximum; x += accuracy)
+            {
+                double y = 0; // y=0
+                horizontalLineSeries.Points.AddXY(x, y);
+            }
+
+            // Добавление серии данных на график
+            chart.Series.Add(horizontalLineSeries);
+
+            // Создание серии данных для производной функции
+            Series Fseries = new Series();
+            Fseries.ChartType = SeriesChartType.Line;
+            Fseries.BorderWidth = 1;
+
+            // Добавление точек на график
+            for (double x = a - 2; x <= b + 2; x += accuracy)
+            {
+                double y = CalculateDerivative(x);
+                Fseries.Points.AddXY(x, y);
+                Fseries.Color = Color.Black;
+            }
+
+            // Добавление серии данных на график
+            chart.Series.Add(Fseries);
+            UpdateCoordinateLabel(currentA_X, currentB_X, currentX_0);
         }
         private double CalculateFunctionValue(double x)
         {
@@ -329,6 +387,11 @@ namespace Optimization_methods.Golden_Methods
                 return double.NaN; // В случае ошибки возвращаем NaN
             }
         }
+        private void exit_button_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
 
         private void stop_button_Click(object sender, EventArgs e)
         {
@@ -336,26 +399,22 @@ namespace Optimization_methods.Golden_Methods
             animationStep = 0;
             currentA_X = a; // Устанавливаем текущую позицию в начало
             currentB_X = b;
-            currentX_1 = x_1_Values[0];
-            currentX_2 = x_2_Values[0];
-
-            currentASeries.Points.Clear();
-            currentASeries.Points.AddXY(currentA_X, CalculateFunctionValue(currentA_X)); // Обновляем точку текущей позиции
-
-            currentBSeries.Points.Clear();
-            currentBSeries.Points.AddXY(currentB_X, CalculateFunctionValue(currentB_X)); // Обновляем точку текущей позиции
-
-            currentX1Series.Points.Clear();
-            currentX1Series.Points.AddXY(currentX_1, CalculateFunctionValue(currentX_1)); // Обновляем точку текущей позиции
-
-            currentX2Series.Points.Clear();
-            currentX2Series.Points.AddXY(currentX_2, CalculateFunctionValue(currentX_2)); // Обновляем точку текущей позиции
-
+            currentX_0 = x_0_Values[0];
             chart.Series.Remove(series_new);
+
+            currentABSeries.Points.Clear();
+            currentABSeries.Points.AddXY(currentB_X, CalculateFunctionValue(currentB_X));
+            currentABSeries.Points.AddXY(currentB_X, CalculateDerivative(currentB_X));
+            currentABSeries.Points.AddXY(currentA_X, CalculateFunctionValue(currentA_X));
+            currentABSeries.Points.AddXY(currentA_X, CalculateDerivative(currentA_X));
+
+            currentX0Series.Points.Clear();
+            currentX0Series.Points.AddXY(currentX_0, CalculateFunctionValue(currentX_0));
+            currentX0Series.Points.AddXY(currentX_0, CalculateDerivative(currentX_0));
 
             isPaused = false;
             exit_button.Enabled = true;
-            UpdateCoordinateLabel(currentA_X, currentB_X, currentX_1, currentX_2);
+            UpdateCoordinateLabel(currentA_X, currentB_X, currentX_0);
         }
 
         private void start_button_Click(object sender, EventArgs e)
@@ -397,11 +456,6 @@ namespace Optimization_methods.Golden_Methods
                 {
                 }
             }
-        }
-
-        private void exit_button_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
     }
 }

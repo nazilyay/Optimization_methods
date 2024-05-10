@@ -191,11 +191,11 @@
             // question_1_label
             // 
             question_1_label.AutoSize = true;
-            question_1_label.Location = new Point(70, 23);
+            question_1_label.Location = new Point(118, 23);
             question_1_label.Name = "question_1_label";
-            question_1_label.Size = new Size(211, 20);
+            question_1_label.Size = new Size(107, 20);
             question_1_label.TabIndex = 61;
-            question_1_label.Text = "Начальное приближение 3.6";
+            question_1_label.Text = "Отрезок [0; 2] ";
             question_1_label.TextAlign = ContentAlignment.TopCenter;
             // 
             // yes_button_1

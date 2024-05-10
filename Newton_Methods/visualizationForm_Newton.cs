@@ -37,7 +37,10 @@ namespace Optimization_methods.Newton_Methods
             SetupUI();
 
             question_label.Text = $"Отрезок [{a}; {b}] \nвыбрано корректно?";
+            question_label.TextAlign = ContentAlignment.MiddleCenter; 
+
             question_1_label.Text = $"Начальное приближение `{x_0}` \nвыбрано корректно?";
+            question_1_label.TextAlign = ContentAlignment.MiddleCenter;
 
             FunctionGraph();
         }
@@ -299,7 +302,8 @@ namespace Optimization_methods.Newton_Methods
 
             // Обновляем значения на форме
             UpdateLabels();
-
+            yes_button.Enabled = true;
+            no_button.Enabled = true;
             SetupUI();
         }
 

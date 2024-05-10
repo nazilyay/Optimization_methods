@@ -1,4 +1,5 @@
-﻿using Optimization_methods.Newton_Methods;
+﻿using Optimization_methods.Chord_Methods;
+using Optimization_methods.Secant_Methods;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,23 +9,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NCalc;
-using Optimization_methods.Secant_Methods;
+using Optimization_methods.Cubic_Methods;
 
-namespace Optimization_methods.Chord_Methods
+namespace Optimization_methods.Polylines_Methods
 {
-    public partial class ChordMethodsForm : Form
+    public partial class CubicMethodsForm : Form
     {
         private MenuForms menuForm; // Поле для хранения ссылки на экземпляр формы MenuForms
-        public ChordMethodsForm(MenuForms menuForm)
+        public CubicMethodsForm(MenuForms menuForm)
         {
             InitializeComponent();
 
             this.menuForm = menuForm; // Сохранение ссылки на экземпляр формы MenuForms
 
             // Добавляем обработчик события загрузки формы
-            this.Load += chordMethodsForm_Load;
+            this.Load += CubicMethodsForm_Load;
 
-            this.FormClosing += chordMethodsForm_FormClosing; // Подключение обработчика к событию FormClosing
+            this.FormClosing += CubicMethodsForm_FormClosing; // Подключение обработчика к событию FormClosing
 
             // Скрыть сообщение об ошибке
             error_func.Visible = false;
@@ -32,17 +33,18 @@ namespace Optimization_methods.Chord_Methods
             result_label.Visible = false;
             func_result_label.Visible = false;
 
+            small_table_Cubic_button.Enabled = false;
             calculate_button.Enabled = false;
-            button_chord_graph.Enabled = false;
-            table_chord_button.Enabled = false;
-            visualization_chord_button.Enabled = false;
+            button_Cubic_graph.Enabled = false;
+            table_Cubic_button.Enabled = false;
+            visualization_Cubic_button.Enabled = false;
 
             a_textBox.Enabled = false;
             b_textBox.Enabled = false;
             accuracy_textBox.Enabled = false;
         }
 
-        private void chordMethodsForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void CubicMethodsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Получаем массив всех открытых форм
             Form[] forms = Application.OpenForms.Cast<Form>().ToArray();
@@ -66,18 +68,17 @@ namespace Optimization_methods.Chord_Methods
             this.Close();
         }
 
-        private void exit_button_chord_Click(object sender, EventArgs e)
+        private void exit_button_Cubic_Click(object sender, EventArgs e)
         {
             menuForm.Close();
 
         }
 
-        private void chordMethodsForm_Load(object sender, EventArgs e)
+        private void CubicMethodsForm_Load(object sender, EventArgs e)
         {
-            // Установка значений по умолчанию для текстовых полей
             function_textBox.Text = "Exp (x) - 2 * x"; // Пример выражения функции
             a_textBox.Text = "0"; // Пример значения a
-            b_textBox.Text = "2"; // Пример значения b
+            b_textBox.Text = "1"; // Пример значения b
             accuracy_textBox.Text = "0,01"; // Пример точности
         }
 
@@ -115,22 +116,39 @@ namespace Optimization_methods.Chord_Methods
 
         private (double minResult, double minX) CalculateFunctionOnInterval(string expression, double a, double b, double accuracy)
         {
-            double x_prev = a;
-            double x_curr = b;
-            double epsilon = Math.Abs(x_curr - x_prev);
-            double x_new = x_curr;
+            double x1 = a;
+            double x2 = b;
+            double epsilon = Math.Abs(x2 - x1);
+            double x0 = 0;
             while (epsilon > accuracy)
             {
-                x_new = x_prev - (CalculateDerivative(expression, x_prev) * (x_curr - x_prev)) / (CalculateDerivative(expression, x_curr) - CalculateDerivative(expression, x_prev));
-                epsilon = Math.Abs(x_curr - x_prev);
-                x_prev = x_curr;
-                x_curr = x_new;
+                double y1 = CalculateFunctionValue(expression, x1);
+                double y2 = CalculateFunctionValue(expression, x2);
+                double y11 = CalculateDerivative(expression, x1);
+                double y12 = CalculateDerivative(expression, x2);
+
+                double z = y11 + y12 - 3 * (y2 - y1) / (x2 - x1);
+                double omega = Math.Sqrt(Math.Pow(z, 2) - y11 * y12);
+                double mu = (omega + z - y11) / (2 * omega - y11 + y12);
+                x0 = x1 + mu * (x2 - x1);
+
+                double y0_derivative = CalculateDerivative(expression, x0);
+                if (y0_derivative * y11 < 0)
+                {
+                    x1 = x0;
+                }
+                else if (y0_derivative * y12 < 0)
+                {
+                    x2 = x0;
+                }
+                epsilon = Math.Abs(x2 - x1);
             }
-            double minResult = CalculateFunctionValue(expression, x_new);
-            return (minResult, x_new);
+
+            double finalResult = CalculateFunctionValue(expression, x0);
+            return (finalResult, x0);
         }
 
-    private double CalculateDerivative(string expression, double x)
+        private double CalculateDerivative(string expression, double x)
         {
             double h = 0.0001; // Шаг для численного дифференцирования
             double xPlusH = x + h;
@@ -141,30 +159,7 @@ namespace Optimization_methods.Chord_Methods
 
             return (fPlusH - fMinusH) / (2 * h);
         }
-        private double CalculateSecondDerivative(string expression, double x)
-        {
-            double h = 0.0001; // Шаг для численного дифференцирования
-            double xPlusH = x + h;
-            double xMinusH = x - h;
-
-            double fPlusH = CalculateDerivative(expression, xPlusH);
-            double fMinusH = CalculateDerivative(expression, xMinusH);
-
-            return (fPlusH - fMinusH) / (2 * h);
-        }
-
-        private double CalculateThirdDerivative(string expression, double x)
-        {
-            double h = 0.0001; // Шаг для численного дифференцирования
-            double xPlusH = x + h;
-            double xMinusH = x - h;
-
-            double fPlusH = CalculateSecondDerivative(expression, xPlusH);
-            double fMinusH = CalculateSecondDerivative(expression, xMinusH);
-
-            return (fPlusH - fMinusH) / (2 * h);
-        }
-
+      
         private double CalculateFunctionValue(string expression, double x)
         {
             try
@@ -224,21 +219,7 @@ namespace Optimization_methods.Chord_Methods
                 return;
             }
 
-            // Проверка корректности второй и третьей производных на отрезке [a, b]
-            if (!IsSecondAndThirdDerivativesValid(functionExpression, a, b))
-            {
-                error_label.Text = "Вторая или третья производная на отрезке [a, b] равна нулю или меняет знак. Метод Ньютона не сходится.";
-                error_label.Visible = true;
-                return;
-            }
-
-            if (CalculateDerivative(functionExpression, b) * CalculateThirdDerivative(functionExpression, b) <= 0)
-            {
-                error_label.Text = "Отрезок [a, b] выбран неверно. Метод Ньютона не сходится.";
-                error_label.Visible = true;
-                return;
-            }
-
+           
             // Вычисление минимума функции на отрезке 
             (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
 
@@ -252,26 +233,13 @@ namespace Optimization_methods.Chord_Methods
             b_textBox.Enabled = false;
             accuracy_textBox.Enabled = false;
 
-            button_chord_graph.Enabled = true;
-            table_chord_button.Enabled = true;
-            visualization_chord_button.Enabled = true;
+            button_Cubic_graph.Enabled = true;
+            table_Cubic_button.Enabled = true;
+            small_table_Cubic_button.Enabled = true;
+            visualization_Cubic_button.Enabled = true;
         }
 
-        private bool IsSecondAndThirdDerivativesValid(string expression, double a, double b)
-        {
-            double secondDerivativeSign = CalculateSecondDerivative(expression, a) * CalculateSecondDerivative(expression, b);
-            double thirdDerivativeSign = CalculateThirdDerivative(expression, a) * CalculateThirdDerivative(expression, b);
-
-            // Проверка знаков второй и третьей производных
-            if (secondDerivativeSign <= 0 || thirdDerivativeSign < 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-
+      
         private void data_reset_button_Click(object sender, EventArgs e)
         {
             // Очистка значений всех текстовых полей
@@ -280,8 +248,8 @@ namespace Optimization_methods.Chord_Methods
             b_textBox.Clear();
             accuracy_textBox.Clear();
             calculate_button.Enabled = false;
-            table_chord_button.Enabled = false;
-
+            table_Cubic_button.Enabled = false;
+            small_table_Cubic_button.Enabled = false;
             // Убрать цвет фона у кнопки function_button
             function_button.BackColor = DefaultBackColor;
 
@@ -290,14 +258,14 @@ namespace Optimization_methods.Chord_Methods
             error_func.Visible = false;
             func_result_label.Visible = false;
             result_label.Visible = false;
-            button_chord_graph.Enabled = false;
-            visualization_chord_button.Enabled = false;
+            button_Cubic_graph.Enabled = false;
+            visualization_Cubic_button.Enabled = false;
             a_textBox.Enabled = false;
             b_textBox.Enabled = false;
             accuracy_textBox.Enabled = false;
         }
 
-        private void table_chord_button_Click(object sender, EventArgs e)
+        private void table_Cubic_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
             double a, b, accuracy;
@@ -314,13 +282,35 @@ namespace Optimization_methods.Chord_Methods
             }
 
             // Создание новой формы для отображения таблицы итерационных вычислений
-            IterationTableForm_Chord iterationTableForm = new IterationTableForm_Chord(functionExpression, a, b, accuracy);
-             iterationTableForm.Show(); // Открываем форму модально (блокирует доступ к предыдущей форме)
-             // Скрываем сообщение об ошибке после закрытия формы
-             error_label.Visible = false;
+            IterationTableForm_Cubic iterationTableForm = new IterationTableForm_Cubic(functionExpression, a, b, accuracy);
+            iterationTableForm.Show(); // Открываем форму модально (блокирует доступ к предыдущей форме)
+                                       // Скрываем сообщение об ошибке после закрытия формы
+            error_label.Visible = false;
         }
+        private void small_table_Cubic_button_Click(object sender, EventArgs e)
+        {
+            string functionExpression = function_textBox.Text.Trim();
+            double a, b, accuracy;
 
-        private void button_chord_graph_Click(object sender, EventArgs e)
+            // Проверка правильности ввода значений a, b и точности
+            if (!double.TryParse(a_textBox.Text, out a) ||
+            !double.TryParse(b_textBox.Text, out b) ||
+            !double.TryParse(accuracy_textBox.Text, out accuracy) ||
+            (a >= b))
+            {
+                error_label.Text = "Некорректный ввод значений a, b или точности";
+                error_label.Visible = true;
+                return;
+            }
+
+            // Создание новой формы для отображения таблицы итерационных вычислений
+            IterationTableForm_Cubic_Mini iterationTableForm = new IterationTableForm_Cubic_Mini(functionExpression, a, b, accuracy);
+            iterationTableForm.Show(); // Открываем форму модально (блокирует доступ к предыдущей форме)
+                                       // Скрываем сообщение об ошибке после закрытия формы
+            error_label.Visible = false;
+        }
+        
+        private void button_Cubic_graph_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
             double a, b, accuracy;
@@ -337,11 +327,11 @@ namespace Optimization_methods.Chord_Methods
             }
 
             // Открытие новой формы с графиком функции и выделенной точкой минимума
-            GraphForm_Chord graphForm = new GraphForm_Chord(functionExpression, accuracy, a, b);
+            GraphForm_Cubic graphForm = new GraphForm_Cubic(functionExpression, accuracy, a, b);
             graphForm.Show();
         }
 
-        private void visualization_chord_button_Click(object sender, EventArgs e)
+        private void visualization_Cubic_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
             double a, b, accuracy;
@@ -357,7 +347,7 @@ namespace Optimization_methods.Chord_Methods
             }
 
             // Создание и отображение новой формы
-            visualizationForm_Chord visualizationForm = new visualizationForm_Chord(functionExpression, a, b, accuracy);
+            visualizationForm_Cubic visualizationForm = new visualizationForm_Cubic(functionExpression, a, b, accuracy);
             visualizationForm.Show();
         }
     }

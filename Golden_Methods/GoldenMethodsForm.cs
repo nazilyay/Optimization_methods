@@ -162,7 +162,17 @@ namespace Optimization_methods.Golden_Methods
                 return double.NaN; // В случае ошибки возвращаем NaN
             }
         }
+        private double CalculateDerivative(string expression, double x)
+        {
+            double h = 0.0001; // Шаг для численного дифференцирования
+            double xPlusH = x + h;
+            double xMinusH = x - h;
 
+            double fPlusH = CalculateFunctionValue(expression, xPlusH);
+            double fMinusH = CalculateFunctionValue(expression, xMinusH);
+
+            return (fPlusH - fMinusH) / (2 * h);
+        }
         private void calculate_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
@@ -199,6 +209,12 @@ namespace Optimization_methods.Golden_Methods
                 return;
             }
 
+            if (CalculateDerivative(functionExpression, a) * CalculateDerivative(functionExpression, b) > 0)
+            {
+                error_label.Text = "Рассматриваемая функция не является унимодальной на данном отрезке!";
+                error_label.Visible = true;
+                return;
+            }
             // Вычисление минимума функции на отрезке методом золотого сечения
             (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
 

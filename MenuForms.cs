@@ -3,6 +3,7 @@ using Optimization_methods.Dichotomies_Method;
 using Optimization_methods.Golden_Methods;
 using Optimization_methods.Middle_Methods;
 using Optimization_methods.Newton_Methods;
+using Optimization_methods.Polylines_Methods;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -214,7 +215,7 @@ namespace Optimization_methods
                                     this.Hide();
                                     break;
                                 case 3: // Если выбран "Метод кубической аппроксимации"
-                                    CubicMethodsForm cubicMethods = new CubicMethodsForm();
+                                    CubicMethodsForm cubicMethods = new CubicMethodsForm(this);
                                     cubicMethods.Show();
                                     this.Hide();
                                     break;
@@ -244,15 +245,6 @@ namespace Optimization_methods
     public partial class PolylinesMethodsForm : Form
     {
         public PolylinesMethodsForm()
-        {
-            /*InitializeComponent();*/
-        }
-    }
-
-
-    public partial class CubicMethodsForm : Form
-    {
-        public CubicMethodsForm()
         {
             /*InitializeComponent();*/
         }

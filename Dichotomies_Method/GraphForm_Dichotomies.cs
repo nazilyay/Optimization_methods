@@ -210,7 +210,7 @@ namespace Optimization_methods.Dichotomies_Method
         private void UpdateCoordinateLabel(double x, double y)
         {
             ab_coordinateLabel.Text = $"X: {Math.Round(x, 4)}";
-            x_1_label.Text = $"X: {Math.Round(y, 4)}";
+            x_1_label.Text = $"Y: {Math.Round(y, 4)}";
             x_2_label.Text = $"";
         }
 

@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NCalc;
 
-namespace Optimization_methods.Secant_Methods
+namespace Optimization_methods.Cubic_Methods
 {
-    public partial class IterationTableForm_Chord : Form
+    public partial class IterationTableForm_Cubic_Mini : Form
     {
         private string functionExpression;
         private double a;
         private double b;
         private double accuracy;
 
-        public IterationTableForm_Chord(string functionExpression, double a, double b, double accuracy)
+        public IterationTableForm_Cubic_Mini(string functionExpression, double a, double b, double accuracy)
         {
             InitializeComponent();
 
@@ -30,40 +30,60 @@ namespace Optimization_methods.Secant_Methods
             PerformMiddlePointMethod();
 
             // Установка ширины столбцов
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                column.Width = 100; // Устанавливаем ширину столбца
+            }
             dataGridView.Columns[0].Width = 80;
-            dataGridView.Columns[1].Width = 100;
-            dataGridView.Columns[2].Width = 100;
-            dataGridView.Columns[3].Width = 100;
-            dataGridView.Columns[4].Width = 100;
-            dataGridView.Columns[5].Width = 100;
-            dataGridView.Columns[6].Width = 100;
-            dataGridView.Columns[7].Width = 100;
         }
         private void PerformMiddlePointMethod()
         {// Очистка существующих строк в DataGridView
             dataGridView.Rows.Clear();
 
             int iteration = 0;
-            double x_prev = a;
-            double x_curr = b;
-            double epsilon = Math.Abs(x_curr - x_prev); // Инициализация epsilon для входа в цикл
-            double x_new = x_curr;
-
+            double x1 = a;
+            double x2 = b;
+            double epsilon = Math.Abs(x2 - x1);
+            double x0 = 0;
             while (epsilon > accuracy)
             {
-                x_new = x_prev - CalculateDerivative(x_prev) * (x_curr - x_prev) / (CalculateDerivative(x_curr) - CalculateDerivative(x_prev));// Начальное приближение
-                epsilon = Math.Abs(x_curr - x_prev); // Инициализация epsilon для входа в цикл
-                dataGridView.Rows.Add(iteration, x_prev, x_curr, x_new, CalculateDerivative(x_prev), CalculateDerivative(x_curr), CalculateFunctionValue(x_new), epsilon);
+                double y1 = CalculateFunctionValue(x1);
+                double y2 = CalculateFunctionValue(x2);
+                double y11 = CalculateDerivative(x1);
+                double y12 = CalculateDerivative(x2);
 
-                x_prev = x_curr;
-                x_curr = x_new;
-                iteration++;     
+                double z = y11 + y12 - 3 * (y2 - y1) / (x2 - x1);
+                double omega = Math.Sqrt(Math.Pow(z, 2) - y11 * y12);
+                double mu = (omega + z - y11) / (2 * omega - y11 + y12);
+
+                x0 = x1 + mu * (x2 - x1);
+
+
+                double y0_derivative = CalculateDerivative(x0);
+                if (y0_derivative * y11 < 0)
+                {
+                    if (CalculateDerivative(x0) > 0)
+                        dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateDerivative(x0), "+", Math.Abs(x2 - x0));
+                    else if (CalculateDerivative(x0) < 0)
+                        dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateDerivative(x0), "-", Math.Abs(x2 - x0));
+                    x1 = x0;
+                }
+                else if (y0_derivative * y12 < 0)
+                {
+                    if (CalculateDerivative(x0) > 0)
+                        dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateDerivative(x0), "+", Math.Abs(x0 - x1));
+                    else if (CalculateDerivative(x0) < 0)
+                        dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateDerivative(x0), "-", Math.Abs(x0 - x1));
+                    x2 = x0;
+                }
+                epsilon = Math.Abs(x2 - x1);
+                iteration++;
+
+
             }
-
             // Добавление строки с результатом в таблицу
-            double x_min = x_new;
+            double x_min = x0;
             double f_x_min = CalculateFunctionValue(x_min);
-
             dataGridView.Rows.Add("Результат:", "x_min = ", x_min, "f (x_min) = ", f_x_min, "", "");
 
         }
@@ -105,7 +125,7 @@ namespace Optimization_methods.Secant_Methods
             }
         }
 
-        private void exit_button_chord_Click(object sender, EventArgs e)
+        private void exit_button_cubic_Click(object sender, EventArgs e)
         {
             this.Close();
         }

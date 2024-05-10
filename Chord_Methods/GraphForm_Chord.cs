@@ -16,7 +16,7 @@ namespace Optimization_methods.Chord_Methods
         private Chart chart;
         private Panel chartPanel;
         private ChartArea chartArea;
-        private Series currentXSeries, lineSeries, horizontalLineSeries; // Серия для текущей позиции
+        private Series currentXSeries, lineSeries, horizontalLineSeries, punct; // Серия для текущей позиции
         private System.Windows.Forms.Timer timer; // Таймер для анимации
         private double a, b, accuracy, minX, minF, currentX, x_0, extensionLength;
         private bool isPaused; // Флаг для паузы
@@ -62,12 +62,45 @@ namespace Optimization_methods.Chord_Methods
             timer.Tick += Timer_Tick;
             timer.Interval = 400; // Задаем интервал в 200 миллисекунд
 
+            chart.MouseWheel += Chart_MouseWheel;
+
             // Привязываем обработчик события закрытия формы
             this.FormClosing += GraphForm_Search_FormClosing;
             chart.MouseMove += chart_MouseMove;
             UpdateCoordinateLabel(xValues[2]);
         }
 
+        private void Chart_MouseWheel(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (e.Delta < 0)
+                {
+                    chart.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+                    chart.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+                }
+                else if (e.Delta > 0)
+                {
+                    double xMin = chart.ChartAreas[0].AxisX.ScaleView.ViewMinimum;
+                    double xMax = chart.ChartAreas[0].AxisX.ScaleView.ViewMaximum;
+                    double yMin = chart.ChartAreas[0].AxisY.ScaleView.ViewMinimum;
+                    double yMax = chart.ChartAreas[0].AxisY.ScaleView.ViewMaximum;
+
+                    double posXStart = chart.ChartAreas[0].AxisX.PixelPositionToValue(e.Location.X) - (xMax - xMin) / 4;
+                    double posXFinish = chart.ChartAreas[0].AxisX.PixelPositionToValue(e.Location.X) + (xMax - xMin) / 4;
+
+                    double posYStart = chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Location.Y) - (yMax - yMin) / 4;
+                    double posYFinish = chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Location.Y) + (yMax - yMin) / 4;
+
+                    chart.ChartAreas[0].AxisX.ScaleView.Zoom(posXStart - 1, posXFinish + 1);
+                    chart.ChartAreas[0].AxisY.ScaleView.Zoom(posYStart - 1, posYFinish + 1);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while zooming: " + ex.Message);
+            }
+        }
         private (double[] xValues, double minX, double minF) CalculateFunctionOnInterval(double a, double b, double accuracy)
         {
             List<double> xValues = new List<double>();
@@ -138,6 +171,8 @@ namespace Optimization_methods.Chord_Methods
                 double currentX = xValues[animationStep];
                 double currentY = CalculateFunctionValue(currentX);
                 this.currentX = currentX; // Сохраняем текущее значение x
+                currentY = CalculateFunctionValue(currentX);
+
                 // Определение новых границ осей
                 double minX = currentX;
                 double minY = currentY;
@@ -167,17 +202,14 @@ namespace Optimization_methods.Chord_Methods
 
                     // Очищаем точки серии данных прямой
                     lineSeries.Points.Clear();
+                    punct.Points.Clear();
 
-                    double derivative = CalculateDerivative(currentX);
-                    double x1 = currentX - 10; // Левая граница от точки x
-                    double y1 = currentY - derivative * 10; // Определяем y на основе производной и расстояния
-                    double x2 = currentX + 10; // Правая граница от точки x
-                    double y2 = currentY + derivative * 10; // Определяем y на основе производной и расстояния
+                    lineSeries.Points.AddXY(xValues[animationStep - 2], CalculateDerivative(xValues[animationStep - 2]));
+                    lineSeries.Points.AddXY(xValues[animationStep - 1], CalculateDerivative(xValues[animationStep - 1]));
+                    lineSeries.Points.AddXY(xValues[animationStep], 0);
 
-                    // Добавляем точки для продолжения прямой
-                    lineSeries.Points.AddXY(x1, y1);
-                    lineSeries.Points.AddXY(x2, y2);
-
+                    punct.Points.AddXY(xValues[animationStep], CalculateFunctionValue(xValues[animationStep]));
+                    punct.Points.AddXY(xValues[animationStep], 0);
                     // Увеличиваем шаг анимации для следующего вызова
                     animationStep++;
 
@@ -207,32 +239,33 @@ namespace Optimization_methods.Chord_Methods
         private void ResetChart()
         {
             // Возвращаемся к первоначальным значениям графика
-            chartArea.AxisX.Minimum = a;
-            chartArea.AxisX.Maximum = b;
-            chartArea.AxisY.Minimum = Math.Round(minF - 1);
-            chartArea.AxisY.Maximum = Math.Round(CalculateMaxY(functionExpression, accuracy, a, b) + 1);
+            chartArea.AxisX.Minimum = a - 1;
+            chartArea.AxisX.Maximum = b + 1;
+            chartArea.AxisY.Minimum = Math.Round(minF)- 1;
+            chartArea.AxisY.Maximum = Math.Round(CalculateMaxY(functionExpression, accuracy, a, b)) + 1;
 
             // Очищаем серии данных
             currentXSeries.Points.Clear();
             lineSeries.Points.Clear();
+            punct.Points.Clear();
 
             // Инициализация x
-            double currentX = xValues[2];
+            currentX = xValues[2];
             double currentY = CalculateFunctionValue(currentX);
 
-            double derivative = CalculateDerivative(currentX);
-            double x1 = currentX - 10;
-            double y1 = currentY - derivative * 10;
-            double x2 = currentX + 10;
-            double y2 = currentY + derivative * 10;
             currentXSeries.Points.AddXY(currentX, currentY);
-            lineSeries.Points.AddXY(x1, y1);
-            lineSeries.Points.AddXY(x2, y2);
+            currentXSeries.Points.AddXY(currentX, 0);
+            lineSeries.Points.AddXY(xValues[0], CalculateDerivative(xValues[0]));
+            lineSeries.Points.AddXY(xValues[1], CalculateDerivative(xValues[1]));
+            lineSeries.Points.AddXY(xValues[animationStep], 0);
+
+            punct.Points.AddXY(xValues[2], CalculateFunctionValue(xValues[2]));
+            punct.Points.AddXY(xValues[2], 0);
 
             animationStep = 3;
             isPaused = false;
 
-            UpdateCoordinateLabel(currentY);
+            UpdateCoordinateLabel(currentX);
         }
 
         private void start_button_Click(object sender, EventArgs e)
@@ -276,95 +309,64 @@ namespace Optimization_methods.Chord_Methods
             }
             return maxY;
         }
-
         private void DisplayFunctionGraph(double accuracy, double a, double b, double minX, double minResult)
         {
-            // Создание области для графика
-            chartArea = new ChartArea(); // Используем поле класса
-            chartArea.AxisX.Minimum = a;
-            chartArea.AxisX.Maximum = b;
-            chartArea.AxisY.Minimum = Math.Round(minResult - 1); // Начальное значение для оси Y
-
-            double maxY = CalculateMaxY(functionExpression, accuracy, a, b);
-
-            // Установка максимального значения для оси Y
-            chartArea.AxisY.Maximum = Math.Round(maxY + 1);
-
-            chartArea.AxisX.LineColor = System.Drawing.Color.Black;
-            chartArea.AxisY.LineColor = System.Drawing.Color.Black;
-
-            // Добавление области на график
+            chartArea = new ChartArea();
+            chartArea.AxisX.Minimum = a - 1;
+            chartArea.AxisX.Maximum = b + 1;
+            chartArea.AxisY.Minimum = Math.Round(minResult - 1) - 1;
+            chartArea.AxisY.Maximum = Math.Round(CalculateMaxY(functionExpression, accuracy, a, b) + 1) + 1;
+            chartArea.AxisX.LineColor = Color.Black;
+            chartArea.AxisY.LineColor = Color.Black;
             chart.ChartAreas.Add(chartArea);
-
-            // Подписываем ось X
             chartArea.AxisX.Title = "X";
-            // Подписываем ось Y
             chartArea.AxisY.Title = "Y";
 
-            // Создание серии данных для графика функции
             Series series = new Series();
             series.ChartType = SeriesChartType.Line;
             series.BorderWidth = 2;
-
-            // Добавление точек на график
             for (double x = a; x <= b; x += accuracy)
-            {
-                double y = CalculateFunctionValue(x);
-                series.Points.AddXY(x, y);
-            }
-
-            // Добавление серии данных на график
+                series.Points.AddXY(x, CalculateFunctionValue(x));
             chart.Series.Add(series);
 
-            // Инициализация x
-            double currentX = xValues[2];
-            double currentY = CalculateFunctionValue(currentX);
+            lineSeries = new Series();
+            lineSeries.ChartType = SeriesChartType.Line;
+            lineSeries.BorderWidth = 1;
+            lineSeries.Color = Color.Red;
+            lineSeries.Points.AddXY(xValues[0], CalculateDerivative(xValues[0]));
+            lineSeries.Points.AddXY(xValues[1], CalculateDerivative(xValues[1]));
+            chart.Series.Add(lineSeries);
+
+            horizontalLineSeries = new Series();
+            horizontalLineSeries.ChartType = SeriesChartType.Line;
+            horizontalLineSeries.BorderWidth = 1;
+            horizontalLineSeries.Color = Color.Black;
+            for (double x = chartArea.AxisX.Minimum; x <= chartArea.AxisX.Maximum + 5; x += accuracy)
+                horizontalLineSeries.Points.AddXY(x, 0);
+            chart.Series.Add(horizontalLineSeries);
 
             currentXSeries = new Series();
             currentXSeries.ChartType = SeriesChartType.Point;
-            currentXSeries.Points.AddXY(currentX, currentY); // Начальная позиция - точка минимума
-            currentXSeries.Color = System.Drawing.Color.Black;
+            currentXSeries.Points.AddXY(xValues[2], CalculateFunctionValue(xValues[2]));
+            currentXSeries.Points.AddXY(xValues[2], 0);
+            currentXSeries.Color = Color.Black;
             currentXSeries.MarkerSize = 5;
             currentXSeries.MarkerStyle = MarkerStyle.Circle;
             currentXSeries.LegendText = "x";
             chart.Series.Add(currentXSeries);
 
-            // Добавление продолжения прямой за текущей и следующей точками
-            double derivative = CalculateDerivative(currentX);
-            double x1 = currentX - 10; // Левая граница от точки x
-            double y1 = currentY - derivative * 10; // Определяем y на основе производной и расстояния
-            double x2 = currentX + 10; // Правая граница от точки x
-            double y2 = currentY + derivative * 10; // Определяем y на основе производной и расстояния
+            UpdateCoordinateLabel(xValues[2]);
 
-
-            lineSeries = new Series();
-            lineSeries.ChartType = SeriesChartType.Line;
-            lineSeries.BorderWidth = 1;
-            lineSeries.Color = Color.Red; // Цвет прямой
-            lineSeries.Points.AddXY(x1, y1);
-            lineSeries.Points.AddXY(x2, y2);
-            chart.Series.Add(lineSeries); // Добавляем прямую на график
-
-            // Создание серии данных для горизонтальной линии y=0
-            horizontalLineSeries = new Series();
-            horizontalLineSeries.ChartType = SeriesChartType.Line;
-            horizontalLineSeries.BorderWidth = 1;
-            horizontalLineSeries.Color = Color.Black; // Цвет линии можно выбрать по вашему усмотрению
-
-            // Добавление точек на график, чтобы создать линию y=0
-            for (double x = chartArea.AxisX.Minimum; x <= chartArea.AxisX.Maximum + 5; x += accuracy)
-            {
-                double y = 0; // y=0
-                horizontalLineSeries.Points.AddXY(x, y);
-            }
-
-            // Добавление серии данных на график
-            chart.Series.Add(horizontalLineSeries);
-
-            UpdateCoordinateLabel(currentX);
+            punct = new Series();
+            punct.ChartType = SeriesChartType.Line;
+            punct.BorderWidth = 1;
+            punct.Color = Color.Red;
+            punct.BorderDashStyle = ChartDashStyle.Dot;
+            punct.Points.AddXY(xValues[2], CalculateFunctionValue(xValues[2]));
+            punct.Points.AddXY(xValues[2], 0);
+            chart.Series.Add(punct);            
             animationStep = 3;
         }
-
 
         private void GraphForm_Search_FormClosing(object sender, FormClosingEventArgs e)
         {

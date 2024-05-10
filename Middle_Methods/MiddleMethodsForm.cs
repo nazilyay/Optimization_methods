@@ -166,6 +166,8 @@ namespace Optimization_methods.Middle_Methods
                 return double.NaN; // В случае ошибки возвращаем NaN
             }
         }
+
+
         private void calculate_button_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
@@ -199,6 +201,14 @@ namespace Optimization_methods.Middle_Methods
             if (!double.TryParse(accuracy_textBox.Text, out accuracy))
             {
                 error_label.Text = "Некорректный ввод значения точности.";
+                error_label.Visible = true;
+                return;
+            }
+
+
+            if (CalculateDerivative(functionExpression, a) * CalculateDerivative(functionExpression, b) > 0)
+            {
+                error_label.Text = "Рассматриваемая функция не является унимодальной на данном отрезке!";
                 error_label.Visible = true;
                 return;
             }

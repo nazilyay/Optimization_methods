@@ -221,12 +221,13 @@ namespace Optimization_methods.Newton_Methods
             chartArea.AxisX.Maximum = b;
             chartArea.AxisY.Minimum = Math.Round(minF - 1);
             chartArea.AxisY.Maximum = Math.Round(CalculateMaxY(functionExpression, accuracy, a, b) + 1);
-
+            
             // Очищаем серии данных
             currentXSeries.Points.Clear();
             lineSeries.Points.Clear();
 
             // Добавляем начальную точку и прямую
+            currentX = x_0;
             double currentY = CalculateFunctionValue(x_0);
             double derivative = CalculateDerivative(x_0);
             double x1 = x_0 - 10;
@@ -296,7 +297,7 @@ namespace Optimization_methods.Newton_Methods
             double maxY = CalculateMaxY(functionExpression, accuracy, a, b);
 
             // Установка максимального значения для оси Y
-            chartArea.AxisY.Maximum = Math.Round(maxY + 1); 
+            chartArea.AxisY.Maximum = Math.Round(maxY + 1);
 
             chartArea.AxisX.LineColor = System.Drawing.Color.Black;
             chartArea.AxisY.LineColor = System.Drawing.Color.Black;
@@ -374,7 +375,7 @@ namespace Optimization_methods.Newton_Methods
             animationStep = 1;
         }
 
-      
+
         private void GraphForm_Search_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Проверяем, активен ли таймер

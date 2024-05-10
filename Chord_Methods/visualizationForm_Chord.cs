@@ -17,7 +17,7 @@ namespace Optimization_methods.Chord_Methods
         private ChartArea chartArea;
         private double a, b, accuracy;
         private string functionExpression;
-        private Series currentXSeries, lineSeries, series, horizontalLineSeries; // Серия для текущей позиции
+        private Series currentXSeries, lineSeries, series, horizontalLineSeries, punct; // Серия для текущей позиции
         private double[] xValues, EpsValue;
         private double currentX;
         private double currentY, currentEps;
@@ -39,9 +39,11 @@ namespace Optimization_methods.Chord_Methods
             SetupUI();
 
             question_1_label.Text = $"Отрезок [{a}; {b}] \nвыбрано корректно?";
+            question_1_label.TextAlign = ContentAlignment.MiddleCenter;
 
             FunctionGraph();
         }
+
         private void SetupUI()
         {
             yes_button_1.Enabled = no_button_1.Enabled = true;
@@ -54,7 +56,7 @@ namespace Optimization_methods.Chord_Methods
             // Вычисляем массив значений x и f(x) на интервале [a, b]
             (xValues, EpsValue) = CalculateFunctionOnInterval(a, b, accuracy);
 
-            iterationNumber = 1;
+            iterationNumber = 2;
             // Инициализируем текущие значения как начальные значения из массива
             currentX = xValues[iterationNumber];
             currentEps = EpsValue[iterationNumber];
@@ -233,41 +235,53 @@ namespace Optimization_methods.Chord_Methods
 
             currentXSeries = new Series();
             currentXSeries.ChartType = SeriesChartType.Point;
-            currentXSeries.Points.AddXY(currentX, currentY); // Начальная позиция - точка минимума
+            currentXSeries.Points.AddXY(currentX, currentY);
+            currentXSeries.Points.AddXY(currentX, 0);
             currentXSeries.Color = System.Drawing.Color.Black;
             currentXSeries.MarkerSize = 5;
             currentXSeries.MarkerStyle = MarkerStyle.Circle;
             currentXSeries.LegendText = "x";
             chart.Series.Add(currentXSeries);
 
-            // Добавление продолжения прямой за текущей и следующей точками
-            double derivative = CalculateDerivative(currentX);
-            double x1 = currentX - 10; // Левая граница от точки x
-            double y1 = currentY - derivative * 10; // Определяем y на основе производной и расстояния
-            double x2 = currentX + 10; // Правая граница от точки x
-            double y2 = currentY + derivative * 10; // Определяем y на основе производной и расстояния
+            double X1 = xValues[iterationNumber - 1];
+            double X2 = xValues[iterationNumber - 2];
+
+            double Y1 = CalculateDerivative(xValues[iterationNumber - 1]);
+            double Y2 = CalculateDerivative(xValues[iterationNumber - 2]);
 
             lineSeries = new Series();
             lineSeries.ChartType = SeriesChartType.Line;
             lineSeries.BorderWidth = 1;
-            lineSeries.Color = Color.Red; // Цвет прямой
-            lineSeries.Points.AddXY(x1, y1);
-            lineSeries.Points.AddXY(x2, y2);
+            lineSeries.Color = Color.Red;
+            lineSeries.Points.AddXY(X1, Y1);
+            lineSeries.Points.AddXY(X2, Y2);
+            lineSeries.Points.AddXY(currentX, 0);
+
             chart.Series.Add(lineSeries); // Добавляем прямую на график
+
+
+            punct = new Series();
+            punct.ChartType = SeriesChartType.Line;
+            punct.BorderWidth = 1;
+            punct.Color = Color.Red;
+            punct.BorderDashStyle = ChartDashStyle.Dot;
+            punct.Points.AddXY(xValues[iterationNumber], CalculateFunctionValue(xValues[iterationNumber]));
+            punct.Points.AddXY(xValues[iterationNumber], 0);
+            chart.Series.Add(punct); // Добавляем прямую на график
 
             UpdateLabels();
         }
 
         private void UpdateLabels()
         {
-            step_out_label.Text = $"Шаг: {iterationNumber}";
-            prev_x_label.Text = $"x_(k-1) = {Math.Round(xValues[iterationNumber - 1], 6)}";
-            x_out_label.Text = $"x_k = {Math.Round(xValues[iterationNumber], 6)}";
-            prev_def_label.Text = $"F'(x_(k-1)) = {Math.Round(CalculateDerivative(xValues[iterationNumber - 1]), 6)}";
-            def_label.Text = $"F'(x_k) = {Math.Round(CalculateDerivative(xValues[iterationNumber]), 6)}";
-            x_next.Text = $"x_(k+1) = {Math.Round(xValues[iterationNumber + 1], 6)}";
-            f_out_label.Text = $"F(x_(k+1)) = {Math.Round(CalculateFunctionValue(xValues[iterationNumber + 1]), 6)}";
-            epsilon_label.Text = $"Точность = {Math.Round(EpsValue[iterationNumber], 6)}";
+            step_out_label.Text = $"Шаг: {iterationNumber - 1}";
+            prev_x_label.Text = $"x_(k-1) = {Math.Round(xValues[iterationNumber - 2], 6)}";
+            x_out_label.Text = $"x_k = {Math.Round(xValues[iterationNumber - 1], 6)}";
+            prev_def_label.Text = $"F'(x_(k-1)) = {Math.Round(CalculateDerivative(xValues[iterationNumber - 2]), 6)}";
+            def_label.Text = $"F'(x_k) = {Math.Round(CalculateDerivative(xValues[iterationNumber - 1]), 6)}";
+            x_next.Text = $"x_(k+1) = {Math.Round(xValues[iterationNumber], 6)}";
+            f_out_label.Text = $"F(x_(k+1)) = {Math.Round(CalculateFunctionValue(xValues[iterationNumber]), 6)}";
+            epsilon_label.Text = $"Точность = {Math.Round(EpsValue[iterationNumber - 2], 6)}";
         }
 
         private void stop_button_Click(object sender, EventArgs e)
@@ -295,7 +309,7 @@ namespace Optimization_methods.Chord_Methods
             }
 
             currentX = xValues[iterationNumber];
-            currentEps = EpsValue[iterationNumber];
+            currentEps = EpsValue[iterationNumber - 2];
             currentY = CalculateFunctionValue(currentX);
 
             // Определение новых границ осей
@@ -311,20 +325,22 @@ namespace Optimization_methods.Chord_Methods
             // Обновляем координаты точки текущей позиции
             currentXSeries.Points.Clear();
             currentXSeries.Points.AddXY(currentX, currentY);
-
-
+            currentXSeries.Points.AddXY(currentX, 0);
 
             lineSeries.Points.Clear();
+            punct.Points.Clear();
+            double X1 = xValues[iterationNumber - 1];
+            double X2 = xValues[iterationNumber - 2];
+            
+            double Y1 = CalculateDerivative(xValues[iterationNumber - 1]);
+            double Y2 = CalculateDerivative(xValues[iterationNumber - 2]);
 
-            double derivative = CalculateDerivative(currentX);
-            double x1 = currentX - 10; // Левая граница от точки x
-            double y1 = currentY - derivative * 10; // Определяем y на основе производной и расстояния
-            double x2 = currentX + 10; // Правая граница от точки x
-            double y2 = currentY + derivative * 10; // Определяем y на основе производной и расстояния
+            lineSeries.Points.AddXY(X1, Y1);
+            lineSeries.Points.AddXY(X2, Y2);
+            lineSeries.Points.AddXY(currentX, 0);
 
-            // Добавляем точки для продолжения прямой
-            lineSeries.Points.AddXY(x1, y1);
-            lineSeries.Points.AddXY(x2, y2);
+            punct.Points.AddXY(xValues[iterationNumber], CalculateFunctionValue(xValues[iterationNumber]));
+            punct.Points.AddXY(xValues[iterationNumber], 0);
 
             // Обновляем значения на форме
             UpdateLabels();
@@ -344,11 +360,12 @@ namespace Optimization_methods.Chord_Methods
             yes_button_1.Enabled = false;
             no_button_1.Enabled = false;
 
+            UpdateLabels();
+
             yes_2_button.Enabled = no_2_button.Enabled = true;
             step_out_label.Visible = x_out_label.Visible = x_next.Visible = f_out_label.Visible = epsilon_label.Visible = prev_x_label.Visible = prev_def_label.Visible = def_label.Visible = true;
             ClearGraph();
             DisplayFunctionGraph();
-            UpdateLabels();
         }
 
         private void no_button_1_Click(object sender, EventArgs e)
@@ -359,7 +376,7 @@ namespace Optimization_methods.Chord_Methods
         {
             question_2_label.BackColor = DefaultBackColor;
             // Проверяем, верно ли условие окончания?
-            bool conditionMet = EpsValue[iterationNumber] <= accuracy;
+            bool conditionMet = EpsValue[iterationNumber - 2] <= accuracy;
 
             // Ответ пользователя
             if (conditionMet)
@@ -381,7 +398,7 @@ namespace Optimization_methods.Chord_Methods
             question_2_label.BackColor = DefaultBackColor;
 
             // Проверяем, верно ли условие окончания?
-            bool conditionMet = EpsValue[iterationNumber] <= accuracy;
+            bool conditionMet = EpsValue[iterationNumber - 2] <= accuracy;
 
             // Ответ пользователя
             if (conditionMet)
@@ -406,7 +423,6 @@ namespace Optimization_methods.Chord_Methods
             double x_new = x_curr;
             xValues.Add(x_prev);
             xValues.Add(x_curr);
-            EpsValue.Add(epsilon);
 
             while (epsilon > accuracy)
             {

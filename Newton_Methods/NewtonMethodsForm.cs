@@ -230,6 +230,13 @@ namespace Optimization_methods.Newton_Methods
                 return;
             }
 
+            if (CalculateDerivative(functionExpression, a) * CalculateDerivative(functionExpression, b) > 0)
+            {
+                error_label.Text = "Рассматриваемая функция не является унимодальной на данном отрезке!";
+                error_label.Visible = true;
+                return;
+            }
+
             // Проверка правильности ввода значения x_0
             if (!double.TryParse(x_0_textBox.Text, out x_0))
             {
