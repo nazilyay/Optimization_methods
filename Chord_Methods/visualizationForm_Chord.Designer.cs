@@ -1,6 +1,6 @@
-﻿namespace Optimization_methods.Newton_Methods
+﻿namespace Optimization_methods.Chord_Methods
 {
-    partial class visualizationForm_Newton
+    partial class visualizationForm_Chord
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            panel1 = new Panel();
+            groupBox2 = new GroupBox();
+            epsilon_label = new Label();
+            f_out_label = new Label();
+            x_next = new Label();
+            prev_def_label = new Label();
+            x_out_label = new Label();
+            prev_x_label = new Label();
+            def_label = new Label();
+            step_out_label = new Label();
             groupBox6 = new GroupBox();
             label6 = new Label();
             no_button_1 = new Button();
@@ -46,26 +56,106 @@
             panel_graph = new Panel();
             info_button = new Button();
             exit_button = new Button();
-            groupBox4 = new GroupBox();
-            label1 = new Label();
-            no_button = new Button();
-            question_label = new Label();
-            yes_button = new Button();
-            x_out_label = new Label();
-            step_out_label = new Label();
-            f_out_label = new Label();
-            def_out_label = new Label();
-            second_def_label = new Label();
-            epsilon_label = new Label();
-            x_next = new Label();
-            groupBox2 = new GroupBox();
-            panel1 = new Panel();
+            groupBox2.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox1.SuspendLayout();
-            groupBox4.SuspendLayout();
-            groupBox2.SuspendLayout();
             SuspendLayout();
+            // 
+            // panel1
+            // 
+            panel1.Location = new Point(441, 81);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(358, 69);
+            panel1.TabIndex = 127;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(epsilon_label);
+            groupBox2.Controls.Add(f_out_label);
+            groupBox2.Controls.Add(x_next);
+            groupBox2.Controls.Add(prev_def_label);
+            groupBox2.Controls.Add(x_out_label);
+            groupBox2.Controls.Add(prev_x_label);
+            groupBox2.Controls.Add(def_label);
+            groupBox2.Controls.Add(step_out_label);
+            groupBox2.Location = new Point(39, 413);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(358, 304);
+            groupBox2.TabIndex = 119;
+            groupBox2.TabStop = false;
+            // 
+            // epsilon_label
+            // 
+            epsilon_label.AutoSize = true;
+            epsilon_label.Location = new Point(26, 257);
+            epsilon_label.Name = "epsilon_label";
+            epsilon_label.Size = new Size(16, 20);
+            epsilon_label.TabIndex = 82;
+            epsilon_label.Text = "ε";
+            // 
+            // f_out_label
+            // 
+            f_out_label.AutoSize = true;
+            f_out_label.Location = new Point(26, 225);
+            f_out_label.Name = "f_out_label";
+            f_out_label.Size = new Size(74, 20);
+            f_out_label.TabIndex = 80;
+            f_out_label.Text = "F(x_(k+1))";
+            // 
+            // x_next
+            // 
+            x_next.AutoSize = true;
+            x_next.Location = new Point(26, 193);
+            x_next.Name = "x_next";
+            x_next.Size = new Size(57, 20);
+            x_next.TabIndex = 83;
+            x_next.Text = "x_(k+1)";
+            // 
+            // prev_def_label
+            // 
+            prev_def_label.AutoSize = true;
+            prev_def_label.Location = new Point(26, 129);
+            prev_def_label.Name = "prev_def_label";
+            prev_def_label.Size = new Size(73, 20);
+            prev_def_label.TabIndex = 81;
+            prev_def_label.Text = "F'(x_(k-1))";
+            // 
+            // x_out_label
+            // 
+            x_out_label.AutoSize = true;
+            x_out_label.Location = new Point(26, 97);
+            x_out_label.Name = "x_out_label";
+            x_out_label.Size = new Size(29, 20);
+            x_out_label.TabIndex = 37;
+            x_out_label.Text = "x_k";
+            // 
+            // prev_x_label
+            // 
+            prev_x_label.AutoSize = true;
+            prev_x_label.Location = new Point(26, 66);
+            prev_x_label.Name = "prev_x_label";
+            prev_x_label.Size = new Size(53, 20);
+            prev_x_label.TabIndex = 84;
+            prev_x_label.Text = "x_(k-1)";
+            // 
+            // def_label
+            // 
+            def_label.AutoSize = true;
+            def_label.Location = new Point(26, 160);
+            def_label.Name = "def_label";
+            def_label.Size = new Size(49, 20);
+            def_label.TabIndex = 82;
+            def_label.Text = "F'(x_k)";
+            // 
+            // step_out_label
+            // 
+            step_out_label.AutoSize = true;
+            step_out_label.Location = new Point(26, 34);
+            step_out_label.Name = "step_out_label";
+            step_out_label.Size = new Size(17, 20);
+            step_out_label.TabIndex = 31;
+            step_out_label.Text = "n";
             // 
             // groupBox6
             // 
@@ -73,10 +163,10 @@
             groupBox6.Controls.Add(no_button_1);
             groupBox6.Controls.Add(question_1_label);
             groupBox6.Controls.Add(yes_button_1);
-            groupBox6.Location = new Point(441, 282);
+            groupBox6.Location = new Point(441, 175);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(358, 121);
-            groupBox6.TabIndex = 114;
+            groupBox6.TabIndex = 125;
             groupBox6.TabStop = false;
             // 
             // label6
@@ -125,10 +215,10 @@
             groupBox3.Controls.Add(no_2_button);
             groupBox3.Controls.Add(question_2_label);
             groupBox3.Controls.Add(yes_2_button);
-            groupBox3.Location = new Point(441, 528);
+            groupBox3.Location = new Point(441, 447);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(358, 103);
-            groupBox3.TabIndex = 113;
+            groupBox3.TabIndex = 124;
             groupBox3.TabStop = false;
             // 
             // label2
@@ -173,20 +263,20 @@
             // Stop_label
             // 
             Stop_label.AutoSize = true;
-            Stop_label.Location = new Point(441, 648);
+            Stop_label.Location = new Point(441, 573);
             Stop_label.Name = "Stop_label";
             Stop_label.Size = new Size(137, 20);
-            Stop_label.TabIndex = 111;
+            Stop_label.TabIndex = 122;
             Stop_label.Text = "Минимум найден!";
             // 
             // groupBox1
             // 
             groupBox1.Controls.Add(stop_button);
             groupBox1.Controls.Add(next_step_button);
-            groupBox1.Location = new Point(441, 412);
+            groupBox1.Location = new Point(441, 322);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(358, 103);
-            groupBox1.TabIndex = 112;
+            groupBox1.TabIndex = 123;
             groupBox1.TabStop = false;
             groupBox1.Text = "Панель управления";
             // 
@@ -215,184 +305,46 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(447, 308);
+            label3.Location = new Point(447, 309);
             label3.Name = "label3";
             label3.Size = new Size(0, 20);
-            label3.TabIndex = 109;
+            label3.TabIndex = 121;
             // 
             // panel_graph
             // 
-            panel_graph.Location = new Point(39, 80);
+            panel_graph.Location = new Point(39, 81);
             panel_graph.Name = "panel_graph";
             panel_graph.Size = new Size(358, 314);
-            panel_graph.TabIndex = 108;
+            panel_graph.TabIndex = 120;
             // 
             // info_button
             // 
-            info_button.Location = new Point(39, 31);
+            info_button.Location = new Point(39, 32);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
             info_button.Size = new Size(100, 29);
-            info_button.TabIndex = 106;
+            info_button.TabIndex = 118;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
             // 
             // exit_button
             // 
-            exit_button.Location = new Point(718, 700);
+            exit_button.Location = new Point(724, 688);
             exit_button.Margin = new Padding(3, 4, 3, 4);
             exit_button.Name = "exit_button";
             exit_button.Size = new Size(75, 29);
-            exit_button.TabIndex = 105;
+            exit_button.TabIndex = 117;
             exit_button.Text = "Выход";
             exit_button.UseVisualStyleBackColor = true;
             exit_button.Click += exit_button_Click;
             // 
-            // groupBox4
-            // 
-            groupBox4.Controls.Add(label1);
-            groupBox4.Controls.Add(no_button);
-            groupBox4.Controls.Add(question_label);
-            groupBox4.Controls.Add(yes_button);
-            groupBox4.Location = new Point(441, 155);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(358, 121);
-            groupBox4.TabIndex = 115;
-            groupBox4.TabStop = false;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(70, 88);
-            label1.Name = "label1";
-            label1.Size = new Size(0, 20);
-            label1.TabIndex = 25;
-            // 
-            // no_button
-            // 
-            no_button.Location = new Point(212, 79);
-            no_button.Margin = new Padding(3, 4, 3, 4);
-            no_button.Name = "no_button";
-            no_button.Size = new Size(75, 29);
-            no_button.TabIndex = 63;
-            no_button.Text = "Нет";
-            no_button.UseVisualStyleBackColor = true;
-            no_button.Click += no_button_Click;
-            // 
-            // question_label
-            // 
-            question_label.AutoSize = true;
-            question_label.Location = new Point(103, 23);
-            question_label.Name = "question_label";
-            question_label.Size = new Size(178, 20);
-            question_label.TabIndex = 61;
-            question_label.Text = "Отрезок выбран верно?";
-            question_label.TextAlign = ContentAlignment.TopCenter;
-            // 
-            // yes_button
-            // 
-            yes_button.Location = new Point(70, 79);
-            yes_button.Margin = new Padding(3, 4, 3, 4);
-            yes_button.Name = "yes_button";
-            yes_button.Size = new Size(75, 29);
-            yes_button.TabIndex = 62;
-            yes_button.Text = "Да";
-            yes_button.UseVisualStyleBackColor = true;
-            yes_button.Click += yes_button_Click;
-            // 
-            // x_out_label
-            // 
-            x_out_label.AutoSize = true;
-            x_out_label.Location = new Point(24, 61);
-            x_out_label.Name = "x_out_label";
-            x_out_label.Size = new Size(29, 20);
-            x_out_label.TabIndex = 37;
-            x_out_label.Text = "x_k";
-            // 
-            // step_out_label
-            // 
-            step_out_label.AutoSize = true;
-            step_out_label.Location = new Point(24, 32);
-            step_out_label.Name = "step_out_label";
-            step_out_label.Size = new Size(17, 20);
-            step_out_label.TabIndex = 31;
-            step_out_label.Text = "n";
-            // 
-            // f_out_label
-            // 
-            f_out_label.AutoSize = true;
-            f_out_label.Location = new Point(24, 184);
-            f_out_label.Name = "f_out_label";
-            f_out_label.Size = new Size(74, 20);
-            f_out_label.TabIndex = 80;
-            f_out_label.Text = "F(x_(k+1))";
-            // 
-            // def_out_label
-            // 
-            def_out_label.AutoSize = true;
-            def_out_label.Location = new Point(24, 91);
-            def_out_label.Name = "def_out_label";
-            def_out_label.Size = new Size(49, 20);
-            def_out_label.TabIndex = 81;
-            def_out_label.Text = "F'(x_k)";
-            // 
-            // second_def_label
-            // 
-            second_def_label.AutoSize = true;
-            second_def_label.Location = new Point(24, 122);
-            second_def_label.Name = "second_def_label";
-            second_def_label.Size = new Size(52, 20);
-            second_def_label.TabIndex = 82;
-            second_def_label.Text = "F''(x_k)";
-            // 
-            // epsilon_label
-            // 
-            epsilon_label.AutoSize = true;
-            epsilon_label.Location = new Point(24, 215);
-            epsilon_label.Name = "epsilon_label";
-            epsilon_label.Size = new Size(16, 20);
-            epsilon_label.TabIndex = 82;
-            epsilon_label.Text = "ε";
-            // 
-            // x_next
-            // 
-            x_next.AutoSize = true;
-            x_next.Location = new Point(24, 151);
-            x_next.Name = "x_next";
-            x_next.Size = new Size(57, 20);
-            x_next.TabIndex = 83;
-            x_next.Text = "x_(k+1)";
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(epsilon_label);
-            groupBox2.Controls.Add(f_out_label);
-            groupBox2.Controls.Add(x_next);
-            groupBox2.Controls.Add(def_out_label);
-            groupBox2.Controls.Add(step_out_label);
-            groupBox2.Controls.Add(second_def_label);
-            groupBox2.Controls.Add(x_out_label);
-            groupBox2.Location = new Point(39, 412);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(358, 256);
-            groupBox2.TabIndex = 107;
-            groupBox2.TabStop = false;
-            // 
-            // panel1
-            // 
-            panel1.Location = new Point(441, 80);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(358, 69);
-            panel1.TabIndex = 116;
-            // 
-            // visualizationForm_Newton
+            // visualizationForm_Chord
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(839, 763);
             Controls.Add(panel1);
             Controls.Add(groupBox2);
-            Controls.Add(groupBox4);
             Controls.Add(groupBox6);
             Controls.Add(groupBox3);
             Controls.Add(Stop_label);
@@ -401,23 +353,31 @@
             Controls.Add(panel_graph);
             Controls.Add(info_button);
             Controls.Add(exit_button);
-            Name = "visualizationForm_Newton";
+            Name = "visualizationForm_Chord";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Метод Ньютона";
+            Text = "Метод хорд";
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             groupBox1.ResumeLayout(false);
-            groupBox4.ResumeLayout(false);
-            groupBox4.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
+
+        private Panel panel1;
+        private GroupBox groupBox2;
+        private Label x_next;
+        private Label epsilon_label;
+        private Label def_label;
+        private Label prev_def_label;
+        private Label f_out_label;
+        private Label step_out_label;
+        private Label x_out_label;
         private GroupBox groupBox6;
         private Label label6;
         private Button no_button_1;
@@ -436,19 +396,6 @@
         private Panel panel_graph;
         private Button info_button;
         private Button exit_button;
-        private GroupBox groupBox4;
-        private Label label1;
-        private Button no_button;
-        private Label question_label;
-        private Button yes_button;
-        private Label x_out_label;
-        private Label step_out_label;
-        private Label f_out_label;
-        private Label def_out_label;
-        private Label second_def_label;
-        private Label epsilon_label;
-        private Label x_next;
-        private GroupBox groupBox2;
-        private Panel panel1;
+        private Label prev_x_label;
     }
 }

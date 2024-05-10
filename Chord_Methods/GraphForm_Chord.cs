@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using NCalc;
-namespace Optimization_methods.Newton_Methods
+
+namespace Optimization_methods.Chord_Methods
 {
-    public partial class GraphForm_Newton : Form
+    public partial class GraphForm_Chord : Form
     {
         private Chart chart;
         private Panel chartPanel;
@@ -21,10 +22,10 @@ namespace Optimization_methods.Newton_Methods
         private bool isPaused; // Флаг для паузы
         private string functionExpression; // Поле для хранения выражения функции                              
         private double[] xValues;
-        private int animationStep = 0; // Переменная для отслеживания текущего шага анимации
+        private int animationStep = 2; // Переменная для отслеживания текущего шага анимации
 
 
-        public GraphForm_Newton(string functionExpression, double accuracy, double a, double b, double x_0)
+        public GraphForm_Chord(string functionExpression, double accuracy, double a, double b)
         {
             InitializeComponent();
             // Инициализация переменных
@@ -35,7 +36,7 @@ namespace Optimization_methods.Newton_Methods
             this.x_0 = x_0;
 
             // Однократное вычисление массивов значений x и f(x)
-            (xValues, minX, minF) = CalculateFunctionOnInterval(a, b, accuracy, x_0);
+            (xValues, minX, minF) = CalculateFunctionOnInterval(a, b, accuracy);
             // Создаем панель для размещения графика
             chartPanel = new Panel();
             chartPanel.Dock = DockStyle.None; // Отменяем автоматическое занимание всей формы
@@ -64,27 +65,29 @@ namespace Optimization_methods.Newton_Methods
             // Привязываем обработчик события закрытия формы
             this.FormClosing += GraphForm_Search_FormClosing;
             chart.MouseMove += chart_MouseMove;
-            UpdateCoordinateLabel(x_0);
+            UpdateCoordinateLabel(xValues[2]);
         }
 
-        private (double[] xValues, double minX, double minF) CalculateFunctionOnInterval(double a, double b, double accuracy, double x_0)
+        private (double[] xValues, double minX, double minF) CalculateFunctionOnInterval(double a, double b, double accuracy)
         {
             List<double> xValues = new List<double>();
-            double x_k = x_0 - CalculateDerivative(x_0) / CalculateSecondDerivative(x_0);
-            double epsilon = Math.Abs(x_k - x_0);
-            xValues.Add(x_0);
-            xValues.Add(x_k);
+            double x_prev = a;
+            double x_curr = b;
+            double epsilon = Math.Abs(x_curr - x_prev);
+            double x_new = x_curr;
+            xValues.Add(x_prev);
+            xValues.Add(x_curr);
             while (epsilon > accuracy)
             {
-                double x_k_plus_1 = x_k - CalculateDerivative(x_k) / CalculateSecondDerivative(x_k);
-                epsilon = Math.Abs(x_k_plus_1 - x_k);
-                xValues.Add(x_k_plus_1);
-                x_k = x_k_plus_1;
+                x_new = x_prev - (CalculateDerivative(x_prev) * (x_curr - x_prev)) / (CalculateDerivative(x_curr) - CalculateDerivative(x_prev));
+                epsilon = Math.Abs(x_curr - x_prev);
+                x_prev = x_curr;
+                x_curr = x_new;
+                xValues.Add(x_new);
             }
-            double minResult = CalculateFunctionValue(x_k);
-            return (xValues.ToArray(), x_k, minResult);
+            double minResult = CalculateFunctionValue(x_new);
+            return (xValues.ToArray(), x_new, minResult);
         }
-
 
         private double CalculateDerivative(double x)
         {
@@ -97,19 +100,6 @@ namespace Optimization_methods.Newton_Methods
 
             return (fPlusH - fMinusH) / (2 * h);
         }
-
-        private double CalculateSecondDerivative(double x)
-        {
-            double h = 0.0001; // Шаг для численного дифференцирования
-            double xPlusH = x + h;
-            double xMinusH = x - h;
-
-            double fPlusH = CalculateDerivative(xPlusH);
-            double fMinusH = CalculateDerivative(xMinusH);
-
-            return (fPlusH - fMinusH) / (2 * h);
-        }
-
 
         private double CalculateFunctionValue(double x)
         {
@@ -162,7 +152,7 @@ namespace Optimization_methods.Newton_Methods
                 if (isPaused)
                 {
                     timer.Stop();
-                    animationStep = 0;
+                    animationStep = 2;
                     // Отображаем текущие координаты при достижении минимума
                     UpdateCoordinateLabel(currentX);
                 }
@@ -199,7 +189,7 @@ namespace Optimization_methods.Newton_Methods
             {
                 // Если все значения анимации были использованы, останавливаем таймер
                 timer.Stop();
-                animationStep = 0;
+                animationStep = 2;
             }
         }
 
@@ -226,21 +216,23 @@ namespace Optimization_methods.Newton_Methods
             currentXSeries.Points.Clear();
             lineSeries.Points.Clear();
 
-            // Добавляем начальную точку и прямую
-            double currentY = CalculateFunctionValue(x_0);
-            double derivative = CalculateDerivative(x_0);
-            double x1 = x_0 - 10;
+            // Инициализация x
+            double currentX = xValues[2];
+            double currentY = CalculateFunctionValue(currentX);
+
+            double derivative = CalculateDerivative(currentX);
+            double x1 = currentX - 10;
             double y1 = currentY - derivative * 10;
-            double x2 = x_0 + 10;
+            double x2 = currentX + 10;
             double y2 = currentY + derivative * 10;
-            currentXSeries.Points.AddXY(x_0, currentY);
+            currentXSeries.Points.AddXY(currentX, currentY);
             lineSeries.Points.AddXY(x1, y1);
             lineSeries.Points.AddXY(x2, y2);
 
-            animationStep = 0;
+            animationStep = 3;
             isPaused = false;
 
-            UpdateCoordinateLabel(x_0);
+            UpdateCoordinateLabel(currentY);
         }
 
         private void start_button_Click(object sender, EventArgs e)
@@ -296,7 +288,7 @@ namespace Optimization_methods.Newton_Methods
             double maxY = CalculateMaxY(functionExpression, accuracy, a, b);
 
             // Установка максимального значения для оси Y
-            chartArea.AxisY.Maximum = Math.Round(maxY + 1); 
+            chartArea.AxisY.Maximum = Math.Round(maxY + 1);
 
             chartArea.AxisX.LineColor = System.Drawing.Color.Black;
             chartArea.AxisY.LineColor = System.Drawing.Color.Black;
@@ -325,7 +317,7 @@ namespace Optimization_methods.Newton_Methods
             chart.Series.Add(series);
 
             // Инициализация x
-            double currentX = x_0;
+            double currentX = xValues[2];
             double currentY = CalculateFunctionValue(currentX);
 
             currentXSeries = new Series();
@@ -359,7 +351,6 @@ namespace Optimization_methods.Newton_Methods
             horizontalLineSeries.BorderWidth = 1;
             horizontalLineSeries.Color = Color.Black; // Цвет линии можно выбрать по вашему усмотрению
 
-
             // Добавление точек на график, чтобы создать линию y=0
             for (double x = chartArea.AxisX.Minimum; x <= chartArea.AxisX.Maximum + 5; x += accuracy)
             {
@@ -370,11 +361,11 @@ namespace Optimization_methods.Newton_Methods
             // Добавление серии данных на график
             chart.Series.Add(horizontalLineSeries);
 
-            UpdateCoordinateLabel(x_0);
-            animationStep = 1;
+            UpdateCoordinateLabel(currentX);
+            animationStep = 3;
         }
 
-      
+
         private void GraphForm_Search_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Проверяем, активен ли таймер

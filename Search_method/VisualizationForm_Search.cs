@@ -45,7 +45,6 @@ namespace Optimization_methods.Search_method
             DisplayFunctionGraph();
 
             previous_step_button.Enabled = false;
-            stop_button.Enabled = false;
             next_step_button.Enabled = false;
             end_button.Enabled = false;
             begin_button.Enabled = false;

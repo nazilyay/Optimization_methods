@@ -1,4 +1,5 @@
-﻿using Optimization_methods.Dichotomies_Method;
+﻿using Optimization_methods.Chord_Methods;
+using Optimization_methods.Dichotomies_Method;
 using Optimization_methods.Golden_Methods;
 using Optimization_methods.Middle_Methods;
 using Optimization_methods.Newton_Methods;
@@ -208,8 +209,8 @@ namespace Optimization_methods
                                     this.Hide();
                                     break;
                                 case 2:  // Если выбран "Метод хорд"
-                                    ChordMethodsForm chordMethods = new ChordMethodsForm();
-                                    chordMethods.Show();
+                                    ChordMethodsForm ChordMethods = new ChordMethodsForm(this);
+                                    ChordMethods.Show();
                                     this.Hide();
                                     break;
                                 case 3: // Если выбран "Метод кубической аппроксимации"
@@ -243,14 +244,6 @@ namespace Optimization_methods
     public partial class PolylinesMethodsForm : Form
     {
         public PolylinesMethodsForm()
-        {
-            /*InitializeComponent();*/
-        }
-    }
-
-    public partial class ChordMethodsForm : Form
-    {
-        public ChordMethodsForm()
         {
             /*InitializeComponent();*/
         }

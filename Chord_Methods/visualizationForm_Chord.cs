@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Xml.Linq;
 using NCalc;
 
-namespace Optimization_methods.Newton_Methods
+namespace Optimization_methods.Chord_Methods
 {
-    public partial class visualizationForm_Newton : Form
+    public partial class visualizationForm_Chord : Form
     {
         private Chart chart;
         private ChartArea chartArea;
-        private double a, b, accuracy, x_0;
+        private double a, b, accuracy;
         private string functionExpression;
         private Series currentXSeries, lineSeries, series, horizontalLineSeries; // Серия для текущей позиции
         private double[] xValues, EpsValue;
@@ -23,7 +23,9 @@ namespace Optimization_methods.Newton_Methods
         private double currentY, currentEps;
         private int iterationNumber;
         private TableLayoutPanel tableLayoutPanel;
-        public visualizationForm_Newton(string functionExpression, double a, double b, double accuracy, double x_0)
+
+
+        public visualizationForm_Chord(string functionExpression, double a, double b, double accuracy)
         {
             InitializeComponent();
 
@@ -31,28 +33,28 @@ namespace Optimization_methods.Newton_Methods
             this.a = a;
             this.b = b;
             this.accuracy = accuracy;
-            this.x_0 = x_0;
+
             // Инициализация массивов значений
             InitializeArrays();
             SetupUI();
 
-            question_label.Text = $"Отрезок [{a}; {b}] \nвыбрано корректно?";
-            question_1_label.Text = $"Начальное приближение `{x_0}` \nвыбрано корректно?";
+            question_1_label.Text = $"Отрезок [{a}; {b}] \nвыбрано корректно?";
 
             FunctionGraph();
         }
         private void SetupUI()
         {
-            yes_button_1.Enabled = no_button_1.Enabled = next_step_button.Enabled = yes_2_button.Enabled = no_2_button.Enabled = false;
-            Stop_label.Visible = step_out_label.Visible = x_out_label.Visible = x_next.Visible = f_out_label.Visible = def_out_label.Visible = second_def_label.Visible = epsilon_label.Visible = false;
+            yes_button_1.Enabled = no_button_1.Enabled = true;
+            next_step_button.Enabled = yes_2_button.Enabled = no_2_button.Enabled = false;
+            Stop_label.Visible = step_out_label.Visible = x_out_label.Visible = x_next.Visible = f_out_label.Visible = epsilon_label.Visible = prev_x_label.Visible = prev_def_label.Visible = def_label.Visible = false;
         }
 
         private void InitializeArrays()
         {
             // Вычисляем массив значений x и f(x) на интервале [a, b]
-            (xValues, EpsValue) = CalculateFunctionOnInterval(a, b, accuracy, x_0);
+            (xValues, EpsValue) = CalculateFunctionOnInterval(a, b, accuracy);
 
-            iterationNumber = 0;
+            iterationNumber = 1;
             // Инициализируем текущие значения как начальные значения из массива
             currentX = xValues[iterationNumber];
             currentEps = EpsValue[iterationNumber];
@@ -158,21 +160,7 @@ namespace Optimization_methods.Newton_Methods
                 horizontalLineSeries.Points.AddXY(x, y);
             }
             chart.Series.Add(horizontalLineSeries);
-
-            // Инициализация x
-            double currentX = x_0;
-            double currentY = CalculateFunctionValue(currentX);
-
-            currentXSeries = new Series();
-            currentXSeries.ChartType = SeriesChartType.Point;
-            currentXSeries.Points.AddXY(currentX, currentY); // Начальная позиция - точка минимума
-            currentXSeries.Color = System.Drawing.Color.Black;
-            currentXSeries.MarkerSize = 8;
-            currentXSeries.MarkerStyle = MarkerStyle.Circle;
-            currentXSeries.LegendText = "x";
-            chart.Series.Add(currentXSeries);
         }
-
         private void ClearGraph()
         {
             // Очистка панели с таблицей
@@ -190,7 +178,6 @@ namespace Optimization_methods.Newton_Methods
             // Очистка панели, содержащей график
             panel_graph.Controls.Clear();
         }
-
         private void DisplayFunctionGraph()
         {
             // Создание графика
@@ -268,36 +255,27 @@ namespace Optimization_methods.Newton_Methods
             lineSeries.Points.AddXY(x2, y2);
             chart.Series.Add(lineSeries); // Добавляем прямую на график
 
-            UpdateLabels(x_0);
+            UpdateLabels();
         }
 
         private void UpdateLabels()
         {
             step_out_label.Text = $"Шаг: {iterationNumber}";
+            prev_x_label.Text = $"x_(k-1) = {Math.Round(xValues[iterationNumber - 1], 6)}";
             x_out_label.Text = $"x_k = {Math.Round(xValues[iterationNumber], 6)}";
+            prev_def_label.Text = $"F'(x_(k-1)) = {Math.Round(CalculateDerivative(xValues[iterationNumber - 1]), 6)}";
+            def_label.Text = $"F'(x_k) = {Math.Round(CalculateDerivative(xValues[iterationNumber]), 6)}";
             x_next.Text = $"x_(k+1) = {Math.Round(xValues[iterationNumber + 1], 6)}";
             f_out_label.Text = $"F(x_(k+1)) = {Math.Round(CalculateFunctionValue(xValues[iterationNumber + 1]), 6)}";
-            def_out_label.Text = $"F'(x_k) = {Math.Round(CalculateDerivative(xValues[iterationNumber]), 6)}";
-            second_def_label.Text = $"F''(x_k) = {Math.Round(CalculateSecondDerivative(xValues[iterationNumber]), 6)}";
             epsilon_label.Text = $"Точность = {Math.Round(EpsValue[iterationNumber], 6)}";
         }
-        private void UpdateLabels(double x)
-        {
-            step_out_label.Text = $"Шаг: {iterationNumber}";
-            x_out_label.Text = $"x_k = {Math.Round(x, 6)}";
-            x_next.Text = $"x_(k+1) = {Math.Round(xValues[iterationNumber + 1], 6)}";
-            f_out_label.Text = $"F(x_(k+1)) = {Math.Round(CalculateFunctionValue(xValues[iterationNumber + 1]), 6)}";
-            def_out_label.Text = $"F'(x_k) = {Math.Round(CalculateDerivative(x), 6)}";
-            second_def_label.Text = $"F''(x_k) = {Math.Round(CalculateSecondDerivative(x), 6)}";
-            epsilon_label.Text = $"Точность = {Math.Round(currentEps, 6)}";
-        }
+
         private void stop_button_Click(object sender, EventArgs e)
         {
             InitializeArrays();
             ClearGraph();
             FunctionGraph();
 
-            // Обновляем значения на форме
             UpdateLabels();
 
             SetupUI();
@@ -334,6 +312,8 @@ namespace Optimization_methods.Newton_Methods
             currentXSeries.Points.Clear();
             currentXSeries.Points.AddXY(currentX, currentY);
 
+
+
             lineSeries.Points.Clear();
 
             double derivative = CalculateDerivative(currentX);
@@ -360,20 +340,13 @@ namespace Optimization_methods.Newton_Methods
         private void yes_button_1_Click(object sender, EventArgs e)
         {
             question_1_label.BackColor = DefaultBackColor;
+
             yes_button_1.Enabled = false;
             no_button_1.Enabled = false;
-            yes_2_button.Enabled = true;
-            no_2_button.Enabled = true;
 
-            step_out_label.Visible = true;
-            x_out_label.Visible = true;
-            x_next.Visible = true;
-            f_out_label.Visible = true;
-            def_out_label.Visible = true;
-            second_def_label.Visible = true;
-            epsilon_label.Visible = true;
+            yes_2_button.Enabled = no_2_button.Enabled = true;
+            step_out_label.Visible = x_out_label.Visible = x_next.Visible = f_out_label.Visible = epsilon_label.Visible = prev_x_label.Visible = prev_def_label.Visible = def_label.Visible = true;
             ClearGraph();
-
             DisplayFunctionGraph();
             UpdateLabels();
         }
@@ -394,7 +367,7 @@ namespace Optimization_methods.Newton_Methods
                 yes_2_button.Enabled = false;
                 no_2_button.Enabled = false;
                 Stop_label.Visible = true;
-                Stop_label.Text = $"Минимум найден: x = {Math.Round(xValues[iterationNumber + 1], 4)}; F(x) = {Math.Round(CalculateFunctionValue(xValues[iterationNumber + 1]), 4)}";
+                Stop_label.Text = $"Минимум найден: x = {Math.Round(xValues[iterationNumber], 4)}; F(x) = {Math.Round(CalculateFunctionValue(xValues[iterationNumber]), 4)}";
             }
             else
             {
@@ -422,28 +395,30 @@ namespace Optimization_methods.Newton_Methods
                 next_step_button.Enabled = true;
             }
         }
-        private (double[] xValues, double[] EpsValue) CalculateFunctionOnInterval(double a, double b, double accuracy, double x_0)
+        private (double[] xValues, double[] EpsValue) CalculateFunctionOnInterval(double a, double b, double accuracy)
         {
             List<double> xValues = new List<double>();
             List<double> EpsValue = new List<double>();
 
-            double x_k = x_0 - CalculateDerivative(x_0) / CalculateSecondDerivative(x_0);
-            double epsilon = Math.Abs(x_k - x_0);
-            xValues.Add(x_0);
-            xValues.Add(x_k);
+            double x_prev = a;
+            double x_curr = b;
+            double epsilon = Math.Abs(x_curr - x_prev);
+            double x_new = x_curr;
+            xValues.Add(x_prev);
+            xValues.Add(x_curr);
             EpsValue.Add(epsilon);
 
             while (epsilon > accuracy)
             {
-                double x_k_plus_1 = x_k - CalculateDerivative(x_k) / CalculateSecondDerivative(x_k);
-                epsilon = Math.Abs(x_k_plus_1 - x_k);
-                xValues.Add(x_k_plus_1);
+                x_new = x_prev - (CalculateDerivative(x_prev) * (x_curr - x_prev)) / (CalculateDerivative(x_curr) - CalculateDerivative(x_prev));
+                epsilon = Math.Abs(x_curr - x_prev);
+                xValues.Add(x_new);
                 EpsValue.Add(epsilon);
-                x_k = x_k_plus_1;
+                x_prev = x_curr;
+                x_curr = x_new;
             }
             return (xValues.ToArray(), EpsValue.ToArray());
         }
-
 
         private double CalculateDerivative(double x)
         {
@@ -499,18 +474,5 @@ namespace Optimization_methods.Newton_Methods
             Close();
         }
 
-        private void yes_button_Click(object sender, EventArgs e)
-        {
-            question_label.BackColor = DefaultBackColor;
-            yes_button_1.Enabled = true;
-            no_button_1.Enabled = true;
-            yes_button.Enabled = false;
-            no_button.Enabled = false;
-        }
-
-        private void no_button_Click(object sender, EventArgs e)
-        {
-            question_label.BackColor = Color.Red;
-        }
     }
 }

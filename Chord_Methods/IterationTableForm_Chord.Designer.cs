@@ -1,6 +1,6 @@
-﻿namespace Optimization_methods.Newton_Methods
+﻿namespace Optimization_methods.Secant_Methods
 {
-    partial class IterationTableForm_Newton
+    partial class IterationTableForm_Chord
     {
         /// <summary>
         /// Required designer variable.
@@ -29,14 +29,15 @@
         private void InitializeComponent()
         {
             info_button = new Button();
-            exit_button_middle = new Button();
+            exit_button_chord = new Button();
             dataGridView = new DataGridView();
             n = new DataGridViewTextBoxColumn();
+            x_prev = new DataGridViewTextBoxColumn();
             x_k = new DataGridViewTextBoxColumn();
             x_next = new DataGridViewTextBoxColumn();
+            f_x = new DataGridViewTextBoxColumn();
             def = new DataGridViewTextBoxColumn();
             second_def = new DataGridViewTextBoxColumn();
-            f_x = new DataGridViewTextBoxColumn();
             epsilon = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
@@ -47,29 +48,30 @@
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
             info_button.Size = new Size(100, 29);
-            info_button.TabIndex = 29;
+            info_button.TabIndex = 32;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
             // 
-            // exit_button_middle
+            // exit_button_chord
             // 
-            exit_button_middle.Location = new Point(693, 423);
-            exit_button_middle.Margin = new Padding(3, 4, 3, 4);
-            exit_button_middle.Name = "exit_button_middle";
-            exit_button_middle.Size = new Size(75, 29);
-            exit_button_middle.TabIndex = 28;
-            exit_button_middle.Text = "Выход";
-            exit_button_middle.UseVisualStyleBackColor = true;
+            exit_button_chord.Location = new Point(797, 422);
+            exit_button_chord.Margin = new Padding(3, 4, 3, 4);
+            exit_button_chord.Name = "exit_button_chord";
+            exit_button_chord.Size = new Size(75, 29);
+            exit_button_chord.TabIndex = 31;
+            exit_button_chord.Text = "Выход";
+            exit_button_chord.UseVisualStyleBackColor = true;
+            exit_button_chord.Click += exit_button_chord_Click;
             // 
             // dataGridView
             // 
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView.Columns.AddRange(new DataGridViewColumn[] { n, x_k, x_next, def, second_def, f_x, epsilon });
+            dataGridView.Columns.AddRange(new DataGridViewColumn[] { n, x_prev, x_k, x_next, f_x, def, second_def, epsilon });
             dataGridView.Location = new Point(35, 80);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
-            dataGridView.Size = new Size(733, 322);
-            dataGridView.TabIndex = 27;
+            dataGridView.Size = new Size(837, 322);
+            dataGridView.TabIndex = 33;
             // 
             // n
             // 
@@ -78,6 +80,13 @@
             n.Name = "n";
             n.SortMode = DataGridViewColumnSortMode.NotSortable;
             n.Width = 80;
+            // 
+            // x_prev
+            // 
+            x_prev.HeaderText = "x_(k-1)";
+            x_prev.MinimumWidth = 6;
+            x_prev.Name = "x_prev";
+            x_prev.Width = 125;
             // 
             // x_k
             // 
@@ -93,6 +102,13 @@
             x_next.Name = "x_next";
             x_next.Width = 125;
             // 
+            // f_x
+            // 
+            f_x.HeaderText = "F'(x_(k-1))";
+            f_x.MinimumWidth = 6;
+            f_x.Name = "f_x";
+            f_x.Width = 125;
+            // 
             // def
             // 
             def.HeaderText = "F'(x_k)";
@@ -102,17 +118,10 @@
             // 
             // second_def
             // 
-            second_def.HeaderText = "F''(x_k)";
+            second_def.HeaderText = "F(x_(k+1))";
             second_def.MinimumWidth = 6;
             second_def.Name = "second_def";
             second_def.Width = 125;
-            // 
-            // f_x
-            // 
-            f_x.HeaderText = "F(x_(k+1))";
-            f_x.MinimumWidth = 6;
-            f_x.Name = "f_x";
-            f_x.Width = 125;
             // 
             // epsilon
             // 
@@ -121,16 +130,15 @@
             epsilon.Name = "epsilon";
             epsilon.Width = 125;
             // 
-            // IterationTableForm_Newton
+            // IterationTableForm_Chord
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(802, 480);
-            Controls.Add(info_button);
-            Controls.Add(exit_button_middle);
+            ClientSize = new Size(919, 480);
             Controls.Add(dataGridView);
-            Name = "IterationTableForm_Newton";
-            StartPosition = FormStartPosition.CenterScreen;
+            Controls.Add(info_button);
+            Controls.Add(exit_button_chord);
+            Name = "IterationTableForm_Chord";
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ResumeLayout(false);
         }
@@ -138,7 +146,7 @@
         #endregion
 
         private Button info_button;
-        private Button exit_button_middle;
+        private Button exit_button_chord;
         private DataGridView dataGridView;
         private DataGridViewTextBoxColumn n;
         private DataGridViewTextBoxColumn x_prev;

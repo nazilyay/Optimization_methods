@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NCalc;
 
-namespace Optimization_methods.Newton_Methods
+namespace Optimization_methods.Secant_Methods
 {
-    public partial class IterationTableForm_Newton : Form
+    public partial class IterationTableForm_Chord : Form
     {
         private string functionExpression;
         private double a;
@@ -19,7 +18,7 @@ namespace Optimization_methods.Newton_Methods
         private double accuracy;
         private double x_0;
 
-        public IterationTableForm_Newton(string functionExpression, double a, double b, double accuracy, double x_0)
+        public IterationTableForm_Chord(string functionExpression, double a, double b, double accuracy)
         {
             InitializeComponent();
 
@@ -27,7 +26,6 @@ namespace Optimization_methods.Newton_Methods
             this.a = a;
             this.b = b;
             this.accuracy = accuracy;
-            this.x_0 = x_0;
 
             // Выполнение метода средней точки и заполнение таблицы
             PerformMiddlePointMethod();
@@ -40,54 +38,36 @@ namespace Optimization_methods.Newton_Methods
             dataGridView.Columns[4].Width = 100;
             dataGridView.Columns[5].Width = 100;
             dataGridView.Columns[6].Width = 100;
+            dataGridView.Columns[7].Width = 100;
         }
         private void PerformMiddlePointMethod()
         {// Очистка существующих строк в DataGridView
             dataGridView.Rows.Clear();
 
             int iteration = 0;
-            double x_k = x_0 - CalculateDerivative(x_0) / CalculateSecondDerivative(x_0);// Начальное приближение
-            double epsilon = Math.Abs(x_k - x_0); // Инициализация epsilon для входа в цикл
-
-            dataGridView.Rows.Add(iteration, x_0, x_k, CalculateDerivative(x_0), CalculateSecondDerivative(x_0), CalculateFunctionValue(x_k), epsilon);
+            double x_prev = a;
+            double x_curr = b;
+            double epsilon = Math.Abs(x_curr - x_prev); // Инициализация epsilon для входа в цикл
+            double x_new = x_curr;
 
             while (epsilon > accuracy)
             {
-                iteration++;
-                // Вычисление значения производной f'(x_k)
-                double f_prime_x_k = CalculateDerivative(x_k);
+                x_new = x_prev - CalculateDerivative(x_prev) * (x_curr - x_prev) / (CalculateDerivative(x_curr) - CalculateDerivative(x_prev));// Начальное приближение
+                epsilon = Math.Abs(x_curr - x_prev); // Инициализация epsilon для входа в цикл
+                dataGridView.Rows.Add(iteration, x_prev, x_curr, x_new, CalculateDerivative(x_prev), CalculateDerivative(x_curr), CalculateFunctionValue(x_new), epsilon);
 
-                // Вычисление значения второй производной f''(x_k)
-                double f_double_prime_x_k = CalculateSecondDerivative(x_k);
-
-                // Проверка деления на ноль
-                if (Math.Abs(f_double_prime_x_k) < double.Epsilon)
-                {
-                    MessageBox.Show("Вторая производная равна нулю. Метод Ньютона не сходится.");
-                    return;
-                }
-
-                double x_k_plus_1 = x_k - f_prime_x_k / f_double_prime_x_k; // Новая точка x_{k+1}
-
-                double f = CalculateFunctionValue(x_k_plus_1);
-
-                // Вычисление epsilon для остановки алгоритма
-                epsilon = Math.Abs(x_k_plus_1 - x_k);
-
-                // Добавление данных итерации в таблицу
-                dataGridView.Rows.Add(iteration, x_k, x_k_plus_1, f_prime_x_k, f_double_prime_x_k, f, epsilon);
-
-                x_k = x_k_plus_1; // Обновление текущей точки
+                x_prev = x_curr;
+                x_curr = x_new;
+                iteration++;     
             }
 
             // Добавление строки с результатом в таблицу
-            double x_min = x_k;
+            double x_min = x_new;
             double f_x_min = CalculateFunctionValue(x_min);
 
             dataGridView.Rows.Add("Результат:", "x_min = ", x_min, "f (x_min) = ", f_x_min, "", "");
 
         }
-
         private double CalculateDerivative(double x)
         {
             double h = 0.0001; // Шаг для численного дифференцирования
@@ -126,8 +106,7 @@ namespace Optimization_methods.Newton_Methods
             }
         }
 
-
-        private void exit_button_middle_Click(object sender, EventArgs e)
+        private void exit_button_chord_Click(object sender, EventArgs e)
         {
             this.Close();
         }

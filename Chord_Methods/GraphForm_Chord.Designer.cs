@@ -1,6 +1,6 @@
-﻿namespace Optimization_methods.Newton_Methods
+﻿namespace Optimization_methods.Chord_Methods
 {
-    partial class GraphForm_Newton
+    partial class GraphForm_Chord
     {
         /// <summary>
         /// Required designer variable.
@@ -45,10 +45,10 @@
             // 
             groupBox2.Controls.Add(y_label);
             groupBox2.Controls.Add(x_label);
-            groupBox2.Location = new Point(595, 63);
+            groupBox2.Location = new Point(594, 63);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(191, 87);
-            groupBox2.TabIndex = 107;
+            groupBox2.TabIndex = 111;
             groupBox2.TabStop = false;
             // 
             // y_label
@@ -74,10 +74,10 @@
             groupBox1.Controls.Add(start_button);
             groupBox1.Controls.Add(stop_button);
             groupBox1.Controls.Add(pause_button);
-            groupBox1.Location = new Point(665, 181);
+            groupBox1.Location = new Point(664, 181);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(121, 196);
-            groupBox1.TabIndex = 106;
+            groupBox1.TabIndex = 110;
             groupBox1.TabStop = false;
             groupBox1.Text = "Визуализация";
             // 
@@ -116,26 +116,26 @@
             // 
             // info_button
             // 
-            info_button.Location = new Point(686, 27);
+            info_button.Location = new Point(685, 27);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
             info_button.Size = new Size(100, 29);
-            info_button.TabIndex = 105;
+            info_button.TabIndex = 109;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
             // 
             // exit_button
             // 
-            exit_button.Location = new Point(711, 407);
+            exit_button.Location = new Point(710, 407);
             exit_button.Margin = new Padding(3, 4, 3, 4);
             exit_button.Name = "exit_button";
             exit_button.Size = new Size(75, 29);
-            exit_button.TabIndex = 104;
+            exit_button.TabIndex = 108;
             exit_button.Text = "Выход";
             exit_button.UseVisualStyleBackColor = true;
             exit_button.Click += exit_button_Click;
             // 
-            // GraphForm_Newton
+            // GraphForm_Chord
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -144,9 +144,9 @@
             Controls.Add(groupBox1);
             Controls.Add(info_button);
             Controls.Add(exit_button);
-            Name = "GraphForm_Newton";
+            Name = "GraphForm_Chord";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "График";
+            Text = "GraphForm_Chord";
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox1.ResumeLayout(false);
@@ -154,7 +154,9 @@
         }
 
         #endregion
+
         private GroupBox groupBox2;
+        private Label y_label;
         private Label x_label;
         private GroupBox groupBox1;
         private Button start_button;
@@ -162,6 +164,5 @@
         private Button pause_button;
         private Button info_button;
         private Button exit_button;
-        private Label y_label;
     }
 }

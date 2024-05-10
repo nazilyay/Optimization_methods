@@ -249,6 +249,8 @@ namespace Optimization_methods.Middle_Methods
         }
         private void stop_button_Click(object sender, EventArgs e)
         {
+            question_1_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = DefaultBackColor;
             // Переинициализация массивов значений и переменных
             InitializeArrays();
 
