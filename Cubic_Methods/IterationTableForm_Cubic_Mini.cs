@@ -66,6 +66,13 @@ namespace Optimization_methods.Cubic_Methods
                         dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateDerivative(x0), "+", Math.Abs(x2 - x0));
                     else if (CalculateDerivative(x0) < 0)
                         dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateDerivative(x0), "-", Math.Abs(x2 - x0));
+                    if (iteration > 0)
+                    {
+                        if ((double)dataGridView.Rows[iteration - 1].Cells[1].Value != x1)
+                            dataGridView.Rows[iteration].Cells[1].Style.BackColor = Color.Yellow;
+                        else
+                            dataGridView.Rows[iteration].Cells[2].Style.BackColor = Color.Yellow;
+                    }
                     x1 = x0;
                 }
                 else if (y0_derivative * y12 < 0)
@@ -74,6 +81,13 @@ namespace Optimization_methods.Cubic_Methods
                         dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateDerivative(x0), "+", Math.Abs(x0 - x1));
                     else if (CalculateDerivative(x0) < 0)
                         dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateDerivative(x0), "-", Math.Abs(x0 - x1));
+                    if (iteration > 0)
+                    {
+                        if ((double)dataGridView.Rows[iteration - 1].Cells[1].Value != x1)
+                            dataGridView.Rows[iteration].Cells[1].Style.BackColor = Color.Yellow;
+                        else
+                            dataGridView.Rows[iteration].Cells[2].Style.BackColor = Color.Yellow;
+                    }
                     x2 = x0;
                 }
                 epsilon = Math.Abs(x2 - x1);

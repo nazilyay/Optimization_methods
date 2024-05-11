@@ -22,7 +22,8 @@ namespace Optimization_methods.Cubic_Methods
         private double currentY, currentA_Y, currentB_Y, currentEps;
         private int iterationNumber;
         private TableLayoutPanel tableLayoutPanel;
-
+        private int mistake;
+        private bool end;
         public visualizationForm_Cubic(string functionExpression, double a, double b, double accuracy)
         {
             InitializeComponent();
@@ -31,6 +32,8 @@ namespace Optimization_methods.Cubic_Methods
             this.a = a;
             this.b = b;
             this.accuracy = accuracy;
+            this.FormClosing += VisualizationForm_Closing;
+
             // Инициализация массивов значений
             InitializeArrays();
 
@@ -48,12 +51,17 @@ namespace Optimization_methods.Cubic_Methods
             Stop_label.Visible = false;
             new_eps_label.Visible = false;
         }
-
+        private void VisualizationForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            End_Form endMethods = new End_Form(mistake, "Метода кубической аппроксимации", end, xValues[xValues.Length - 1], CalculateFunctionValue(xValues[xValues.Length - 1]));
+            endMethods.Show();
+        }
         private void InitializeArrays()
         {
             // Вычисляем массив значений x и f(x) на интервале [a, b]
             (aValues, bValues, xValues, EpsValue) = CalculateFunctionOnInterval(a, b, accuracy);
-
+            mistake = 0;
+            end = false;
             iterationNumber = 0;
             // Инициализируем текущие значения как начальные значения из массива
             currentA_X = aValues[iterationNumber];
@@ -390,6 +398,7 @@ namespace Optimization_methods.Cubic_Methods
                 }
                 else
                 {
+                    mistake++;
                     question_1_label.BackColor = Color.Red;
                 }
             }
@@ -414,6 +423,7 @@ namespace Optimization_methods.Cubic_Methods
                 }
                 else
                 {
+                    mistake++;
                     question_1_label.BackColor = Color.Red;
                 }
             }
@@ -427,6 +437,7 @@ namespace Optimization_methods.Cubic_Methods
             // Ответ пользователя
             if (conditionMet)
             {
+                end = true;
                 yes_2_button.Enabled = false;
                 no_2_button.Enabled = false;
                 Stop_label.Visible = true;
@@ -434,6 +445,7 @@ namespace Optimization_methods.Cubic_Methods
             }
             else
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
 
@@ -449,6 +461,7 @@ namespace Optimization_methods.Cubic_Methods
             // Ответ пользователя
             if (conditionMet)
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
             else

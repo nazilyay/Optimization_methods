@@ -19,11 +19,11 @@ namespace Optimization_methods.Bit_Method
         private double[] xValues, fxValues;
         private double currentX, currentY, prevY, prevX, step;
         private int iterationNumber;
-
+        private int mistake;
+        private bool end;
         public VisualizationForm_Bit(string functionExpression, double a, double b, double accuracy)
         {
             InitializeComponent();
-
             this.functionExpression = functionExpression;
             this.a = a;
             this.b = b;
@@ -37,7 +37,7 @@ namespace Optimization_methods.Bit_Method
 
             // Обновление меток
             UpdateLabels();
-
+            this.FormClosing += VisualizationForm_Closing;
             // Заблокировать кнопки
             Stop_label.Visible = false;
             yes_button.Enabled = false;
@@ -47,12 +47,18 @@ namespace Optimization_methods.Bit_Method
             yes_button_3.Enabled = false;
             no_button_3.Enabled = false;
         }
+        private void VisualizationForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            End_Form endMethods = new End_Form(mistake, "Метода поразрядного перебора", end, xValues[xValues.Length - 2], CalculateFunctionValue(xValues[xValues.Length - 2]));
+            endMethods.Show();
+        }
 
         private void InitializeArrays()
         {
             // Вычисляем массив значений x и f(x) на интервале [a, b]
             (xValues, fxValues) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
-
+            mistake = 0;
+            end = false;
             // Инициализируем текущие значения как начальные значения из массива
             currentX = a;
             currentY = CalculateFunctionValue(a);
@@ -168,6 +174,7 @@ namespace Optimization_methods.Bit_Method
             if (iterationNumber >= xValues.Length)
             {
                 next_step_button.Enabled = false;
+                end = true;
                 return;
             }
 
@@ -215,6 +222,7 @@ namespace Optimization_methods.Bit_Method
             }
             else
             {
+                mistake++;
                 question_1_label.BackColor = Color.Red;
             }
 
@@ -229,6 +237,7 @@ namespace Optimization_methods.Bit_Method
             // Ответ пользователя
             if (conditionMet)
             {
+                mistake++;
                 question_1_label.BackColor = Color.Red;
             }
             else
@@ -319,6 +328,7 @@ namespace Optimization_methods.Bit_Method
             }
             else
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
         }
@@ -332,6 +342,7 @@ namespace Optimization_methods.Bit_Method
             // Ответ пользователя
             if (conditionMet)
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
             else
@@ -357,9 +368,11 @@ namespace Optimization_methods.Bit_Method
                 yes_button_3.Enabled = false;
                 no_button_3.Enabled = false;
                 Stop_label.Visible = true;
+                end = true;
             }
             else
             {
+                mistake++;
                 question_3_label.BackColor = Color.Red;
             }
 
@@ -375,6 +388,7 @@ namespace Optimization_methods.Bit_Method
             // Ответ пользователя
             if (conditionMet)
             {
+                mistake++;
                 question_3_label.BackColor = Color.Red;
             }
             else

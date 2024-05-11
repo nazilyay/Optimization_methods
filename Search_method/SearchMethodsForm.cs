@@ -288,7 +288,10 @@ namespace Optimization_methods
                 error_label.Visible = true;
                 return;
             }
-            VisualizationForm_Search visualizationForm = new VisualizationForm_Search(functionExpression, a, b, accuracy);
+            // Вычисление минимума функции
+            (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
+
+            VisualizationForm_Search visualizationForm = new VisualizationForm_Search(functionExpression, a, b, accuracy, minX, minResult);
             visualizationForm.Show();
         }
       

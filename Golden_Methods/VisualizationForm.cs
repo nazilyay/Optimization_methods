@@ -14,7 +14,8 @@ namespace Optimization_methods.Golden_Methods
         private double currentX_1, currentX_2, currentA_X, currentB_X;
         private double currentY_1, currentY_2, currentA_Y, currentB_Y, currentEps;
         private int iterationNumber;
-
+        private int mistake;
+        private bool end;
         public VisualizationForm(string functionExpression, double a, double b, double accuracy)
         {
             InitializeComponent();
@@ -25,6 +26,7 @@ namespace Optimization_methods.Golden_Methods
             this.accuracy = accuracy;
             // Инициализация массивов значений
             InitializeArrays();
+            this.FormClosing += VisualizationForm_Closing;
 
             // Отображение функции на графике
             DisplayFunctionGraph();
@@ -44,12 +46,18 @@ namespace Optimization_methods.Golden_Methods
             new_f_2_label.Visible = false;
             new_epsilon_label.Visible = false;
         }
-
+        private void VisualizationForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            double end_x = (aValues[aValues.Length - 1] + bValues[bValues.Length - 1]) / 2;
+            End_Form endMethods = new End_Form(mistake, "Метода золотого сечения", end, end_x, CalculateFunctionValue(end_x));
+            endMethods.Show();
+        }
         private void InitializeArrays()
         {
             // Вычисляем массив значений x и f(x) на интервале [a, b]
             (aValues, bValues, x_1_Values, x_2_Values, EpsValue) = CalculateFunctionOnInterval(a, b, accuracy);
-
+            mistake = 0;
+            end = false;
             // Инициализируем текущие значения как начальные значения из массива
             currentX_1 = a + (3 - Math.Sqrt(5)) / 2 * (b - a);
             currentX_2 = a + (Math.Sqrt(5) - 1) / 2 * (b - a);
@@ -320,6 +328,7 @@ namespace Optimization_methods.Golden_Methods
                 // Ответ пользователя
                 if (conditionMet)
                 {
+                    end = true;
                     yes_button_1.Enabled = false;
                     no_button_1.Enabled = false;
                     yes_2_button.Enabled = false;
@@ -330,6 +339,7 @@ namespace Optimization_methods.Golden_Methods
                 }
                 else
                 {
+                    mistake++;
                     question_1_label.BackColor = Color.Red;
                 }
             }
@@ -346,6 +356,7 @@ namespace Optimization_methods.Golden_Methods
                 // Ответ пользователя
                 if (conditionMet)
                 {
+                    mistake++;
                     question_1_label.BackColor = Color.Red;
                 }
                 else
@@ -379,6 +390,7 @@ namespace Optimization_methods.Golden_Methods
             }
             else
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
 
@@ -394,6 +406,7 @@ namespace Optimization_methods.Golden_Methods
             // Ответ пользователя
             if (conditionMet)
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
             else

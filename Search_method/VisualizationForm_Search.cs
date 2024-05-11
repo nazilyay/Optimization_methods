@@ -12,11 +12,12 @@ namespace Optimization_methods.Search_method
         private Chart chart;
         private double a, b, accuracy;
         private string functionExpression;
-        private double currentX, currentY, x_min, f_x_min, step;
+        private double currentX, currentY, x_min, f_x_min, step, min;
         private int iterationNumber;
         private bool isMinimumFound;
-
-        public VisualizationForm_Search(string functionExpression, double a, double b, double accuracy)
+        private int mistake;
+        private bool end;
+        public VisualizationForm_Search(string functionExpression, double a, double b, double accuracy, double min, double f_x_min)
         {
             InitializeComponent();
 
@@ -24,7 +25,11 @@ namespace Optimization_methods.Search_method
             this.a = a;
             this.b = b;
             this.accuracy = accuracy;
+            this.min = min;
+            this.f_x_min = f_x_min;
 
+            mistake = 0;
+            end = false;
             // Инициализация переменных
             currentX = a;
             currentY = CalculateFunctionValue(currentX);
@@ -41,6 +46,8 @@ namespace Optimization_methods.Search_method
             dataGridView.Columns[3].Width = 100;
             dataGridView.Columns[4].Width = 100;
 
+            this.FormClosing += VisualizationForm_Closing;
+
             // Отображение функции на графике
             DisplayFunctionGraph();
 
@@ -53,7 +60,11 @@ namespace Optimization_methods.Search_method
             label1.Visible = false;
             min_button.Visible = false;
         }
-
+        private void VisualizationForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            End_Form endMethods = new End_Form(mistake, "Метода золотого сечения", end, min, CalculateFunctionValue(min));
+            endMethods.Show();
+        }
         private void DisplayFunctionGraph()
         {
             // Создание графика
@@ -294,6 +305,7 @@ namespace Optimization_methods.Search_method
                 }
                 else
                 {
+                    mistake++;
                     Error_number_label.Text = "Ошибка!";
                     Error_number_label.Visible = true;
                 }
@@ -349,6 +361,7 @@ namespace Optimization_methods.Search_method
             // Если строка с минимальным значением f(x) выбрана, загораем кнопку зеленым
             if (selectedMinimum)
             {
+                end = true;
                 min_button.BackColor = Color.LightGreen;
                 Result_label.Text = "Верно!";
                 Result_label.Visible = true;
@@ -376,6 +389,7 @@ namespace Optimization_methods.Search_method
             }
             else
             {
+                mistake++;
                 min_button.BackColor = Color.Red;
                 Result_label.Text = "Не верно!";
                 Result_label.Visible = true;

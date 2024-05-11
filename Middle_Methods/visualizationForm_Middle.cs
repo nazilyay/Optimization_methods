@@ -14,7 +14,8 @@ namespace Optimization_methods.Middle_Methods
         private double currentX, currentA_X, currentB_X, currentF;
         private double currentY, currentA_Y, currentB_Y, currentEps;
         private int iterationNumber;
-
+        private int mistake;
+        private bool end;
         public visualizationForm_Middle(string functionExpression, double a, double b, double accuracy)
         {
             InitializeComponent();
@@ -25,6 +26,7 @@ namespace Optimization_methods.Middle_Methods
             this.accuracy = accuracy;
             // Инициализация массивов значений
             InitializeArrays();
+            this.FormClosing += VisualizationForm_Closing;
 
             // Отображение функции на графике
             DisplayFunctionGraph();
@@ -41,12 +43,18 @@ namespace Optimization_methods.Middle_Methods
             new_ab_label.Visible = false;
             new_eps_label.Visible = false;
         }
-
+        private void VisualizationForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            double end_x = (aValues[aValues.Length - 1] + bValues[bValues.Length - 1]) / 2;
+            End_Form endMethods = new End_Form(mistake, "Метода средней точки", true, end_x, CalculateFunctionValue(end_x));
+            endMethods.Show();
+        }
         private void InitializeArrays()
         {
             // Вычисляем массив значений x и f(x) на интервале [a, b]
             (aValues, bValues, xValues, EpsValue) = CalculateFunctionOnInterval(a, b, accuracy);
-
+            mistake = 0;
+            end = false;
             iterationNumber = 0;
             // Инициализируем текущие значения как начальные значения из массива
             currentA_X = aValues[iterationNumber];
@@ -379,6 +387,7 @@ namespace Optimization_methods.Middle_Methods
                 }
                 else
                 {
+                    mistake++;
                     question_1_label.BackColor = Color.Red;
                 }
             }
@@ -395,6 +404,7 @@ namespace Optimization_methods.Middle_Methods
                 // Ответ пользователя
                 if (conditionMet)
                 {
+                    mistake++;
                     question_1_label.BackColor = Color.Red;
                 }
                 else
@@ -418,6 +428,7 @@ namespace Optimization_methods.Middle_Methods
             // Ответ пользователя
             if (conditionMet)
             {
+                end = true;
                 yes_2_button.Enabled = false;
                 no_2_button.Enabled = false;
                 Stop_label.Visible = true;
@@ -425,6 +436,7 @@ namespace Optimization_methods.Middle_Methods
             }
             else
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
 
@@ -440,6 +452,7 @@ namespace Optimization_methods.Middle_Methods
             // Ответ пользователя
             if (conditionMet)
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
             else

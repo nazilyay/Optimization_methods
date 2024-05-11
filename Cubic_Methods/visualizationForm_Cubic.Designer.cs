@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            panel1 = new Panel();
             groupBox4 = new GroupBox();
             cubic_label = new Label();
             label1 = new Label();
@@ -68,6 +67,7 @@
             omega_label = new Label();
             mu_label = new Label();
             groupBox7 = new GroupBox();
+            panel1 = new Panel();
             groupBox4.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -76,13 +76,6 @@
             groupBox5.SuspendLayout();
             groupBox7.SuspendLayout();
             SuspendLayout();
-            // 
-            // panel1
-            // 
-            panel1.Location = new Point(454, 83);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(173, 69);
-            panel1.TabIndex = 116;
             // 
             // groupBox4
             // 
@@ -466,6 +459,13 @@
             groupBox7.TabIndex = 118;
             groupBox7.TabStop = false;
             // 
+            // panel1
+            // 
+            panel1.Location = new Point(454, 83);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(173, 69);
+            panel1.TabIndex = 116;
+            // 
             // visualizationForm_Cubic
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -506,8 +506,6 @@
         }
 
         #endregion
-
-        private Panel panel1;
         private GroupBox groupBox4;
         private Label label1;
         private GroupBox groupBox6;
@@ -547,5 +545,6 @@
         private Label def_0_label;
         private Label f_0_label;
         private Label cubic_label;
+        private Panel panel1;
     }
 }

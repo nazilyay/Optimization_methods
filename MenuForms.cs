@@ -39,8 +39,6 @@ namespace Optimization_methods
             group_of_methods_listBox.Items.Add("Поисковые методы");
             group_of_methods_listBox.Items.Add("Методы исключения отрезков");
             group_of_methods_listBox.Items.Add("Методы, использующие производные");
-            group_of_methods_listBox.Items.Add("Метод ломаных");
-
 
             error_label1.Visible = false; // Скрыть сообщение об ошибке
             error_label2.Visible = false; // Скрыть сообщение об ошибке
@@ -227,11 +225,6 @@ namespace Optimization_methods
                             error_label2.Visible = true;
                         }
                         break;
-                    case 3: // Если выбран "Метод ломаных"
-                        PolylinesMethodsForm polylinesMethods = new PolylinesMethodsForm();
-                        polylinesMethods.Show();
-                        this.Hide();
-                        break;
                 }
             }
             else
@@ -239,14 +232,6 @@ namespace Optimization_methods
                 error_label1.Text = "Выберите значение из списка.";
                 error_label1.Visible = true; // Показать сообщение об ошибке
             }
-        }
-    }
-
-    public partial class PolylinesMethodsForm : Form
-    {
-        public PolylinesMethodsForm()
-        {
-            /*InitializeComponent();*/
         }
     }
 }

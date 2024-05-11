@@ -21,7 +21,8 @@ namespace Optimization_methods.Dichotomies_Method
         private double currentX_1, currentX_2, currentA_X, currentB_X;
         private double currentY_1, currentY_2, currentA_Y, currentB_Y;
         private int iterationNumber;
-
+        private int mistake;
+        private bool end;
         public VisualizationForm(string functionExpression, double a, double b, double accuracy, double parameter)
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace Optimization_methods.Dichotomies_Method
 
             // Инициализация массивов значений
             InitializeArrays();
+            this.FormClosing += VisualizationForm_Closing;
 
             // Отображение функции на графике
             DisplayFunctionGraph();
@@ -49,12 +51,18 @@ namespace Optimization_methods.Dichotomies_Method
             no_button_2.Enabled = false;
             new_eps_label.Visible = false;
         }
-
+        private void VisualizationForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            double end_x = (aValues[aValues.Length - 1] + bValues[bValues.Length - 1]) / 2;
+            End_Form endMethods = new End_Form(mistake, "Метода дихотомия", end, end_x, CalculateFunctionValue(end_x));
+            endMethods.Show();
+        }
         private void InitializeArrays()
         {
             // Вычисляем массив значений x и f(x) на интервале [a, b]
             (aValues, bValues, x_1_Values, x_2_Values) = CalculateFunctionOnInterval(a, b, accuracy, parameter);
-
+            mistake = 0;
+            end = false;
             // Инициализируем текущие значения как начальные значения из массива
             currentX_1 = (a + b - parameter) / 2;
             currentX_2 = (a + b + parameter) / 2;
@@ -339,6 +347,7 @@ namespace Optimization_methods.Dichotomies_Method
             }
             else
             {
+                mistake++;
                 question_1_label.BackColor = Color.Red;
             }
 
@@ -354,6 +363,7 @@ namespace Optimization_methods.Dichotomies_Method
             // Ответ пользователя
             if (conditionMet)
             {
+                mistake++;
                 question_1_label.BackColor = Color.Red;
             }
             else
@@ -452,6 +462,7 @@ namespace Optimization_methods.Dichotomies_Method
                 // Ответ пользователя
                 if (conditionMet)
                 {
+                    end = true;
                     // Выводим результаты 
                     yes_button_2.Enabled = false;
                     no_button_2.Enabled = false;
@@ -460,6 +471,7 @@ namespace Optimization_methods.Dichotomies_Method
                 }
                 else
                 {
+                    mistake++;
                     question_2_label.BackColor = Color.Red;
                 }
             }
@@ -478,6 +490,7 @@ namespace Optimization_methods.Dichotomies_Method
                 // Ответ пользователя
                 if (conditionMet)
                 {
+                    mistake++;
                     question_2_label.BackColor = Color.Red;
                 }
                 else

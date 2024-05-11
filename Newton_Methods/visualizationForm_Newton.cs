@@ -23,6 +23,8 @@ namespace Optimization_methods.Newton_Methods
         private double currentY, currentEps;
         private int iterationNumber;
         private TableLayoutPanel tableLayoutPanel;
+        private int mistake;
+        private bool end;
         public visualizationForm_Newton(string functionExpression, double a, double b, double accuracy, double x_0)
         {
             InitializeComponent();
@@ -35,6 +37,7 @@ namespace Optimization_methods.Newton_Methods
             // Инициализация массивов значений
             InitializeArrays();
             SetupUI();
+            this.FormClosing += VisualizationForm_Closing;
 
             question_label.Text = $"Отрезок [{a}; {b}] \nвыбрано корректно?";
             question_label.TextAlign = ContentAlignment.MiddleCenter; 
@@ -44,6 +47,12 @@ namespace Optimization_methods.Newton_Methods
 
             FunctionGraph();
         }
+        private void VisualizationForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            double end_x = xValues[xValues.Length - 1];
+            End_Form endMethods = new End_Form(mistake, "Метода Ньютона", end, end_x, CalculateFunctionValue(end_x));
+            endMethods.Show();
+        }
         private void SetupUI()
         {
             yes_button_1.Enabled = no_button_1.Enabled = next_step_button.Enabled = yes_2_button.Enabled = no_2_button.Enabled = false;
@@ -52,6 +61,8 @@ namespace Optimization_methods.Newton_Methods
 
         private void InitializeArrays()
         {
+            mistake = 0;
+            end = false;
             // Вычисляем массив значений x и f(x) на интервале [a, b]
             (xValues, EpsValue) = CalculateFunctionOnInterval(a, b, accuracy, x_0);
 
@@ -385,6 +396,7 @@ namespace Optimization_methods.Newton_Methods
         private void no_button_1_Click(object sender, EventArgs e)
         {
             question_1_label.BackColor = Color.Red;
+            mistake++;
         }
         private void yes_button_2_Click(object sender, EventArgs e)
         {
@@ -395,6 +407,7 @@ namespace Optimization_methods.Newton_Methods
             // Ответ пользователя
             if (conditionMet)
             {
+                end = true;
                 yes_2_button.Enabled = false;
                 no_2_button.Enabled = false;
                 Stop_label.Visible = true;
@@ -402,6 +415,7 @@ namespace Optimization_methods.Newton_Methods
             }
             else
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
 
@@ -417,6 +431,7 @@ namespace Optimization_methods.Newton_Methods
             // Ответ пользователя
             if (conditionMet)
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
             else
@@ -515,6 +530,7 @@ namespace Optimization_methods.Newton_Methods
         private void no_button_Click(object sender, EventArgs e)
         {
             question_label.BackColor = Color.Red;
+            mistake++;
         }
     }
 }

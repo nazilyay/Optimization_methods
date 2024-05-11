@@ -23,7 +23,8 @@ namespace Optimization_methods.Chord_Methods
         private double currentY, currentEps;
         private int iterationNumber;
         private TableLayoutPanel tableLayoutPanel;
-
+        private int mistake;
+        private bool end;
 
         public visualizationForm_Chord(string functionExpression, double a, double b, double accuracy)
         {
@@ -37,13 +38,18 @@ namespace Optimization_methods.Chord_Methods
             // Инициализация массивов значений
             InitializeArrays();
             SetupUI();
+            this.FormClosing += VisualizationForm_Closing;
 
             question_1_label.Text = $"Отрезок [{a}; {b}] \nвыбрано корректно?";
             question_1_label.TextAlign = ContentAlignment.MiddleCenter;
 
             FunctionGraph();
         }
-
+        private void VisualizationForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            End_Form endMethods = new End_Form(mistake, "Метода хорд", end, xValues[xValues.Length - 1], CalculateFunctionValue(xValues[xValues.Length - 1]));
+            endMethods.Show();
+        }
         private void SetupUI()
         {
             yes_button_1.Enabled = no_button_1.Enabled = true;
@@ -55,7 +61,8 @@ namespace Optimization_methods.Chord_Methods
         {
             // Вычисляем массив значений x и f(x) на интервале [a, b]
             (xValues, EpsValue) = CalculateFunctionOnInterval(a, b, accuracy);
-
+            mistake = 0;
+            end = false;
             iterationNumber = 2;
             // Инициализируем текущие значения как начальные значения из массива
             currentX = xValues[iterationNumber];
@@ -370,6 +377,7 @@ namespace Optimization_methods.Chord_Methods
 
         private void no_button_1_Click(object sender, EventArgs e)
         {
+            mistake++;
             question_1_label.BackColor = Color.Red;
         }
         private void yes_button_2_Click(object sender, EventArgs e)
@@ -381,6 +389,7 @@ namespace Optimization_methods.Chord_Methods
             // Ответ пользователя
             if (conditionMet)
             {
+                end = true;
                 yes_2_button.Enabled = false;
                 no_2_button.Enabled = false;
                 Stop_label.Visible = true;
@@ -388,6 +397,7 @@ namespace Optimization_methods.Chord_Methods
             }
             else
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
 
@@ -403,6 +413,7 @@ namespace Optimization_methods.Chord_Methods
             // Ответ пользователя
             if (conditionMet)
             {
+                mistake++;
                 question_2_label.BackColor = Color.Red;
             }
             else

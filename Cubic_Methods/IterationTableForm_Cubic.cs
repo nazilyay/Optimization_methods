@@ -42,6 +42,7 @@ namespace Optimization_methods.Cubic_Methods
             int iteration = 0;
             double x1 = a;
             double x2 = b;
+
             double epsilon = Math.Abs(x2 - x1);
             double x0 = 0;
             while (epsilon > accuracy)
@@ -70,6 +71,13 @@ namespace Optimization_methods.Cubic_Methods
                         dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateFunctionValue(x1), CalculateFunctionValue(x2), CalculateDerivative(x1), CalculateDerivative(x2), a0, a1, a2, a3, mu, omega, z, CalculateDerivative(x0), "+", Math.Abs(x2 - x0));
                     else if (CalculateDerivative(x0) < 0)
                         dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateFunctionValue(x1), CalculateFunctionValue(x2), CalculateDerivative(x1), CalculateDerivative(x2), a0, a1, a2, a3, mu, omega, z, CalculateDerivative(x0), "-", Math.Abs(x2 - x0));
+                    if (iteration > 0)
+                    {
+                        if ((double)dataGridView.Rows[iteration - 1].Cells[1].Value != x1)
+                            dataGridView.Rows[iteration].Cells[1].Style.BackColor = Color.Yellow;
+                        else
+                            dataGridView.Rows[iteration].Cells[2].Style.BackColor = Color.Yellow;
+                    }
                     x1 = x0; 
                 }
                 else if (y0_derivative * y12 < 0)
@@ -78,11 +86,19 @@ namespace Optimization_methods.Cubic_Methods
                         dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateFunctionValue(x1), CalculateFunctionValue(x2), CalculateDerivative(x1), CalculateDerivative(x2), a0, a1, a2, a3, mu, omega, z, CalculateDerivative(x0), "+", Math.Abs(x0 - x1));
                     else if (CalculateDerivative(x0) < 0)
                         dataGridView.Rows.Add(iteration, x1, x2, x0, CalculateFunctionValue(x0), CalculateFunctionValue(x1), CalculateFunctionValue(x2), CalculateDerivative(x1), CalculateDerivative(x2), a0, a1, a2, a3, mu, omega, z, CalculateDerivative(x0), "-", Math.Abs(x0 - x1));
+                    if (iteration > 0)
+                    {
+                        if ((double)dataGridView.Rows[iteration - 1].Cells[1].Value != x1)
+                            dataGridView.Rows[iteration].Cells[1].Style.BackColor = Color.Yellow;
+                        else
+                            dataGridView.Rows[iteration].Cells[2].Style.BackColor = Color.Yellow;
+                    }
                     x2 = x0; 
                 }
+                // Окрашиваем предыдущую строку (если она существует)
+               
                 epsilon = Math.Abs(x2 - x1);
                 iteration++;
-
 
             }
             // Добавление строки с результатом в таблицу
