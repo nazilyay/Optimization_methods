@@ -241,7 +241,7 @@ namespace Optimization_methods.Chord_Methods
             // Возвращаемся к первоначальным значениям графика
             chartArea.AxisX.Minimum = a - 1;
             chartArea.AxisX.Maximum = b + 1;
-            chartArea.AxisY.Minimum = Math.Round(minF)- 1;
+            chartArea.AxisY.Minimum = Math.Round(minF) - 1;
             chartArea.AxisY.Maximum = Math.Round(CalculateMaxY(functionExpression, accuracy, a, b)) + 1;
 
             // Очищаем серии данных
@@ -364,7 +364,7 @@ namespace Optimization_methods.Chord_Methods
             punct.BorderDashStyle = ChartDashStyle.Dot;
             punct.Points.AddXY(xValues[2], CalculateFunctionValue(xValues[2]));
             punct.Points.AddXY(xValues[2], 0);
-            chart.Series.Add(punct);            
+            chart.Series.Add(punct);
             animationStep = 3;
         }
 
@@ -404,5 +404,10 @@ namespace Optimization_methods.Chord_Methods
             this.Close();
         }
 
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }

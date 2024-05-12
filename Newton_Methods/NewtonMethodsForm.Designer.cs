@@ -67,10 +67,13 @@
             // 
             // visualization_newton_button
             // 
-            visualization_newton_button.Location = new Point(526, 357);
+            visualization_newton_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            visualization_newton_button.FlatAppearance.MouseOverBackColor = Color.White;
+            visualization_newton_button.FlatStyle = FlatStyle.Flat;
+            visualization_newton_button.Location = new Point(548, 414);
             visualization_newton_button.Margin = new Padding(3, 4, 3, 4);
             visualization_newton_button.Name = "visualization_newton_button";
-            visualization_newton_button.Size = new Size(173, 34);
+            visualization_newton_button.Size = new Size(175, 35);
             visualization_newton_button.TabIndex = 88;
             visualization_newton_button.Text = "Визуализация метода";
             visualization_newton_button.UseVisualStyleBackColor = true;
@@ -78,10 +81,13 @@
             // 
             // button_newton_graph
             // 
-            button_newton_graph.Location = new Point(526, 304);
+            button_newton_graph.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            button_newton_graph.FlatAppearance.MouseOverBackColor = Color.White;
+            button_newton_graph.FlatStyle = FlatStyle.Flat;
+            button_newton_graph.Location = new Point(548, 342);
             button_newton_graph.Margin = new Padding(3, 4, 3, 4);
             button_newton_graph.Name = "button_newton_graph";
-            button_newton_graph.Size = new Size(173, 29);
+            button_newton_graph.Size = new Size(175, 35);
             button_newton_graph.TabIndex = 87;
             button_newton_graph.Text = "График";
             button_newton_graph.UseVisualStyleBackColor = true;
@@ -90,7 +96,7 @@
             // error_func
             // 
             error_func.AutoSize = true;
-            error_func.Location = new Point(39, 175);
+            error_func.Location = new Point(39, 179);
             error_func.Name = "error_func";
             error_func.Size = new Size(75, 20);
             error_func.TabIndex = 86;
@@ -99,7 +105,7 @@
             // error_label
             // 
             error_label.AutoSize = true;
-            error_label.Location = new Point(39, 582);
+            error_label.Location = new Point(39, 586);
             error_label.Name = "error_label";
             error_label.Size = new Size(41, 20);
             error_label.TabIndex = 82;
@@ -107,10 +113,13 @@
             // 
             // table_newton_button
             // 
-            table_newton_button.Location = new Point(526, 255);
+            table_newton_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            table_newton_button.FlatAppearance.MouseOverBackColor = Color.White;
+            table_newton_button.FlatStyle = FlatStyle.Flat;
+            table_newton_button.Location = new Point(548, 269);
             table_newton_button.Margin = new Padding(3, 4, 3, 4);
             table_newton_button.Name = "table_newton_button";
-            table_newton_button.Size = new Size(173, 29);
+            table_newton_button.Size = new Size(175, 35);
             table_newton_button.TabIndex = 85;
             table_newton_button.Text = "Таблица вычислений";
             table_newton_button.UseVisualStyleBackColor = true;
@@ -118,10 +127,13 @@
             // 
             // data_reset_button
             // 
-            data_reset_button.Location = new Point(218, 530);
+            data_reset_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            data_reset_button.FlatAppearance.MouseOverBackColor = Color.White;
+            data_reset_button.FlatStyle = FlatStyle.Flat;
+            data_reset_button.Location = new Point(259, 539);
             data_reset_button.Margin = new Padding(3, 4, 3, 4);
             data_reset_button.Name = "data_reset_button";
-            data_reset_button.Size = new Size(132, 38);
+            data_reset_button.Size = new Size(100, 35);
             data_reset_button.TabIndex = 84;
             data_reset_button.Text = "Сброс данных";
             data_reset_button.UseVisualStyleBackColor = true;
@@ -129,10 +141,13 @@
             // 
             // exit_button_newton
             // 
-            exit_button_newton.Location = new Point(742, 535);
+            exit_button_newton.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button_newton.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button_newton.FlatStyle = FlatStyle.Flat;
+            exit_button_newton.Location = new Point(718, 539);
             exit_button_newton.Margin = new Padding(3, 4, 3, 4);
             exit_button_newton.Name = "exit_button_newton";
-            exit_button_newton.Size = new Size(75, 29);
+            exit_button_newton.Size = new Size(100, 35);
             exit_button_newton.TabIndex = 83;
             exit_button_newton.Text = "Выход";
             exit_button_newton.UseVisualStyleBackColor = true;
@@ -144,7 +159,7 @@
             groupBox3.Controls.Add(label3);
             groupBox3.Controls.Add(result_label);
             groupBox3.Controls.Add(func_result_label);
-            groupBox3.Location = new Point(448, 87);
+            groupBox3.Location = new Point(449, 91);
             groupBox3.Margin = new Padding(3, 4, 3, 4);
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new Padding(3, 4, 3, 4);
@@ -193,7 +208,7 @@
             // 
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(accuracy_textBox);
-            groupBox2.Location = new Point(39, 340);
+            groupBox2.Location = new Point(39, 344);
             groupBox2.Margin = new Padding(3, 4, 3, 4);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(3, 4, 3, 4);
@@ -205,7 +220,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(23, 31);
+            label2.Location = new Point(28, 36);
             label2.Name = "label2";
             label2.Size = new Size(30, 20);
             label2.TabIndex = 13;
@@ -216,15 +231,18 @@
             accuracy_textBox.Location = new Point(64, 33);
             accuracy_textBox.Margin = new Padding(3, 4, 3, 4);
             accuracy_textBox.Name = "accuracy_textBox";
-            accuracy_textBox.Size = new Size(263, 27);
+            accuracy_textBox.Size = new Size(256, 27);
             accuracy_textBox.TabIndex = 8;
             // 
             // calculate_button
             // 
-            calculate_button.Location = new Point(84, 530);
+            calculate_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            calculate_button.FlatAppearance.MouseOverBackColor = Color.White;
+            calculate_button.FlatStyle = FlatStyle.Flat;
+            calculate_button.Location = new Point(103, 539);
             calculate_button.Margin = new Padding(3, 4, 3, 4);
             calculate_button.Name = "calculate_button";
-            calculate_button.Size = new Size(107, 38);
+            calculate_button.Size = new Size(100, 35);
             calculate_button.TabIndex = 78;
             calculate_button.Text = "Вычислить";
             calculate_button.UseVisualStyleBackColor = true;
@@ -236,7 +254,7 @@
             groupBox1.Controls.Add(label_2);
             groupBox1.Controls.Add(b_textBox);
             groupBox1.Controls.Add(a_textBox);
-            groupBox1.Location = new Point(39, 211);
+            groupBox1.Location = new Point(39, 215);
             groupBox1.Margin = new Padding(3, 4, 3, 4);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 4, 3, 4);
@@ -248,7 +266,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(23, 68);
+            label1.Location = new Point(26, 68);
             label1.Name = "label1";
             label1.Size = new Size(32, 20);
             label1.TabIndex = 12;
@@ -257,7 +275,7 @@
             // label_2
             // 
             label_2.AutoSize = true;
-            label_2.Location = new Point(23, 36);
+            label_2.Location = new Point(27, 33);
             label_2.Name = "label_2";
             label_2.Size = new Size(31, 20);
             label_2.TabIndex = 11;
@@ -265,18 +283,18 @@
             // 
             // b_textBox
             // 
-            b_textBox.Location = new Point(64, 63);
+            b_textBox.Location = new Point(64, 65);
             b_textBox.Margin = new Padding(3, 4, 3, 4);
             b_textBox.Name = "b_textBox";
-            b_textBox.Size = new Size(263, 27);
+            b_textBox.Size = new Size(256, 27);
             b_textBox.TabIndex = 6;
             // 
             // a_textBox
             // 
-            a_textBox.Location = new Point(64, 28);
+            a_textBox.Location = new Point(64, 30);
             a_textBox.Margin = new Padding(3, 4, 3, 4);
             a_textBox.Name = "a_textBox";
-            a_textBox.Size = new Size(263, 27);
+            a_textBox.Size = new Size(256, 27);
             a_textBox.TabIndex = 5;
             // 
             // function_groupBox
@@ -284,7 +302,7 @@
             function_groupBox.Controls.Add(label_1);
             function_groupBox.Controls.Add(function_textBox);
             function_groupBox.Controls.Add(function_button);
-            function_groupBox.Location = new Point(39, 87);
+            function_groupBox.Location = new Point(39, 91);
             function_groupBox.Margin = new Padding(3, 4, 3, 4);
             function_groupBox.Name = "function_groupBox";
             function_groupBox.Padding = new Padding(3, 4, 3, 4);
@@ -296,7 +314,7 @@
             // label_1
             // 
             label_1.AutoSize = true;
-            label_1.Location = new Point(15, 36);
+            label_1.Location = new Point(11, 30);
             label_1.Name = "label_1";
             label_1.Size = new Size(47, 20);
             label_1.TabIndex = 10;
@@ -307,12 +325,16 @@
             function_textBox.Location = new Point(64, 28);
             function_textBox.Margin = new Padding(3, 4, 3, 4);
             function_textBox.Name = "function_textBox";
-            function_textBox.Size = new Size(222, 27);
+            function_textBox.Size = new Size(256, 27);
             function_textBox.TabIndex = 4;
             // 
             // function_button
             // 
-            function_button.Location = new Point(301, 27);
+            function_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            function_button.FlatAppearance.BorderSize = 0;
+            function_button.FlatAppearance.MouseOverBackColor = Color.White;
+            function_button.FlatStyle = FlatStyle.Flat;
+            function_button.Location = new Point(326, 26);
             function_button.Margin = new Padding(3, 4, 3, 4);
             function_button.Name = "function_button";
             function_button.Size = new Size(37, 29);
@@ -323,20 +345,27 @@
             // 
             // info_button
             // 
-            info_button.Location = new Point(39, 27);
+            info_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            info_button.FlatAppearance.MouseOverBackColor = Color.White;
+            info_button.FlatStyle = FlatStyle.Flat;
+            info_button.Location = new Point(39, 37);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
-            info_button.Size = new Size(100, 29);
+            info_button.Size = new Size(100, 35);
             info_button.TabIndex = 76;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            info_button.Click += info_button_Click;
             // 
             // exit_button
             // 
-            exit_button.Location = new Point(526, 535);
+            exit_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button.FlatStyle = FlatStyle.Flat;
+            exit_button.Location = new Point(449, 539);
             exit_button.Margin = new Padding(3, 4, 3, 4);
             exit_button.Name = "exit_button";
-            exit_button.Size = new Size(173, 29);
+            exit_button.Size = new Size(175, 35);
             exit_button.TabIndex = 75;
             exit_button.Text = "На главную страницу";
             exit_button.UseVisualStyleBackColor = true;
@@ -346,7 +375,7 @@
             // 
             groupBox4.Controls.Add(x_0_label);
             groupBox4.Controls.Add(x_0_textBox);
-            groupBox4.Location = new Point(39, 439);
+            groupBox4.Location = new Point(39, 443);
             groupBox4.Margin = new Padding(3, 4, 3, 4);
             groupBox4.Name = "groupBox4";
             groupBox4.Padding = new Padding(3, 4, 3, 4);
@@ -358,7 +387,7 @@
             // x_0_label
             // 
             x_0_label.AutoSize = true;
-            x_0_label.Location = new Point(23, 37);
+            x_0_label.Location = new Point(14, 37);
             x_0_label.Name = "x_0_label";
             x_0_label.Size = new Size(44, 20);
             x_0_label.TabIndex = 13;
@@ -369,14 +398,15 @@
             x_0_textBox.Location = new Point(64, 34);
             x_0_textBox.Margin = new Padding(3, 4, 3, 4);
             x_0_textBox.Name = "x_0_textBox";
-            x_0_textBox.Size = new Size(263, 27);
+            x_0_textBox.Size = new Size(256, 27);
             x_0_textBox.TabIndex = 8;
             // 
             // NewtonMethodsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(857, 624);
+            BackColor = Color.FromArgb(245, 245, 240);
+            ClientSize = new Size(864, 626);
             Controls.Add(groupBox4);
             Controls.Add(visualization_newton_button);
             Controls.Add(button_newton_graph);
@@ -393,6 +423,7 @@
             Controls.Add(info_button);
             Controls.Add(exit_button);
             Name = "NewtonMethodsForm";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Метод Ньютона";
             groupBox3.ResumeLayout(false);

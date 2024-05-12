@@ -86,7 +86,7 @@ namespace Optimization_methods.Cubic_Methods
             {
                 Text = labelText,
                 AutoSize = false,
-                Font = new Font("Times New Roman", 9, FontStyle.Regular),
+                Font = new Font("Segoe UI", 9, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Anchor = AnchorStyles.None
             };
@@ -263,7 +263,7 @@ namespace Optimization_methods.Cubic_Methods
             x_0_label.Text = $"x_0 = {Math.Round(x0, 4)}";
             f_0_label.Text = $"F(x_0) = {Math.Round(CalculateFunctionValue(x0), 4)}";
             def_0_label.Text = $"F'(x_0) = {Math.Round(CalculateDerivative(x0), 4)}";
-            
+
             cubic_label.TextAlign = ContentAlignment.MiddleCenter;
 
             cubic_label.Text = $"P_3(x) = {Math.Round(a0, 4)} + {Math.Round(a1, 4)}*(x - {Math.Round(x1, 4)}) \n+ {Math.Round(a2, 4)}*(x - {Math.Round(x1, 4)})*(x - {Math.Round(x2, 4)}) + \n{Math.Round(a3, 4)}*(x - {Math.Round(x1, 4)})^2*(x - {Math.Round(x2, 4)})";
@@ -275,8 +275,8 @@ namespace Optimization_methods.Cubic_Methods
         }
         private void stop_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
-            question_2_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
             // Переинициализация массивов значений и переменных
             InitializeArrays();
 
@@ -322,7 +322,7 @@ namespace Optimization_methods.Cubic_Methods
 
         private void Next_step_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             new_eps_label.Visible = false;
             // Переходим к следующему шагу
             iterationNumber++;
@@ -381,7 +381,7 @@ namespace Optimization_methods.Cubic_Methods
         }
         private void yes_button_1_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             if (iterationNumber < aValues.Length)
             {
 
@@ -406,7 +406,7 @@ namespace Optimization_methods.Cubic_Methods
 
         private void no_button_1_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             if (iterationNumber < aValues.Length)
             {
                 bool conditionMet = CalculateDerivative(currentX) * CalculateDerivative(currentA_X) < 0;
@@ -430,7 +430,7 @@ namespace Optimization_methods.Cubic_Methods
         }
         private void yes_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
             // Проверяем, верно ли условие окончания?
             bool conditionMet = EpsValue[iterationNumber] <= accuracy;
 
@@ -453,7 +453,7 @@ namespace Optimization_methods.Cubic_Methods
 
         private void no_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
 
             // Проверяем, верно ли условие окончания?
             bool conditionMet = EpsValue[iterationNumber] <= accuracy;
@@ -545,5 +545,10 @@ namespace Optimization_methods.Cubic_Methods
             Close();
         }
 
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }

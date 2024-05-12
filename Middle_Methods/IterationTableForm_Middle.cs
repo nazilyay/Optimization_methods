@@ -83,7 +83,7 @@ namespace Optimization_methods.Middle_Methods
                 iteration++;
             }
 
-           
+
 
             // Добавляем последнюю итерацию
             double x = (a + b) / 2;
@@ -94,10 +94,10 @@ namespace Optimization_methods.Middle_Methods
             }
             else
             {
-                dataGridView.Rows.Add(iteration + 1 , a, b, x, f, "-", epsilon);
+                dataGridView.Rows.Add(iteration + 1, a, b, x, f, "-", epsilon);
             }
 
- // Окрашиваем последнюю добавленную строку
+            // Окрашиваем последнюю добавленную строку
             if (iteration > 0)
             {
                 if ((double)dataGridView.Rows[iteration - 1].Cells[1].Value != a)
@@ -143,6 +143,12 @@ namespace Optimization_methods.Middle_Methods
         private void exit_button_middle_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

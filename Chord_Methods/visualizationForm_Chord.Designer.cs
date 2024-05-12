@@ -64,7 +64,7 @@
             // 
             // panel1
             // 
-            panel1.Location = new Point(441, 81);
+            panel1.Location = new Point(441, 102);
             panel1.Name = "panel1";
             panel1.Size = new Size(358, 69);
             panel1.TabIndex = 127;
@@ -79,7 +79,7 @@
             groupBox2.Controls.Add(prev_x_label);
             groupBox2.Controls.Add(def_label);
             groupBox2.Controls.Add(step_out_label);
-            groupBox2.Location = new Point(39, 413);
+            groupBox2.Location = new Point(39, 446);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(358, 304);
             groupBox2.TabIndex = 119;
@@ -163,7 +163,7 @@
             groupBox6.Controls.Add(no_button_1);
             groupBox6.Controls.Add(question_1_label);
             groupBox6.Controls.Add(yes_button_1);
-            groupBox6.Location = new Point(441, 175);
+            groupBox6.Location = new Point(441, 191);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(358, 121);
             groupBox6.TabIndex = 125;
@@ -179,10 +179,13 @@
             // 
             // no_button_1
             // 
-            no_button_1.Location = new Point(212, 79);
+            no_button_1.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            no_button_1.FlatAppearance.CheckedBackColor = Color.White;
+            no_button_1.FlatStyle = FlatStyle.Flat;
+            no_button_1.Location = new Point(212, 73);
             no_button_1.Margin = new Padding(3, 4, 3, 4);
             no_button_1.Name = "no_button_1";
-            no_button_1.Size = new Size(75, 29);
+            no_button_1.Size = new Size(80, 35);
             no_button_1.TabIndex = 63;
             no_button_1.Text = "Нет";
             no_button_1.UseVisualStyleBackColor = true;
@@ -191,7 +194,7 @@
             // question_1_label
             // 
             question_1_label.AutoSize = true;
-            question_1_label.Location = new Point(118, 23);
+            question_1_label.Location = new Point(117, 23);
             question_1_label.Name = "question_1_label";
             question_1_label.Size = new Size(107, 20);
             question_1_label.TabIndex = 61;
@@ -200,10 +203,13 @@
             // 
             // yes_button_1
             // 
-            yes_button_1.Location = new Point(70, 79);
+            yes_button_1.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            yes_button_1.FlatAppearance.CheckedBackColor = Color.White;
+            yes_button_1.FlatStyle = FlatStyle.Flat;
+            yes_button_1.Location = new Point(70, 73);
             yes_button_1.Margin = new Padding(3, 4, 3, 4);
             yes_button_1.Name = "yes_button_1";
-            yes_button_1.Size = new Size(75, 29);
+            yes_button_1.Size = new Size(80, 35);
             yes_button_1.TabIndex = 62;
             yes_button_1.Text = "Да";
             yes_button_1.UseVisualStyleBackColor = true;
@@ -215,9 +221,9 @@
             groupBox3.Controls.Add(no_2_button);
             groupBox3.Controls.Add(question_2_label);
             groupBox3.Controls.Add(yes_2_button);
-            groupBox3.Location = new Point(441, 447);
+            groupBox3.Location = new Point(441, 468);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(358, 103);
+            groupBox3.Size = new Size(358, 116);
             groupBox3.TabIndex = 124;
             groupBox3.TabStop = false;
             // 
@@ -231,10 +237,13 @@
             // 
             // no_2_button
             // 
-            no_2_button.Location = new Point(212, 59);
+            no_2_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            no_2_button.FlatAppearance.CheckedBackColor = Color.White;
+            no_2_button.FlatStyle = FlatStyle.Flat;
+            no_2_button.Location = new Point(212, 60);
             no_2_button.Margin = new Padding(3, 4, 3, 4);
             no_2_button.Name = "no_2_button";
-            no_2_button.Size = new Size(75, 29);
+            no_2_button.Size = new Size(80, 35);
             no_2_button.TabIndex = 63;
             no_2_button.Text = "Нет";
             no_2_button.UseVisualStyleBackColor = true;
@@ -251,10 +260,13 @@
             // 
             // yes_2_button
             // 
-            yes_2_button.Location = new Point(70, 59);
+            yes_2_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            yes_2_button.FlatAppearance.CheckedBackColor = Color.White;
+            yes_2_button.FlatStyle = FlatStyle.Flat;
+            yes_2_button.Location = new Point(70, 60);
             yes_2_button.Margin = new Padding(3, 4, 3, 4);
             yes_2_button.Name = "yes_2_button";
-            yes_2_button.Size = new Size(75, 29);
+            yes_2_button.Size = new Size(80, 35);
             yes_2_button.TabIndex = 62;
             yes_2_button.Text = "Да";
             yes_2_button.UseVisualStyleBackColor = true;
@@ -263,7 +275,7 @@
             // Stop_label
             // 
             Stop_label.AutoSize = true;
-            Stop_label.Location = new Point(441, 573);
+            Stop_label.Location = new Point(558, 606);
             Stop_label.Name = "Stop_label";
             Stop_label.Size = new Size(137, 20);
             Stop_label.TabIndex = 122;
@@ -273,19 +285,24 @@
             // 
             groupBox1.Controls.Add(stop_button);
             groupBox1.Controls.Add(next_step_button);
-            groupBox1.Location = new Point(441, 322);
+            groupBox1.Location = new Point(511, 344);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(358, 103);
+            groupBox1.Size = new Size(222, 103);
             groupBox1.TabIndex = 123;
             groupBox1.TabStop = false;
             groupBox1.Text = "Панель управления";
             // 
             // stop_button
             // 
-            stop_button.Location = new Point(212, 45);
+            stop_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            stop_button.FlatAppearance.BorderSize = 0;
+            stop_button.FlatAppearance.CheckedBackColor = Color.White;
+            stop_button.FlatStyle = FlatStyle.Flat;
+            stop_button.Font = new Font("Segoe UI", 16.2F);
+            stop_button.Location = new Point(135, 34);
             stop_button.Margin = new Padding(3, 4, 3, 4);
             stop_button.Name = "stop_button";
-            stop_button.Size = new Size(75, 39);
+            stop_button.Size = new Size(66, 50);
             stop_button.TabIndex = 17;
             stop_button.Text = "⬛";
             stop_button.UseVisualStyleBackColor = true;
@@ -293,10 +310,15 @@
             // 
             // next_step_button
             // 
-            next_step_button.Location = new Point(70, 45);
+            next_step_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            next_step_button.FlatAppearance.BorderSize = 0;
+            next_step_button.FlatAppearance.CheckedBackColor = Color.White;
+            next_step_button.FlatStyle = FlatStyle.Flat;
+            next_step_button.Font = new Font("Segoe UI", 16.2F);
+            next_step_button.Location = new Point(40, 34);
             next_step_button.Margin = new Padding(3, 4, 3, 4);
             next_step_button.Name = "next_step_button";
-            next_step_button.Size = new Size(75, 39);
+            next_step_button.Size = new Size(66, 50);
             next_step_button.TabIndex = 16;
             next_step_button.Text = "▶";
             next_step_button.UseVisualStyleBackColor = true;
@@ -305,34 +327,41 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(447, 309);
+            label3.Location = new Point(447, 330);
             label3.Name = "label3";
             label3.Size = new Size(0, 20);
             label3.TabIndex = 121;
             // 
             // panel_graph
             // 
-            panel_graph.Location = new Point(39, 81);
+            panel_graph.Location = new Point(39, 102);
             panel_graph.Name = "panel_graph";
             panel_graph.Size = new Size(358, 314);
             panel_graph.TabIndex = 120;
             // 
             // info_button
             // 
-            info_button.Location = new Point(39, 32);
+            info_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            info_button.FlatAppearance.CheckedBackColor = Color.White;
+            info_button.FlatStyle = FlatStyle.Flat;
+            info_button.Location = new Point(39, 36);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
-            info_button.Size = new Size(100, 29);
+            info_button.Size = new Size(100, 35);
             info_button.TabIndex = 118;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            info_button.Click += info_button_Click;
             // 
             // exit_button
             // 
-            exit_button.Location = new Point(724, 688);
+            exit_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button.FlatAppearance.CheckedBackColor = Color.White;
+            exit_button.FlatStyle = FlatStyle.Flat;
+            exit_button.Location = new Point(699, 715);
             exit_button.Margin = new Padding(3, 4, 3, 4);
             exit_button.Name = "exit_button";
-            exit_button.Size = new Size(75, 29);
+            exit_button.Size = new Size(100, 35);
             exit_button.TabIndex = 117;
             exit_button.Text = "Выход";
             exit_button.UseVisualStyleBackColor = true;
@@ -342,7 +371,8 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(839, 763);
+            BackColor = Color.FromArgb(245, 245, 240);
+            ClientSize = new Size(839, 800);
             Controls.Add(panel1);
             Controls.Add(groupBox2);
             Controls.Add(groupBox6);
@@ -354,6 +384,7 @@
             Controls.Add(info_button);
             Controls.Add(exit_button);
             Name = "visualizationForm_Chord";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Метод хорд";
             groupBox2.ResumeLayout(false);

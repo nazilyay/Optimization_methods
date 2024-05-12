@@ -320,9 +320,9 @@ namespace Optimization_methods.Newton_Methods
             accuracy_textBox.Clear();
             calculate_button.Enabled = false;
             table_newton_button.Enabled = false;
-            
+
             // Убрать цвет фона у кнопки function_button
-            function_button.BackColor = DefaultBackColor;
+            function_button.BackColor = Color.FromArgb(245, 245, 240);
 
             // Скрыть сообщение 
             error_label.Visible = false;
@@ -404,5 +404,10 @@ namespace Optimization_methods.Newton_Methods
             visualizationForm.Show();
         }
 
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }

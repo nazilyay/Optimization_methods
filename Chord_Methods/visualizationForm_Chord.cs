@@ -83,7 +83,7 @@ namespace Optimization_methods.Chord_Methods
             {
                 Text = labelText,
                 AutoSize = false,
-                Font = new Font("Times New Roman", 9, FontStyle.Regular),
+                Font = new Font("Segoe UI", 9, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Anchor = AnchorStyles.None
             };
@@ -304,7 +304,7 @@ namespace Optimization_methods.Chord_Methods
 
         private void Next_step_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240); ;
             // Переходим к следующему шагу
             iterationNumber++;
 
@@ -338,7 +338,7 @@ namespace Optimization_methods.Chord_Methods
             punct.Points.Clear();
             double X1 = xValues[iterationNumber - 1];
             double X2 = xValues[iterationNumber - 2];
-            
+
             double Y1 = CalculateDerivative(xValues[iterationNumber - 1]);
             double Y2 = CalculateDerivative(xValues[iterationNumber - 2]);
 
@@ -362,7 +362,7 @@ namespace Optimization_methods.Chord_Methods
         }
         private void yes_button_1_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240); ;
 
             yes_button_1.Enabled = false;
             no_button_1.Enabled = false;
@@ -382,7 +382,7 @@ namespace Optimization_methods.Chord_Methods
         }
         private void yes_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240); ;
             // Проверяем, верно ли условие окончания?
             bool conditionMet = EpsValue[iterationNumber - 2] <= accuracy;
 
@@ -405,7 +405,7 @@ namespace Optimization_methods.Chord_Methods
 
         private void no_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240); ;
 
             // Проверяем, верно ли условие окончания?
             bool conditionMet = EpsValue[iterationNumber - 2] <= accuracy;
@@ -501,5 +501,10 @@ namespace Optimization_methods.Chord_Methods
             Close();
         }
 
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }

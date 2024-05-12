@@ -71,7 +71,7 @@ namespace Optimization_methods.Cubic_Methods
             this.FormClosing += GraphForm_Search_FormClosing;
             chart.MouseMove += chart_MouseMove;
         }
-    
+
         private (double[] aValues, double[] bValues, double[] x_0Values, double minX, double minResult) CalculateFunctionOnInterval(double a, double b, double accuracy)
         {
             List<double> aValues = new List<double>();
@@ -105,7 +105,7 @@ namespace Optimization_methods.Cubic_Methods
                 {
                     x2 = x0;
                 }
-                
+
                 epsilon = Math.Abs(x2 - x1);
             }
             double minX = x0;
@@ -252,13 +252,13 @@ namespace Optimization_methods.Cubic_Methods
             {
                 Text = labelText,
                 AutoSize = false,
-                Font = new Font("Times New Roman", 9, FontStyle.Regular),
+                Font = new Font("Segoe UI", 9, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Anchor = AnchorStyles.None
             };
             panel.Controls.Add(label, 0, rowIndex); // Добавляем текст в первый столбец
         }
-            private void DisplayFunctionGraph(double accuracy, double a, double b, double minX, double minResult)
+        private void DisplayFunctionGraph(double accuracy, double a, double b, double minX, double minResult)
         {
             tableLayoutPanel = new TableLayoutPanel();
             tableLayoutPanel.RowCount = 2;
@@ -456,6 +456,12 @@ namespace Optimization_methods.Cubic_Methods
                 {
                 }
             }
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

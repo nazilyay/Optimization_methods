@@ -134,9 +134,9 @@ namespace Optimization_methods.Bit_Method
 
         private void stop_button_Click(object sender, EventArgs e)
         {
-            question_3_label.BackColor = DefaultBackColor;
-            question_1_label.BackColor = DefaultBackColor;
-            question_2_label.BackColor = DefaultBackColor;
+            question_3_label.BackColor = Color.FromArgb(245, 245, 240); ;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240); ;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240); ;
             // Переинициализация массивов значений и переменных
             InitializeArrays();
 
@@ -161,7 +161,7 @@ namespace Optimization_methods.Bit_Method
 
         private void Next_step_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240); ;
 
             // Сохраняем значения текущего шага в качестве значений предыдущего шага
             prevX = currentX;
@@ -203,7 +203,7 @@ namespace Optimization_methods.Bit_Method
 
         private void yes_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240); ;
             // Проверяем, верно ли условие f(x_0) > f(x_1)
             bool conditionMet = prevY > currentY;
 
@@ -230,7 +230,7 @@ namespace Optimization_methods.Bit_Method
 
         private void no_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240); ;
             // Проверяем, верно ли условие f(x_0) > f(x_1)
             bool conditionMet = prevY > currentY;
 
@@ -312,7 +312,7 @@ namespace Optimization_methods.Bit_Method
 
         private void yes_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240); ;
 
             // Проверяем, верно ли условие x принадлежит интервалу?
             bool conditionMet = (currentX < b) && (currentX > a);
@@ -335,7 +335,7 @@ namespace Optimization_methods.Bit_Method
 
         private void no_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240); ;
             // Проверяем, верно ли условие f(x_0) > f(x_1)
             bool conditionMet = (currentX < b) && (currentX > a);
 
@@ -357,7 +357,7 @@ namespace Optimization_methods.Bit_Method
 
         private void yes_button_3_Click(object sender, EventArgs e)
         {
-            question_3_label.BackColor = DefaultBackColor;
+            question_3_label.BackColor = Color.FromArgb(245, 245, 240); ;
 
             // Проверяем, верно ли условие  окончания интервала
             bool conditionMet = Math.Abs(prevX - currentX) <= accuracy;
@@ -380,7 +380,7 @@ namespace Optimization_methods.Bit_Method
 
         private void no_button_3_Click(object sender, EventArgs e)
         {
-            question_3_label.BackColor = DefaultBackColor;
+            question_3_label.BackColor = Color.FromArgb(245, 245, 240); ;
 
             // Проверяем, верно ли условие  окончания интервала
             bool conditionMet = Math.Abs(prevX - currentX) <= accuracy;
@@ -404,6 +404,12 @@ namespace Optimization_methods.Bit_Method
                 yes_button_3.Enabled = false;
                 no_button_3.Enabled = false;
             }
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
 
     }

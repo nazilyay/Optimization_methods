@@ -46,7 +46,7 @@
             // 
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView.Columns.AddRange(new DataGridViewColumn[] { n, x_1, x_2, x_0, f_0, def_0, sign, epsilon });
-            dataGridView.Location = new Point(41, 80);
+            dataGridView.Location = new Point(41, 112);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
             dataGridView.Size = new Size(837, 322);
@@ -111,20 +111,27 @@
             // 
             // info_button
             // 
-            info_button.Location = new Point(41, 29);
+            info_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            info_button.FlatAppearance.MouseOverBackColor = Color.White;
+            info_button.FlatStyle = FlatStyle.Flat;
+            info_button.Location = new Point(41, 44);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
-            info_button.Size = new Size(100, 29);
+            info_button.Size = new Size(100, 35);
             info_button.TabIndex = 38;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            info_button.Click += info_button_Click;
             // 
             // exit_button_cubic
             // 
-            exit_button_cubic.Location = new Point(803, 422);
+            exit_button_cubic.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button_cubic.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button_cubic.FlatStyle = FlatStyle.Flat;
+            exit_button_cubic.Location = new Point(778, 467);
             exit_button_cubic.Margin = new Padding(3, 4, 3, 4);
             exit_button_cubic.Name = "exit_button_cubic";
-            exit_button_cubic.Size = new Size(75, 29);
+            exit_button_cubic.Size = new Size(100, 35);
             exit_button_cubic.TabIndex = 37;
             exit_button_cubic.Text = "Выход";
             exit_button_cubic.UseVisualStyleBackColor = true;
@@ -134,11 +141,13 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(919, 480);
+            BackColor = Color.FromArgb(218, 230, 238);
+            ClientSize = new Size(919, 544);
             Controls.Add(dataGridView);
             Controls.Add(info_button);
             Controls.Add(exit_button_cubic);
             Name = "IterationTableForm_Cubic_Mini";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ResumeLayout(false);

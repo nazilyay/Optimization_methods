@@ -220,7 +220,7 @@ namespace Optimization_methods.Dichotomies_Method
                 return;
             }
 
-            if (!(parameter > 0 && parameter < 2* accuracy))
+            if (!(parameter > 0 && parameter < 2 * accuracy))
             {
                 error_label.Text = "Некорректный ввод значения параметра алгоритма.";
                 error_label.Visible = true;
@@ -253,11 +253,11 @@ namespace Optimization_methods.Dichotomies_Method
             a_textBox.Clear();
             b_textBox.Clear();
             accuracy_textBox.Clear();
-            parameter_textBox.Clear();  
+            parameter_textBox.Clear();
             calculate_button.Enabled = false;
             table_dichotomies_button.Enabled = false;
             // Убираем цвет фона у кнопки function_button
-            function_button.BackColor = DefaultBackColor;
+            function_button.BackColor = Color.FromArgb(245, 245, 240);
 
             // Скрываем сообщение об ошибке
             error_label.Visible = false;
@@ -281,7 +281,7 @@ namespace Optimization_methods.Dichotomies_Method
             // Проверка правильности ввода значений a, b и точности
             if (!double.TryParse(a_textBox.Text, out a) ||
                 !double.TryParse(b_textBox.Text, out b) ||
-                !double.TryParse(accuracy_textBox.Text, out accuracy)||
+                !double.TryParse(accuracy_textBox.Text, out accuracy) ||
                 !double.TryParse(parameter_textBox.Text, out parameter) ||
                 (a >= b) || (!(parameter > 0 && parameter < 2 * accuracy)))
             {
@@ -346,5 +346,10 @@ namespace Optimization_methods.Dichotomies_Method
             visualizationForm.Show();
         }
 
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }

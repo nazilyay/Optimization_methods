@@ -44,10 +44,13 @@
             // 
             // exit_button_search
             // 
-            exit_button_search.Location = new Point(676, 375);
+            exit_button_search.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button_search.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button_search.FlatStyle = FlatStyle.Flat;
+            exit_button_search.Location = new Point(676, 412);
             exit_button_search.Margin = new Padding(3, 4, 3, 4);
             exit_button_search.Name = "exit_button_search";
-            exit_button_search.Size = new Size(75, 29);
+            exit_button_search.Size = new Size(75, 35);
             exit_button_search.TabIndex = 13;
             exit_button_search.Text = "Выход";
             exit_button_search.UseVisualStyleBackColor = true;
@@ -55,16 +58,25 @@
             // 
             // info_button
             // 
-            info_button.Location = new Point(651, 46);
+            info_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            info_button.FlatAppearance.MouseOverBackColor = Color.White;
+            info_button.FlatStyle = FlatStyle.Flat;
+            info_button.Location = new Point(651, 40);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
-            info_button.Size = new Size(100, 29);
+            info_button.Size = new Size(100, 35);
             info_button.TabIndex = 14;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            info_button.Click += info_button_Click;
             // 
             // start_button
             // 
+            start_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            start_button.FlatAppearance.BorderSize = 0;
+            start_button.FlatAppearance.MouseOverBackColor = Color.White;
+            start_button.FlatStyle = FlatStyle.Flat;
+            start_button.Font = new Font("Segoe UI", 12F);
             start_button.Location = new Point(36, 85);
             start_button.Margin = new Padding(3, 4, 3, 4);
             start_button.Name = "start_button";
@@ -76,6 +88,11 @@
             // 
             // pause_button
             // 
+            pause_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            pause_button.FlatAppearance.BorderSize = 0;
+            pause_button.FlatAppearance.MouseOverBackColor = Color.White;
+            pause_button.FlatStyle = FlatStyle.Flat;
+            pause_button.Font = new Font("Segoe UI", 12F);
             pause_button.Location = new Point(36, 132);
             pause_button.Margin = new Padding(3, 4, 3, 4);
             pause_button.Name = "pause_button";
@@ -87,6 +104,11 @@
             // 
             // stop_button
             // 
+            stop_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            stop_button.FlatAppearance.BorderSize = 0;
+            stop_button.FlatAppearance.MouseOverBackColor = Color.White;
+            stop_button.FlatStyle = FlatStyle.Flat;
+            stop_button.Font = new Font("Segoe UI", 12F);
             stop_button.Location = new Point(36, 38);
             stop_button.Margin = new Padding(3, 4, 3, 4);
             stop_button.Name = "stop_button";
@@ -101,7 +123,7 @@
             groupBox1.Controls.Add(start_button);
             groupBox1.Controls.Add(stop_button);
             groupBox1.Controls.Add(pause_button);
-            groupBox1.Location = new Point(630, 172);
+            groupBox1.Location = new Point(630, 192);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(121, 196);
             groupBox1.TabIndex = 18;
@@ -130,23 +152,25 @@
             // 
             groupBox2.Controls.Add(x_coordinateLabel);
             groupBox2.Controls.Add(y_coordinateLabel);
-            groupBox2.Location = new Point(597, 82);
+            groupBox2.Location = new Point(560, 98);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(191, 73);
             groupBox2.TabIndex = 21;
             groupBox2.TabStop = false;
             groupBox2.Text = "Координаты точки:";
             // 
-            // GraphForm_Search
+            // GraphForm_Bit
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackColor = Color.FromArgb(218, 230, 238);
+            ClientSize = new Size(800, 483);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(info_button);
             Controls.Add(exit_button_search);
-            Name = "GraphForm_Search";
+            Name = "GraphForm_Bit";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "График";
             groupBox1.ResumeLayout(false);

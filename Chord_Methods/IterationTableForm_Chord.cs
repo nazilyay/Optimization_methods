@@ -57,7 +57,7 @@ namespace Optimization_methods.Secant_Methods
 
                 x_prev = x_curr;
                 x_curr = x_new;
-                iteration++;     
+                iteration++;
             }
 
             // Добавление строки с результатом в таблицу
@@ -108,6 +108,12 @@ namespace Optimization_methods.Secant_Methods
         private void exit_button_chord_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

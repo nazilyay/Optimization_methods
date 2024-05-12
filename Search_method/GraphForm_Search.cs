@@ -249,7 +249,7 @@ namespace Optimization_methods
             exp.Parameters["x"] = x;
             return Convert.ToDouble(exp.Evaluate());
         }
-       
+
         private void GraphForm_Search_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Проверяем, активен ли таймер
@@ -281,6 +281,10 @@ namespace Optimization_methods
             }
         }
 
-
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }

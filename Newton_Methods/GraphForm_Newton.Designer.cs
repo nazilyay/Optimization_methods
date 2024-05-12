@@ -45,7 +45,7 @@
             // 
             groupBox2.Controls.Add(y_label);
             groupBox2.Controls.Add(x_label);
-            groupBox2.Location = new Point(595, 63);
+            groupBox2.Location = new Point(592, 106);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(191, 87);
             groupBox2.TabIndex = 107;
@@ -74,7 +74,7 @@
             groupBox1.Controls.Add(start_button);
             groupBox1.Controls.Add(stop_button);
             groupBox1.Controls.Add(pause_button);
-            groupBox1.Location = new Point(665, 181);
+            groupBox1.Location = new Point(662, 210);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(121, 196);
             groupBox1.TabIndex = 106;
@@ -83,10 +83,15 @@
             // 
             // start_button
             // 
+            start_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            start_button.FlatAppearance.BorderSize = 0;
+            start_button.FlatAppearance.MouseOverBackColor = Color.White;
+            start_button.FlatStyle = FlatStyle.Flat;
+            start_button.Font = new Font("Segoe UI", 13.8F);
             start_button.Location = new Point(36, 85);
             start_button.Margin = new Padding(3, 4, 3, 4);
             start_button.Name = "start_button";
-            start_button.Size = new Size(49, 39);
+            start_button.Size = new Size(50, 50);
             start_button.TabIndex = 15;
             start_button.Text = "▶";
             start_button.UseVisualStyleBackColor = true;
@@ -94,10 +99,15 @@
             // 
             // stop_button
             // 
-            stop_button.Location = new Point(36, 38);
+            stop_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            stop_button.FlatAppearance.BorderSize = 0;
+            stop_button.FlatAppearance.MouseOverBackColor = Color.White;
+            stop_button.FlatStyle = FlatStyle.Flat;
+            stop_button.Font = new Font("Segoe UI", 13.8F);
+            stop_button.Location = new Point(36, 27);
             stop_button.Margin = new Padding(3, 4, 3, 4);
             stop_button.Name = "stop_button";
-            stop_button.Size = new Size(49, 39);
+            stop_button.Size = new Size(50, 50);
             stop_button.TabIndex = 17;
             stop_button.Text = "⬛";
             stop_button.UseVisualStyleBackColor = true;
@@ -105,10 +115,15 @@
             // 
             // pause_button
             // 
-            pause_button.Location = new Point(36, 132);
+            pause_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            pause_button.FlatAppearance.BorderSize = 0;
+            pause_button.FlatAppearance.MouseOverBackColor = Color.White;
+            pause_button.FlatStyle = FlatStyle.Flat;
+            pause_button.Font = new Font("Segoe UI", 13.8F);
+            pause_button.Location = new Point(36, 139);
             pause_button.Margin = new Padding(3, 4, 3, 4);
             pause_button.Name = "pause_button";
-            pause_button.Size = new Size(49, 39);
+            pause_button.Size = new Size(50, 50);
             pause_button.TabIndex = 16;
             pause_button.Text = "❚❚";
             pause_button.UseVisualStyleBackColor = true;
@@ -116,20 +131,27 @@
             // 
             // info_button
             // 
-            info_button.Location = new Point(686, 27);
+            info_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            info_button.FlatAppearance.MouseOverBackColor = Color.White;
+            info_button.FlatStyle = FlatStyle.Flat;
+            info_button.Location = new Point(683, 41);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
-            info_button.Size = new Size(100, 29);
+            info_button.Size = new Size(100, 35);
             info_button.TabIndex = 105;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            info_button.Click += info_button_Click;
             // 
             // exit_button
             // 
-            exit_button.Location = new Point(711, 407);
+            exit_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button.FlatStyle = FlatStyle.Flat;
+            exit_button.Location = new Point(683, 445);
             exit_button.Margin = new Padding(3, 4, 3, 4);
             exit_button.Name = "exit_button";
-            exit_button.Size = new Size(75, 29);
+            exit_button.Size = new Size(100, 35);
             exit_button.TabIndex = 104;
             exit_button.Text = "Выход";
             exit_button.UseVisualStyleBackColor = true;
@@ -139,12 +161,14 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(821, 471);
+            BackColor = Color.FromArgb(218, 230, 238);
+            ClientSize = new Size(821, 519);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(info_button);
             Controls.Add(exit_button);
             Name = "GraphForm_Newton";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "График";
             groupBox2.ResumeLayout(false);

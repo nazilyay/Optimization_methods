@@ -1,6 +1,6 @@
 ﻿namespace Optimization_methods
 {
-    partial class End_Form
+    partial class Reference_Form
     {
         /// <summary>
         /// Required designer variable.
@@ -30,15 +30,17 @@
         {
             SuspendLayout();
             // 
-            // End_Form
+            // Reference_Form
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(218, 230, 238);
-            ClientSize = new Size(470, 155);
-            Name = "End_Form";
+            BackColor = Color.FromArgb(245, 245, 240);
+            ClientSize = new Size(800, 450);
+            ForeColor = Color.Black;
+            Name = "Reference_Form";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Результаты выполнения метода";
+            Text = "Справка";
             ResumeLayout(false);
         }
 

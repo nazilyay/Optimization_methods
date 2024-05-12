@@ -32,7 +32,7 @@ namespace Optimization_methods.Golden_Methods
             this.functionExpression = functionExpression; // Сохраняем выражение функции
 
             // Однократное вычисление массивов значений x и f(x)
-            (aValues, bValues, x_1_Values, x_2_Values, minX, minF) = CalculateFunctionOnInterval(a, b, accuracy) ;
+            (aValues, bValues, x_1_Values, x_2_Values, minX, minF) = CalculateFunctionOnInterval(a, b, accuracy);
             // Создаем панель для размещения графика
             chartPanel = new Panel();
             chartPanel.Dock = DockStyle.None; // Отменяем автоматическое занимание всей формы
@@ -402,6 +402,12 @@ namespace Optimization_methods.Golden_Methods
         private void exit_button_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

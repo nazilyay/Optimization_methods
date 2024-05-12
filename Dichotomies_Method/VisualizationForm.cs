@@ -189,8 +189,8 @@ namespace Optimization_methods.Dichotomies_Method
 
         private void stop_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
-            question_2_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
             // Переинициализация массивов значений и переменных
             InitializeArrays();
 
@@ -241,7 +241,7 @@ namespace Optimization_methods.Dichotomies_Method
 
         private void Next_step_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             new_ab_label.Visible = false;
             new_eps_label.Visible = false;
 
@@ -306,10 +306,10 @@ namespace Optimization_methods.Dichotomies_Method
 
         private void yes_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             // Проверяем, верно ли условие f(x_1)<=f(x_2)?
             bool conditionMet = currentY_1 <= currentY_2;
-            
+
             // Ответ пользователя
             if (conditionMet)
             {
@@ -355,11 +355,11 @@ namespace Optimization_methods.Dichotomies_Method
 
         private void no_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
 
             // Проверяем, верно ли условие f(x_1)<=f(x_2)?
             bool conditionMet = currentY_1 <= currentY_2;
-         
+
             // Ответ пользователя
             if (conditionMet)
             {
@@ -424,7 +424,7 @@ namespace Optimization_methods.Dichotomies_Method
                     b = x2;
                 }
                 else
-                {                     
+                {
                     a = x1;
                 }
             }
@@ -451,7 +451,7 @@ namespace Optimization_methods.Dichotomies_Method
 
         private void yes_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
             if (iterationNumber < aValues.Length - 1)
             {
                 double a = aValues[iterationNumber + 1];
@@ -479,7 +479,7 @@ namespace Optimization_methods.Dichotomies_Method
 
         private void no_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
             if (iterationNumber < aValues.Length - 1)
             {
                 double a = aValues[iterationNumber + 1];
@@ -501,7 +501,13 @@ namespace Optimization_methods.Dichotomies_Method
                     yes_button_2.Enabled = false;
                     no_button_2.Enabled = false;
                 }
-            }            
+            }
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

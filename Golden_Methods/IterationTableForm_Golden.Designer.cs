@@ -44,20 +44,27 @@
             // 
             // info_button
             // 
-            info_button.Location = new Point(42, 29);
+            info_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            info_button.FlatAppearance.MouseOverBackColor = Color.White;
+            info_button.FlatStyle = FlatStyle.Flat;
+            info_button.Location = new Point(43, 47);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
-            info_button.Size = new Size(100, 29);
+            info_button.Size = new Size(100, 35);
             info_button.TabIndex = 23;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            info_button.Click += info_button_Click;
             // 
             // exit_button_dichotomies
             // 
-            exit_button_dichotomies.Location = new Point(822, 421);
+            exit_button_dichotomies.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button_dichotomies.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button_dichotomies.FlatStyle = FlatStyle.Flat;
+            exit_button_dichotomies.Location = new Point(798, 459);
             exit_button_dichotomies.Margin = new Padding(3, 4, 3, 4);
             exit_button_dichotomies.Name = "exit_button_dichotomies";
-            exit_button_dichotomies.Size = new Size(75, 29);
+            exit_button_dichotomies.Size = new Size(100, 35);
             exit_button_dichotomies.TabIndex = 22;
             exit_button_dichotomies.Text = "Выход";
             exit_button_dichotomies.UseVisualStyleBackColor = true;
@@ -67,7 +74,7 @@
             // 
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView.Columns.AddRange(new DataGridViewColumn[] { iteration, step_a, step_b, epsilon, x_1, f_x_1, x_2, f_x_2 });
-            dataGridView.Location = new Point(42, 80);
+            dataGridView.Location = new Point(43, 102);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
             dataGridView.Size = new Size(855, 322);
@@ -142,11 +149,13 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(939, 479);
+            BackColor = Color.FromArgb(218, 230, 238);
+            ClientSize = new Size(947, 535);
             Controls.Add(info_button);
             Controls.Add(exit_button_dichotomies);
             Controls.Add(dataGridView);
             Name = "IterationTableForm_Golden";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ResumeLayout(false);

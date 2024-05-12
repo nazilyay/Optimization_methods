@@ -221,7 +221,7 @@ namespace Optimization_methods.Newton_Methods
             chartArea.AxisX.Maximum = b;
             chartArea.AxisY.Minimum = Math.Round(minF - 1);
             chartArea.AxisY.Maximum = Math.Round(CalculateMaxY(functionExpression, accuracy, a, b) + 1);
-            
+
             // Очищаем серии данных
             currentXSeries.Points.Clear();
             lineSeries.Points.Clear();
@@ -412,5 +412,10 @@ namespace Optimization_methods.Newton_Methods
             this.Close();
         }
 
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }

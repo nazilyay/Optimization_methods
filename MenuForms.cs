@@ -47,11 +47,13 @@ namespace Optimization_methods
         {
             if (e.KeyCode == Keys.Right)
             {
-                if (group_of_methods_listBox.SelectedIndex != 3) {                 
+                if (group_of_methods_listBox.SelectedIndex != 3)
+                {
                     // Переходим к выбору в methods_combobox
-                methods_combobox.Focus();
-                methods_combobox.DroppedDown = true; // Раскрываем список
-                e.Handled = true;}
+                    methods_combobox.Focus();
+                    methods_combobox.DroppedDown = true; // Раскрываем список
+                    e.Handled = true;
+                }
 
             }
             else if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
@@ -104,13 +106,13 @@ namespace Optimization_methods
                 e.Handled = true;
             }
         }
-            private void ListBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (group_of_methods_listBox.SelectedIndex)
             {
                 case 0: // Если выбраны "Поисковые методы"
                     methods_combobox.Items.Clear();
-                    methods_combobox.Items.AddRange(new string[] { "Метод перебора", "Метод поразрядного поиска"  });
+                    methods_combobox.Items.AddRange(new string[] { "Метод перебора", "Метод поразрядного поиска" });
                     methods_combobox.Enabled = true;
                     break;
                 case 1: // Если выбраны "Методы исключения отрезков"
@@ -232,6 +234,12 @@ namespace Optimization_methods
                 error_label1.Text = "Выберите значение из списка.";
                 error_label1.Visible = true; // Показать сообщение об ошибке
             }
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

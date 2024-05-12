@@ -40,7 +40,7 @@ namespace Optimization_methods.Newton_Methods
             this.FormClosing += VisualizationForm_Closing;
 
             question_label.Text = $"Отрезок [{a}; {b}] \nвыбрано корректно?";
-            question_label.TextAlign = ContentAlignment.MiddleCenter; 
+            question_label.TextAlign = ContentAlignment.MiddleCenter;
 
             question_1_label.Text = $"Начальное приближение `{x_0}` \nвыбрано корректно?";
             question_1_label.TextAlign = ContentAlignment.MiddleCenter;
@@ -86,7 +86,7 @@ namespace Optimization_methods.Newton_Methods
             {
                 Text = labelText,
                 AutoSize = false,
-                Font = new Font("Times New Roman", 9, FontStyle.Regular),
+                Font = new Font("Segoe UI", 9, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Anchor = AnchorStyles.None
             };
@@ -320,7 +320,7 @@ namespace Optimization_methods.Newton_Methods
 
         private void Next_step_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             // Переходим к следующему шагу
             iterationNumber++;
 
@@ -374,7 +374,7 @@ namespace Optimization_methods.Newton_Methods
         }
         private void yes_button_1_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             yes_button_1.Enabled = false;
             no_button_1.Enabled = false;
             yes_2_button.Enabled = true;
@@ -400,7 +400,7 @@ namespace Optimization_methods.Newton_Methods
         }
         private void yes_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
             // Проверяем, верно ли условие окончания?
             bool conditionMet = EpsValue[iterationNumber] <= accuracy;
 
@@ -423,7 +423,7 @@ namespace Optimization_methods.Newton_Methods
 
         private void no_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
 
             // Проверяем, верно ли условие окончания?
             bool conditionMet = EpsValue[iterationNumber] <= accuracy;
@@ -520,7 +520,7 @@ namespace Optimization_methods.Newton_Methods
 
         private void yes_button_Click(object sender, EventArgs e)
         {
-            question_label.BackColor = DefaultBackColor;
+            question_label.BackColor = Color.FromArgb(245, 245, 240);
             yes_button_1.Enabled = true;
             no_button_1.Enabled = true;
             yes_button.Enabled = false;
@@ -531,6 +531,12 @@ namespace Optimization_methods.Newton_Methods
         {
             question_label.BackColor = Color.Red;
             mistake++;
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

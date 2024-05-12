@@ -200,7 +200,7 @@ namespace Optimization_methods
             }
             return maxY;
         }
-        
+
         private void DisplayFunctionGraph(string functionExpression, double accuracy, double a, double b, double minX, double minResult)
         {
             // Создание области для графика
@@ -343,6 +343,10 @@ namespace Optimization_methods
             }
         }
 
-
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }

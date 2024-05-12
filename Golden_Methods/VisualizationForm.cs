@@ -186,17 +186,17 @@ namespace Optimization_methods.Golden_Methods
 
         private void newUpdateLabels()
         {
-            new_ab_label.Text = $"Новый интервал: ({Math.Round(aValues[iterationNumber+ 1], 4)}; {Math.Round(bValues[iterationNumber+ 1], 4)})";
+            new_ab_label.Text = $"Новый интервал: ({Math.Round(aValues[iterationNumber + 1], 4)}; {Math.Round(bValues[iterationNumber + 1], 4)})";
             new_x_label.Text = $"x_1 = {Math.Round(x_1_Values[iterationNumber + 1], 4)}";
             new_f_1_label.Text = $"F(x_1) = {Math.Round(CalculateFunctionValue(x_1_Values[iterationNumber + 1]), 4)}";
-            new_x_2_label.Text = $"x_2 = {Math.Round(x_2_Values[iterationNumber+ 1], 4)}";
-            new_f_1_label.Text = $"F(x_2) = {Math.Round(CalculateFunctionValue(x_2_Values[iterationNumber+ 1]), 4)}";
-            new_epsilon_label.Text = $"Точность = {Math.Round(EpsValue[iterationNumber+ 1], 4)}";
+            new_x_2_label.Text = $"x_2 = {Math.Round(x_2_Values[iterationNumber + 1], 4)}";
+            new_f_1_label.Text = $"F(x_2) = {Math.Round(CalculateFunctionValue(x_2_Values[iterationNumber + 1]), 4)}";
+            new_epsilon_label.Text = $"Точность = {Math.Round(EpsValue[iterationNumber + 1], 4)}";
         }
         private void stop_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
-            question_2_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
             // Переинициализация массивов значений и переменных
             InitializeArrays();
 
@@ -251,7 +251,7 @@ namespace Optimization_methods.Golden_Methods
 
         private void Next_step_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             new_ab_label.Visible = false;
             new_x_label.Visible = false;
             new_f_1_label.Visible = false;
@@ -319,7 +319,7 @@ namespace Optimization_methods.Golden_Methods
         }
         private void yes_button_1_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             if (iterationNumber < aValues.Length)
             {
                 // Проверяем, верно ли условие  окончания интервала
@@ -347,7 +347,7 @@ namespace Optimization_methods.Golden_Methods
 
         private void no_button_1_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             if (iterationNumber < aValues.Length)
             {
                 // Проверяем, верно ли условие  окончания интервала
@@ -370,7 +370,7 @@ namespace Optimization_methods.Golden_Methods
         }
         private void yes_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
             // Проверяем, верно ли условие f(x_1)<=f(x_2)?
             bool conditionMet = currentY_1 <= currentY_2;
 
@@ -398,7 +398,7 @@ namespace Optimization_methods.Golden_Methods
 
         private void no_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
 
             // Проверяем, верно ли условие f(x_1)<=f(x_2)?
             bool conditionMet = currentY_1 <= currentY_2;
@@ -465,7 +465,7 @@ namespace Optimization_methods.Golden_Methods
                     x2 = b + a - x1;
                     f2 = CalculateFunctionValue(x2);
                 }
-                 epsilon *= goldenRatio;
+                epsilon *= goldenRatio;
             }
 
             // Добавляем последние точки и значение минимума
@@ -494,6 +494,10 @@ namespace Optimization_methods.Golden_Methods
             Close();
         }
 
-        
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }

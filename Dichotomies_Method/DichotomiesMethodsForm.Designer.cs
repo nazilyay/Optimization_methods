@@ -67,10 +67,13 @@
             // 
             // visualization_button
             // 
-            visualization_button.Location = new Point(526, 427);
+            visualization_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            visualization_button.FlatAppearance.MouseOverBackColor = Color.White;
+            visualization_button.FlatStyle = FlatStyle.Flat;
+            visualization_button.Location = new Point(547, 401);
             visualization_button.Margin = new Padding(3, 4, 3, 4);
             visualization_button.Name = "visualization_button";
-            visualization_button.Size = new Size(173, 34);
+            visualization_button.Size = new Size(173, 35);
             visualization_button.TabIndex = 45;
             visualization_button.Text = "Визуализация метода";
             visualization_button.UseVisualStyleBackColor = true;
@@ -78,10 +81,13 @@
             // 
             // button_dichotomies_graph
             // 
-            button_dichotomies_graph.Location = new Point(526, 374);
+            button_dichotomies_graph.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            button_dichotomies_graph.FlatAppearance.MouseOverBackColor = Color.White;
+            button_dichotomies_graph.FlatStyle = FlatStyle.Flat;
+            button_dichotomies_graph.Location = new Point(547, 335);
             button_dichotomies_graph.Margin = new Padding(3, 4, 3, 4);
             button_dichotomies_graph.Name = "button_dichotomies_graph";
-            button_dichotomies_graph.Size = new Size(173, 29);
+            button_dichotomies_graph.Size = new Size(173, 35);
             button_dichotomies_graph.TabIndex = 44;
             button_dichotomies_graph.Text = "График";
             button_dichotomies_graph.UseVisualStyleBackColor = true;
@@ -99,7 +105,7 @@
             // error_label
             // 
             error_label.AutoSize = true;
-            error_label.Location = new Point(39, 598);
+            error_label.Location = new Point(39, 602);
             error_label.Name = "error_label";
             error_label.Size = new Size(41, 20);
             error_label.TabIndex = 39;
@@ -107,10 +113,13 @@
             // 
             // table_dichotomies_button
             // 
-            table_dichotomies_button.Location = new Point(526, 325);
+            table_dichotomies_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            table_dichotomies_button.FlatAppearance.MouseOverBackColor = Color.White;
+            table_dichotomies_button.FlatStyle = FlatStyle.Flat;
+            table_dichotomies_button.Location = new Point(547, 262);
             table_dichotomies_button.Margin = new Padding(3, 4, 3, 4);
             table_dichotomies_button.Name = "table_dichotomies_button";
-            table_dichotomies_button.Size = new Size(173, 29);
+            table_dichotomies_button.Size = new Size(173, 35);
             table_dichotomies_button.TabIndex = 42;
             table_dichotomies_button.Text = "Таблица вычислений";
             table_dichotomies_button.UseVisualStyleBackColor = true;
@@ -118,10 +127,13 @@
             // 
             // data_reset_button
             // 
-            data_reset_button.Location = new Point(245, 546);
+            data_reset_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            data_reset_button.FlatAppearance.MouseOverBackColor = Color.White;
+            data_reset_button.FlatStyle = FlatStyle.Flat;
+            data_reset_button.Location = new Point(227, 555);
             data_reset_button.Margin = new Padding(3, 4, 3, 4);
             data_reset_button.Name = "data_reset_button";
-            data_reset_button.Size = new Size(132, 38);
+            data_reset_button.Size = new Size(132, 35);
             data_reset_button.TabIndex = 41;
             data_reset_button.Text = "Сброс данных";
             data_reset_button.UseVisualStyleBackColor = true;
@@ -129,10 +141,13 @@
             // 
             // exit_button_dichotomies
             // 
-            exit_button_dichotomies.Location = new Point(742, 555);
+            exit_button_dichotomies.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button_dichotomies.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button_dichotomies.FlatStyle = FlatStyle.Flat;
+            exit_button_dichotomies.Location = new Point(717, 555);
             exit_button_dichotomies.Margin = new Padding(3, 4, 3, 4);
             exit_button_dichotomies.Name = "exit_button_dichotomies";
-            exit_button_dichotomies.Size = new Size(75, 29);
+            exit_button_dichotomies.Size = new Size(100, 35);
             exit_button_dichotomies.TabIndex = 40;
             exit_button_dichotomies.Text = "Выход";
             exit_button_dichotomies.UseVisualStyleBackColor = true;
@@ -205,7 +220,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(23, 33);
+            label2.Location = new Point(25, 31);
             label2.Name = "label2";
             label2.Size = new Size(30, 20);
             label2.TabIndex = 13;
@@ -213,7 +228,7 @@
             // 
             // accuracy_textBox
             // 
-            accuracy_textBox.Location = new Point(64, 28);
+            accuracy_textBox.Location = new Point(57, 28);
             accuracy_textBox.Margin = new Padding(3, 4, 3, 4);
             accuracy_textBox.Name = "accuracy_textBox";
             accuracy_textBox.Size = new Size(263, 27);
@@ -221,10 +236,13 @@
             // 
             // calculate_button
             // 
-            calculate_button.Location = new Point(76, 546);
+            calculate_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            calculate_button.FlatAppearance.MouseOverBackColor = Color.White;
+            calculate_button.FlatStyle = FlatStyle.Flat;
+            calculate_button.Location = new Point(64, 555);
             calculate_button.Margin = new Padding(3, 4, 3, 4);
             calculate_button.Name = "calculate_button";
-            calculate_button.Size = new Size(107, 38);
+            calculate_button.Size = new Size(107, 35);
             calculate_button.TabIndex = 35;
             calculate_button.Text = "Вычислить";
             calculate_button.UseVisualStyleBackColor = true;
@@ -248,7 +266,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(23, 65);
+            label1.Location = new Point(24, 73);
             label1.Name = "label1";
             label1.Size = new Size(32, 20);
             label1.TabIndex = 12;
@@ -257,7 +275,7 @@
             // label_2
             // 
             label_2.AutoSize = true;
-            label_2.Location = new Point(23, 33);
+            label_2.Location = new Point(24, 37);
             label_2.Name = "label_2";
             label_2.Size = new Size(31, 20);
             label_2.TabIndex = 11;
@@ -265,7 +283,7 @@
             // 
             // b_textBox
             // 
-            b_textBox.Location = new Point(64, 63);
+            b_textBox.Location = new Point(57, 70);
             b_textBox.Margin = new Padding(3, 4, 3, 4);
             b_textBox.Name = "b_textBox";
             b_textBox.Size = new Size(263, 27);
@@ -273,7 +291,7 @@
             // 
             // a_textBox
             // 
-            a_textBox.Location = new Point(64, 28);
+            a_textBox.Location = new Point(57, 34);
             a_textBox.Margin = new Padding(3, 4, 3, 4);
             a_textBox.Name = "a_textBox";
             a_textBox.Size = new Size(263, 27);
@@ -296,7 +314,7 @@
             // label_1
             // 
             label_1.AutoSize = true;
-            label_1.Location = new Point(15, 33);
+            label_1.Location = new Point(8, 31);
             label_1.Name = "label_1";
             label_1.Size = new Size(47, 20);
             label_1.TabIndex = 10;
@@ -304,15 +322,19 @@
             // 
             // function_textBox
             // 
-            function_textBox.Location = new Point(64, 28);
+            function_textBox.Location = new Point(61, 28);
             function_textBox.Margin = new Padding(3, 4, 3, 4);
             function_textBox.Name = "function_textBox";
-            function_textBox.Size = new Size(222, 27);
+            function_textBox.Size = new Size(259, 27);
             function_textBox.TabIndex = 4;
             // 
             // function_button
             // 
-            function_button.Location = new Point(301, 27);
+            function_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            function_button.FlatAppearance.BorderSize = 0;
+            function_button.FlatAppearance.MouseOverBackColor = Color.White;
+            function_button.FlatStyle = FlatStyle.Flat;
+            function_button.Location = new Point(326, 27);
             function_button.Margin = new Padding(3, 4, 3, 4);
             function_button.Name = "function_button";
             function_button.Size = new Size(37, 29);
@@ -323,20 +345,27 @@
             // 
             // info_button
             // 
+            info_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            info_button.FlatAppearance.MouseOverBackColor = Color.White;
+            info_button.FlatStyle = FlatStyle.Flat;
             info_button.Location = new Point(39, 29);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
-            info_button.Size = new Size(100, 29);
+            info_button.Size = new Size(100, 35);
             info_button.TabIndex = 33;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            info_button.Click += info_button_Click;
             // 
             // exit_button
             // 
-            exit_button.Location = new Point(526, 555);
+            exit_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button.FlatStyle = FlatStyle.Flat;
+            exit_button.Location = new Point(448, 555);
             exit_button.Margin = new Padding(3, 4, 3, 4);
             exit_button.Name = "exit_button";
-            exit_button.Size = new Size(173, 29);
+            exit_button.Size = new Size(173, 35);
             exit_button.TabIndex = 32;
             exit_button.Text = "На главную страницу";
             exit_button.UseVisualStyleBackColor = true;
@@ -358,7 +387,7 @@
             // parameter_label
             // 
             parameter_label.AutoSize = true;
-            parameter_label.Location = new Point(23, 34);
+            parameter_label.Location = new Point(23, 35);
             parameter_label.Name = "parameter_label";
             parameter_label.Size = new Size(32, 20);
             parameter_label.TabIndex = 13;
@@ -366,7 +395,7 @@
             // 
             // parameter_textBox
             // 
-            parameter_textBox.Location = new Point(64, 28);
+            parameter_textBox.Location = new Point(57, 32);
             parameter_textBox.Margin = new Padding(3, 4, 3, 4);
             parameter_textBox.Name = "parameter_textBox";
             parameter_textBox.Size = new Size(263, 27);
@@ -376,6 +405,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(245, 245, 240);
             ClientSize = new Size(857, 640);
             Controls.Add(groupBox4);
             Controls.Add(visualization_button);
@@ -393,6 +423,7 @@
             Controls.Add(info_button);
             Controls.Add(exit_button);
             Name = "DichotomiesMethodsForm";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Метод дихотомии";
             groupBox3.ResumeLayout(false);

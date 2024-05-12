@@ -19,13 +19,16 @@ namespace Optimization_methods
             Label label = new Label();
             label.TextAlign = ContentAlignment.MiddleCenter; // Выравниваем текст по центру
             label.Dock = DockStyle.Fill; // Занимаем всю доступную область формы
-            label.Font = new Font("Arial", 10); // Устанавливаем шрифт и размер текста
+            label.Font = new Font("Segoe UI", 12); // Устанавливаем шрифт и размер текста
             label.AutoEllipsis = true; // Включаем перенос текста
 
             string mistakeText = GetMistakeText(mistake); // Получаем строку с правильным склонением слова "ошибка"
 
             // В зависимости от значения end выбираем соответствующий текст
-            string endText = end ? $"При выполнении пошагово '{text}' студент совершил {mistake} {mistakeText} и получил следующие результаты для функции:\n" +
+            string endText = end ? $"При выполнении пошагово \n" +
+                $"'{text}' студент совершил \n" +
+                $"{mistake} {mistakeText} \n" +
+                $"и получил следующие результаты для функции:\n" +
                 $"x_min = {x_min},\nf(x_min) = {f_min}." :
                                    $"Студент не завершил метод до конца!";
 

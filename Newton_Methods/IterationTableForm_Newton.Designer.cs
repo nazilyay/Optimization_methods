@@ -43,20 +43,27 @@
             // 
             // info_button
             // 
-            info_button.Location = new Point(35, 29);
+            info_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            info_button.FlatAppearance.MouseOverBackColor = Color.White;
+            info_button.FlatStyle = FlatStyle.Flat;
+            info_button.Location = new Point(35, 40);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
-            info_button.Size = new Size(100, 29);
+            info_button.Size = new Size(100, 35);
             info_button.TabIndex = 29;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            info_button.Click += info_button_Click;
             // 
             // exit_button_middle
             // 
-            exit_button_middle.Location = new Point(693, 423);
+            exit_button_middle.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button_middle.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button_middle.FlatStyle = FlatStyle.Flat;
+            exit_button_middle.Location = new Point(668, 465);
             exit_button_middle.Margin = new Padding(3, 4, 3, 4);
             exit_button_middle.Name = "exit_button_middle";
-            exit_button_middle.Size = new Size(75, 29);
+            exit_button_middle.Size = new Size(100, 35);
             exit_button_middle.TabIndex = 28;
             exit_button_middle.Text = "Выход";
             exit_button_middle.UseVisualStyleBackColor = true;
@@ -65,7 +72,7 @@
             // 
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView.Columns.AddRange(new DataGridViewColumn[] { n, x_k, x_next, def, second_def, f_x, epsilon });
-            dataGridView.Location = new Point(35, 80);
+            dataGridView.Location = new Point(35, 107);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
             dataGridView.Size = new Size(733, 322);
@@ -125,11 +132,13 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(802, 480);
+            BackColor = Color.FromArgb(218, 230, 238);
+            ClientSize = new Size(817, 531);
             Controls.Add(info_button);
             Controls.Add(exit_button_middle);
             Controls.Add(dataGridView);
             Name = "IterationTableForm_Newton";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ResumeLayout(false);

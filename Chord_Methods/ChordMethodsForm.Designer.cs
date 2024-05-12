@@ -63,10 +63,13 @@
             // 
             // visualization_chord_button
             // 
-            visualization_chord_button.Location = new Point(526, 355);
+            visualization_chord_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            visualization_chord_button.FlatAppearance.MouseOverBackColor = Color.White;
+            visualization_chord_button.FlatStyle = FlatStyle.Flat;
+            visualization_chord_button.Location = new Point(561, 370);
             visualization_chord_button.Margin = new Padding(3, 4, 3, 4);
             visualization_chord_button.Name = "visualization_chord_button";
-            visualization_chord_button.Size = new Size(173, 34);
+            visualization_chord_button.Size = new Size(173, 36);
             visualization_chord_button.TabIndex = 103;
             visualization_chord_button.Text = "Визуализация метода";
             visualization_chord_button.UseVisualStyleBackColor = true;
@@ -74,10 +77,13 @@
             // 
             // button_chord_graph
             // 
-            button_chord_graph.Location = new Point(526, 302);
+            button_chord_graph.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            button_chord_graph.FlatAppearance.MouseOverBackColor = Color.White;
+            button_chord_graph.FlatStyle = FlatStyle.Flat;
+            button_chord_graph.Location = new Point(561, 307);
             button_chord_graph.Margin = new Padding(3, 4, 3, 4);
             button_chord_graph.Name = "button_chord_graph";
-            button_chord_graph.Size = new Size(173, 29);
+            button_chord_graph.Size = new Size(173, 35);
             button_chord_graph.TabIndex = 102;
             button_chord_graph.Text = "График";
             button_chord_graph.UseVisualStyleBackColor = true;
@@ -86,7 +92,7 @@
             // error_func
             // 
             error_func.AutoSize = true;
-            error_func.Location = new Point(39, 173);
+            error_func.Location = new Point(39, 184);
             error_func.Name = "error_func";
             error_func.Size = new Size(75, 20);
             error_func.TabIndex = 101;
@@ -95,7 +101,8 @@
             // error_label
             // 
             error_label.AutoSize = true;
-            error_label.Location = new Point(39, 485);
+            error_label.ForeColor = Color.FromArgb(78, 59, 45);
+            error_label.Location = new Point(39, 520);
             error_label.Name = "error_label";
             error_label.Size = new Size(41, 20);
             error_label.TabIndex = 97;
@@ -103,10 +110,13 @@
             // 
             // table_chord_button
             // 
-            table_chord_button.Location = new Point(526, 253);
+            table_chord_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            table_chord_button.FlatAppearance.MouseOverBackColor = Color.White;
+            table_chord_button.FlatStyle = FlatStyle.Flat;
+            table_chord_button.Location = new Point(561, 249);
             table_chord_button.Margin = new Padding(3, 4, 3, 4);
             table_chord_button.Name = "table_chord_button";
-            table_chord_button.Size = new Size(173, 29);
+            table_chord_button.Size = new Size(173, 35);
             table_chord_button.TabIndex = 100;
             table_chord_button.Text = "Таблица вычислений";
             table_chord_button.UseVisualStyleBackColor = true;
@@ -114,10 +124,13 @@
             // 
             // data_reset_button
             // 
-            data_reset_button.Location = new Point(218, 433);
+            data_reset_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            data_reset_button.FlatAppearance.MouseOverBackColor = Color.White;
+            data_reset_button.FlatStyle = FlatStyle.Flat;
+            data_reset_button.Location = new Point(227, 463);
             data_reset_button.Margin = new Padding(3, 4, 3, 4);
             data_reset_button.Name = "data_reset_button";
-            data_reset_button.Size = new Size(132, 38);
+            data_reset_button.Size = new Size(132, 35);
             data_reset_button.TabIndex = 99;
             data_reset_button.Text = "Сброс данных";
             data_reset_button.UseVisualStyleBackColor = true;
@@ -125,10 +138,13 @@
             // 
             // exit_button_chord
             // 
-            exit_button_chord.Location = new Point(742, 438);
+            exit_button_chord.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button_chord.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button_chord.FlatStyle = FlatStyle.Flat;
+            exit_button_chord.Location = new Point(742, 463);
             exit_button_chord.Margin = new Padding(3, 4, 3, 4);
             exit_button_chord.Name = "exit_button_chord";
-            exit_button_chord.Size = new Size(75, 29);
+            exit_button_chord.Size = new Size(75, 35);
             exit_button_chord.TabIndex = 98;
             exit_button_chord.Text = "Выход";
             exit_button_chord.UseVisualStyleBackColor = true;
@@ -140,7 +156,7 @@
             groupBox3.Controls.Add(label3);
             groupBox3.Controls.Add(result_label);
             groupBox3.Controls.Add(func_result_label);
-            groupBox3.Location = new Point(448, 85);
+            groupBox3.Location = new Point(448, 96);
             groupBox3.Margin = new Padding(3, 4, 3, 4);
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new Padding(3, 4, 3, 4);
@@ -189,7 +205,7 @@
             // 
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(accuracy_textBox);
-            groupBox2.Location = new Point(39, 338);
+            groupBox2.Location = new Point(39, 349);
             groupBox2.Margin = new Padding(3, 4, 3, 4);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(3, 4, 3, 4);
@@ -201,7 +217,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(23, 32);
+            label2.Location = new Point(29, 36);
             label2.Name = "label2";
             label2.Size = new Size(30, 20);
             label2.TabIndex = 13;
@@ -212,15 +228,18 @@
             accuracy_textBox.Location = new Point(64, 33);
             accuracy_textBox.Margin = new Padding(3, 4, 3, 4);
             accuracy_textBox.Name = "accuracy_textBox";
-            accuracy_textBox.Size = new Size(263, 27);
+            accuracy_textBox.Size = new Size(256, 27);
             accuracy_textBox.TabIndex = 8;
             // 
             // calculate_button
             // 
-            calculate_button.Location = new Point(84, 433);
+            calculate_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            calculate_button.FlatAppearance.MouseOverBackColor = Color.White;
+            calculate_button.FlatStyle = FlatStyle.Flat;
+            calculate_button.Location = new Point(82, 463);
             calculate_button.Margin = new Padding(3, 4, 3, 4);
             calculate_button.Name = "calculate_button";
-            calculate_button.Size = new Size(107, 38);
+            calculate_button.Size = new Size(107, 35);
             calculate_button.TabIndex = 93;
             calculate_button.Text = "Вычислить";
             calculate_button.UseVisualStyleBackColor = true;
@@ -232,7 +251,7 @@
             groupBox1.Controls.Add(label_2);
             groupBox1.Controls.Add(b_textBox);
             groupBox1.Controls.Add(a_textBox);
-            groupBox1.Location = new Point(39, 209);
+            groupBox1.Location = new Point(39, 220);
             groupBox1.Margin = new Padding(3, 4, 3, 4);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 4, 3, 4);
@@ -244,7 +263,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(23, 69);
+            label1.Location = new Point(27, 72);
             label1.Name = "label1";
             label1.Size = new Size(32, 20);
             label1.TabIndex = 12;
@@ -253,7 +272,7 @@
             // label_2
             // 
             label_2.AutoSize = true;
-            label_2.Location = new Point(23, 37);
+            label_2.Location = new Point(27, 35);
             label_2.Name = "label_2";
             label_2.Size = new Size(31, 20);
             label_2.TabIndex = 11;
@@ -261,18 +280,18 @@
             // 
             // b_textBox
             // 
-            b_textBox.Location = new Point(64, 63);
+            b_textBox.Location = new Point(64, 69);
             b_textBox.Margin = new Padding(3, 4, 3, 4);
             b_textBox.Name = "b_textBox";
-            b_textBox.Size = new Size(263, 27);
+            b_textBox.Size = new Size(256, 27);
             b_textBox.TabIndex = 6;
             // 
             // a_textBox
             // 
-            a_textBox.Location = new Point(64, 28);
+            a_textBox.Location = new Point(64, 32);
             a_textBox.Margin = new Padding(3, 4, 3, 4);
             a_textBox.Name = "a_textBox";
-            a_textBox.Size = new Size(263, 27);
+            a_textBox.Size = new Size(256, 27);
             a_textBox.TabIndex = 5;
             // 
             // function_groupBox
@@ -280,7 +299,7 @@
             function_groupBox.Controls.Add(label_1);
             function_groupBox.Controls.Add(function_textBox);
             function_groupBox.Controls.Add(function_button);
-            function_groupBox.Location = new Point(39, 85);
+            function_groupBox.Location = new Point(39, 96);
             function_groupBox.Margin = new Padding(3, 4, 3, 4);
             function_groupBox.Name = "function_groupBox";
             function_groupBox.Padding = new Padding(3, 4, 3, 4);
@@ -292,7 +311,7 @@
             // label_1
             // 
             label_1.AutoSize = true;
-            label_1.Location = new Point(15, 37);
+            label_1.Location = new Point(11, 31);
             label_1.Name = "label_1";
             label_1.Size = new Size(47, 20);
             label_1.TabIndex = 10;
@@ -303,12 +322,16 @@
             function_textBox.Location = new Point(64, 28);
             function_textBox.Margin = new Padding(3, 4, 3, 4);
             function_textBox.Name = "function_textBox";
-            function_textBox.Size = new Size(222, 27);
+            function_textBox.Size = new Size(256, 27);
             function_textBox.TabIndex = 4;
             // 
             // function_button
             // 
-            function_button.Location = new Point(301, 27);
+            function_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            function_button.FlatAppearance.BorderSize = 0;
+            function_button.FlatAppearance.MouseOverBackColor = Color.White;
+            function_button.FlatStyle = FlatStyle.Flat;
+            function_button.Location = new Point(326, 28);
             function_button.Margin = new Padding(3, 4, 3, 4);
             function_button.Name = "function_button";
             function_button.Size = new Size(37, 29);
@@ -319,20 +342,27 @@
             // 
             // info_button
             // 
-            info_button.Location = new Point(39, 25);
+            info_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            info_button.FlatAppearance.MouseOverBackColor = Color.White;
+            info_button.FlatStyle = FlatStyle.Flat;
+            info_button.Location = new Point(39, 35);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
-            info_button.Size = new Size(100, 29);
+            info_button.Size = new Size(100, 35);
             info_button.TabIndex = 91;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            info_button.Click += info_button_Click;
             // 
             // exit_button
             // 
-            exit_button.Location = new Point(526, 438);
+            exit_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button.FlatStyle = FlatStyle.Flat;
+            exit_button.Location = new Point(448, 463);
             exit_button.Margin = new Padding(3, 4, 3, 4);
             exit_button.Name = "exit_button";
-            exit_button.Size = new Size(173, 29);
+            exit_button.Size = new Size(173, 35);
             exit_button.TabIndex = 90;
             exit_button.Text = "На главную страницу";
             exit_button.UseVisualStyleBackColor = true;
@@ -342,7 +372,8 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(857, 537);
+            BackColor = Color.FromArgb(245, 245, 240);
+            ClientSize = new Size(857, 579);
             Controls.Add(visualization_chord_button);
             Controls.Add(button_chord_graph);
             Controls.Add(error_func);
@@ -358,6 +389,7 @@
             Controls.Add(info_button);
             Controls.Add(exit_button);
             Name = "ChordMethodsForm";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Метод хорд";
             groupBox3.ResumeLayout(false);

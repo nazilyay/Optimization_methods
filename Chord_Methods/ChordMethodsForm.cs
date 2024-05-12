@@ -93,6 +93,10 @@ namespace Optimization_methods.Chord_Methods
             b_textBox.Enabled = isFunctionValid;
             accuracy_textBox.Enabled = isFunctionValid;
             error_label.Visible = false;
+
+            button_chord_graph.Enabled = false;
+            table_chord_button.Enabled = false;
+            visualization_chord_button.Enabled = false;
         }
 
         private bool IsValidFunctionExpression(string expression)
@@ -130,7 +134,7 @@ namespace Optimization_methods.Chord_Methods
             return (minResult, x_new);
         }
 
-    private double CalculateDerivative(string expression, double x)
+        private double CalculateDerivative(string expression, double x)
         {
             double h = 0.0001; // Шаг для численного дифференцирования
             double xPlusH = x + h;
@@ -283,7 +287,7 @@ namespace Optimization_methods.Chord_Methods
             table_chord_button.Enabled = false;
 
             // Убрать цвет фона у кнопки function_button
-            function_button.BackColor = DefaultBackColor;
+            function_button.BackColor = Color.FromArgb(245, 245, 240);
 
             // Скрыть сообщение 
             error_label.Visible = false;
@@ -315,9 +319,9 @@ namespace Optimization_methods.Chord_Methods
 
             // Создание новой формы для отображения таблицы итерационных вычислений
             IterationTableForm_Chord iterationTableForm = new IterationTableForm_Chord(functionExpression, a, b, accuracy);
-             iterationTableForm.Show(); // Открываем форму модально (блокирует доступ к предыдущей форме)
-             // Скрываем сообщение об ошибке после закрытия формы
-             error_label.Visible = false;
+            iterationTableForm.Show(); // Открываем форму модально (блокирует доступ к предыдущей форме)
+                                       // Скрываем сообщение об ошибке после закрытия формы
+            error_label.Visible = false;
         }
 
         private void button_chord_graph_Click(object sender, EventArgs e)
@@ -359,6 +363,12 @@ namespace Optimization_methods.Chord_Methods
             // Создание и отображение новой формы
             visualizationForm_Chord visualizationForm = new visualizationForm_Chord(functionExpression, a, b, accuracy);
             visualizationForm.Show();
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

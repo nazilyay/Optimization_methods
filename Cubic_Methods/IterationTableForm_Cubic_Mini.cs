@@ -143,5 +143,11 @@ namespace Optimization_methods.Cubic_Methods
         {
             this.Close();
         }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }

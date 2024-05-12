@@ -257,8 +257,8 @@ namespace Optimization_methods.Middle_Methods
         }
         private void stop_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
-            question_2_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
             // Переинициализация массивов значений и переменных
             InitializeArrays();
 
@@ -307,7 +307,7 @@ namespace Optimization_methods.Middle_Methods
 
         private void Next_step_button_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             new_ab_label.Visible = false;
             new_eps_label.Visible = false;
             // Переходим к следующему шагу
@@ -369,7 +369,7 @@ namespace Optimization_methods.Middle_Methods
         }
         private void yes_button_1_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             if (iterationNumber < aValues.Length)
             {
                 // Проверяем знак производной
@@ -395,7 +395,7 @@ namespace Optimization_methods.Middle_Methods
 
         private void no_button_1_Click(object sender, EventArgs e)
         {
-            question_1_label.BackColor = DefaultBackColor;
+            question_1_label.BackColor = Color.FromArgb(245, 245, 240);
             if (iterationNumber < aValues.Length)
             {
                 // Проверяем знак производной
@@ -421,7 +421,7 @@ namespace Optimization_methods.Middle_Methods
         }
         private void yes_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
             // Проверяем, верно ли условие окончания?
             bool conditionMet = EpsValue[iterationNumber + 1] <= accuracy;
 
@@ -444,7 +444,7 @@ namespace Optimization_methods.Middle_Methods
 
         private void no_button_2_Click(object sender, EventArgs e)
         {
-            question_2_label.BackColor = DefaultBackColor;
+            question_2_label.BackColor = Color.FromArgb(245, 245, 240);
 
             // Проверяем, верно ли условие окончания?
             bool conditionMet = EpsValue[iterationNumber + 1] <= accuracy;
@@ -530,5 +530,12 @@ namespace Optimization_methods.Middle_Methods
         {
             Close();
         }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
+
     }
 }

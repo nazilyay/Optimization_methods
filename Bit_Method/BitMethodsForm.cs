@@ -51,7 +51,7 @@ namespace Optimization_methods
             // Закрываем каждую форму, кроме menuForm
             foreach (Form form in forms)
             {
-                if (form != menuForm && form != this )
+                if (form != menuForm && form != this)
                 {
                     form.Close();
                 }
@@ -92,6 +92,9 @@ namespace Optimization_methods
             a_textBox.Enabled = isFunctionValid;
             b_textBox.Enabled = isFunctionValid;
             accuracy_textBox.Enabled = isFunctionValid;
+            button_graph_bit.Enabled = false;
+            table_bit_button.Enabled = false;
+            Visualization_button.Enabled = false;
         }
         private bool IsValidFunctionExpression(string expression)
         {
@@ -117,14 +120,14 @@ namespace Optimization_methods
             double h = (b - a) / 4.0;
             // Начальное значение x
             double x = a;
-            double prevResult = CalculateFunctionValue(expression,x);
+            double prevResult = CalculateFunctionValue(expression, x);
 
             // Цикл поиска минимума
             while (true)
             {
                 // Вычисление значения функции в следующей точке
                 double nextX = x + h;
-                double nextResult = CalculateFunctionValue(expression,nextX);
+                double nextResult = CalculateFunctionValue(expression, nextX);
 
                 // Сравнение значений функции
                 if (prevResult > nextResult)
@@ -211,7 +214,7 @@ namespace Optimization_methods
                 return;
             }
 
-            if ( a >= b )
+            if (a >= b)
             {
                 error_label.Text = "Некорректный ввод значения a, b.";
                 error_label.Visible = true;
@@ -250,7 +253,7 @@ namespace Optimization_methods
             button_graph_bit.Enabled = true;
             Visualization_button.Enabled = true;
         }
-        
+
 
         private void data_reset_button_Click(object sender, EventArgs e)
         {
@@ -262,7 +265,7 @@ namespace Optimization_methods
             calculate_button.Enabled = false;
             table_bit_button.Enabled = false;
             // Убираем цвет фона у кнопки function_button
-            function_button.BackColor = DefaultBackColor;
+            function_button.BackColor = Color.FromArgb(245, 245, 240);
 
             // Скрываем сообщение об ошибке
             error_label.Visible = false;
@@ -321,7 +324,7 @@ namespace Optimization_methods
             // Вычисление минимума функции
             (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
 
-           // Открытие новой формы с графиком функции и выделенной точкой минимума
+            // Открытие новой формы с графиком функции и выделенной точкой минимума
             GraphForm_Bit graphForm = new GraphForm_Bit(functionExpression, accuracy, a, b, minX, minResult);
             graphForm.Show();
         }
@@ -347,5 +350,10 @@ namespace Optimization_methods
             visualizationForm.Show();
         }
 
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }

@@ -39,25 +39,33 @@
             def = new DataGridViewTextBoxColumn();
             second_def = new DataGridViewTextBoxColumn();
             epsilon = new DataGridViewTextBoxColumn();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
             // 
             // info_button
             // 
-            info_button.Location = new Point(35, 29);
+            info_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            info_button.FlatAppearance.MouseOverBackColor = Color.White;
+            info_button.FlatStyle = FlatStyle.Flat;
+            info_button.Location = new Point(35, 40);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
-            info_button.Size = new Size(100, 29);
+            info_button.Size = new Size(100, 35);
             info_button.TabIndex = 32;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            info_button.Click += info_button_Click;
             // 
             // exit_button_chord
             // 
-            exit_button_chord.Location = new Point(797, 422);
+            exit_button_chord.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button_chord.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button_chord.FlatStyle = FlatStyle.Flat;
+            exit_button_chord.Location = new Point(772, 468);
             exit_button_chord.Margin = new Padding(3, 4, 3, 4);
             exit_button_chord.Name = "exit_button_chord";
-            exit_button_chord.Size = new Size(75, 29);
+            exit_button_chord.Size = new Size(100, 35);
             exit_button_chord.TabIndex = 31;
             exit_button_chord.Text = "Выход";
             exit_button_chord.UseVisualStyleBackColor = true;
@@ -67,7 +75,7 @@
             // 
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView.Columns.AddRange(new DataGridViewColumn[] { n, x_prev, x_k, x_next, f_x, def, second_def, epsilon });
-            dataGridView.Location = new Point(35, 80);
+            dataGridView.Location = new Point(35, 109);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
             dataGridView.Size = new Size(837, 322);
@@ -130,15 +138,31 @@
             epsilon.Name = "epsilon";
             epsilon.Width = 125;
             // 
+            // button1
+            // 
+            button1.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            button1.FlatAppearance.MouseOverBackColor = Color.White;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Location = new Point(167, 29);
+            button1.Margin = new Padding(3, 4, 3, 4);
+            button1.Name = "button1";
+            button1.Size = new Size(0, 0);
+            button1.TabIndex = 110;
+            button1.Text = "Справка";
+            button1.UseVisualStyleBackColor = true;
+            // 
             // IterationTableForm_Chord
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(919, 480);
+            BackColor = Color.FromArgb(218, 230, 238);
+            ClientSize = new Size(919, 537);
+            Controls.Add(button1);
             Controls.Add(dataGridView);
             Controls.Add(info_button);
             Controls.Add(exit_button_chord);
             Name = "IterationTableForm_Chord";
+            ShowInTaskbar = false;
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ResumeLayout(false);
         }
@@ -156,5 +180,6 @@
         private DataGridViewTextBoxColumn def;
         private DataGridViewTextBoxColumn second_def;
         private DataGridViewTextBoxColumn epsilon;
+        private Button button1;
     }
 }

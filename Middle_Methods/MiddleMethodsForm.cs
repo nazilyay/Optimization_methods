@@ -242,7 +242,7 @@ namespace Optimization_methods.Middle_Methods
             table_middle_button.Enabled = false;
 
             // Убрать цвет фона у кнопки function_button
-            function_button.BackColor = DefaultBackColor;
+            function_button.BackColor = Color.FromArgb(245, 245, 240);
 
             // Скрыть сообщение об ошибке
             error_label.Visible = false;
@@ -299,8 +299,8 @@ namespace Optimization_methods.Middle_Methods
             (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
 
             // Открытие новой формы с графиком функции и выделенной точкой минимума
-             GraphForm_Middle graphForm = new GraphForm_Middle(functionExpression, accuracy, a, b);
-             graphForm.Show();
+            GraphForm_Middle graphForm = new GraphForm_Middle(functionExpression, accuracy, a, b);
+            graphForm.Show();
         }
 
         private void visualization_middle_button_Click(object sender, EventArgs e)
@@ -321,7 +321,13 @@ namespace Optimization_methods.Middle_Methods
 
             // Создание и отображение новой формы
             visualizationForm_Middle visualizationForm = new visualizationForm_Middle(functionExpression, a, b, accuracy);
-              visualizationForm.Show();
+            visualizationForm.Show();
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

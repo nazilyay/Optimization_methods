@@ -62,7 +62,7 @@ namespace Optimization_methods.Search_method
         }
         private void VisualizationForm_Closing(object sender, FormClosingEventArgs e)
         {
-            End_Form endMethods = new End_Form(mistake, "Метода золотого сечения", end, min, CalculateFunctionValue(min));
+            End_Form endMethods = new End_Form(mistake, "Метода перебора", end, min, CalculateFunctionValue(min));
             endMethods.Show();
         }
         private void DisplayFunctionGraph()
@@ -156,7 +156,7 @@ namespace Optimization_methods.Search_method
             begin_button.Enabled = false;
             label1.Visible = false;
             min_button.Visible = false;
-            min_button.BackColor = DefaultBackColor;
+            min_button.BackColor = Color.FromArgb(245, 245, 240);
             Result_label.Visible = false;
 
             // Обновляем координаты точки на графике
@@ -278,7 +278,7 @@ namespace Optimization_methods.Search_method
             Result_label.Visible = false;
             label1.Visible = false;
             min_button.Visible = false;
-            min_button.BackColor = DefaultBackColor;
+            min_button.BackColor = Color.FromArgb(245, 245, 240);
 
             // Сброс переменных к исходным значениям
             currentX = a;
@@ -397,6 +397,11 @@ namespace Optimization_methods.Search_method
             }
         }
 
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }
 

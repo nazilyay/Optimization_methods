@@ -159,7 +159,7 @@ namespace Optimization_methods.Polylines_Methods
 
             return (fPlusH - fMinusH) / (2 * h);
         }
-      
+
         private double CalculateFunctionValue(string expression, double x)
         {
             try
@@ -219,7 +219,7 @@ namespace Optimization_methods.Polylines_Methods
                 return;
             }
 
-           
+
             // Вычисление минимума функции на отрезке 
             (double minResult, double minX) = CalculateFunctionOnInterval(functionExpression, a, b, accuracy);
 
@@ -239,7 +239,7 @@ namespace Optimization_methods.Polylines_Methods
             visualization_Cubic_button.Enabled = true;
         }
 
-      
+
         private void data_reset_button_Click(object sender, EventArgs e)
         {
             // Очистка значений всех текстовых полей
@@ -251,7 +251,7 @@ namespace Optimization_methods.Polylines_Methods
             table_Cubic_button.Enabled = false;
             small_table_Cubic_button.Enabled = false;
             // Убрать цвет фона у кнопки function_button
-            function_button.BackColor = DefaultBackColor;
+            function_button.BackColor = Color.FromArgb(245, 245, 240);
 
             // Скрыть сообщение 
             error_label.Visible = false;
@@ -309,7 +309,7 @@ namespace Optimization_methods.Polylines_Methods
                                        // Скрываем сообщение об ошибке после закрытия формы
             error_label.Visible = false;
         }
-        
+
         private void button_Cubic_graph_Click(object sender, EventArgs e)
         {
             string functionExpression = function_textBox.Text.Trim();
@@ -349,6 +349,12 @@ namespace Optimization_methods.Polylines_Methods
             // Создание и отображение новой формы
             visualizationForm_Cubic visualizationForm = new visualizationForm_Cubic(functionExpression, a, b, accuracy);
             visualizationForm.Show();
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

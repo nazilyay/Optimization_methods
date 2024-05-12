@@ -337,7 +337,7 @@ namespace Optimization_methods.Middle_Methods
             horizontalLineSeries.ChartType = SeriesChartType.Line;
             horizontalLineSeries.BorderWidth = 1;
             horizontalLineSeries.Color = Color.Red; // Цвет линии можно выбрать по вашему усмотрению
-            
+
 
             // Добавление точек на график, чтобы создать линию y=0
             for (double x = chartArea.AxisX.Minimum; x <= chartArea.AxisX.Maximum; x += accuracy)
@@ -345,7 +345,7 @@ namespace Optimization_methods.Middle_Methods
                 double y = 0; // y=0
                 horizontalLineSeries.Points.AddXY(x, y);
             }
-  
+
             // Добавление серии данных на график
             chart.Series.Add(horizontalLineSeries);
 
@@ -390,7 +390,7 @@ namespace Optimization_methods.Middle_Methods
 
 
             // Инициализация F'
-            double currentF= CalculateDerivative(currentX);
+            double currentF = CalculateDerivative(currentX);
 
             currentFSeries = new Series();
             currentFSeries.ChartType = SeriesChartType.Point;
@@ -473,6 +473,12 @@ namespace Optimization_methods.Middle_Methods
         private void exit_button_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

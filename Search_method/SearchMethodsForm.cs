@@ -198,7 +198,7 @@ namespace Optimization_methods
             button_graph_search.Enabled = true;
             Visualization_button.Enabled = true;
         }
-       
+
         private void data_reset_button_Click(object sender, EventArgs e)
         {
             // Очистка значений всех текстовых полей
@@ -209,7 +209,7 @@ namespace Optimization_methods
             calculate_button.Enabled = false;
             table_search_button.Enabled = false;
             // Убираем цвет фона у кнопки function_button
-            function_button.BackColor = DefaultBackColor;
+            function_button.BackColor = Color.FromArgb(245, 245, 240);
 
             // Скрываем сообщение об ошибке
             error_label.Visible = false;
@@ -294,7 +294,12 @@ namespace Optimization_methods
             VisualizationForm_Search visualizationForm = new VisualizationForm_Search(functionExpression, a, b, accuracy, minX, minResult);
             visualizationForm.Show();
         }
-      
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 
 }

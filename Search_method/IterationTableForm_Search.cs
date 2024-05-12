@@ -26,10 +26,10 @@ namespace Optimization_methods
             PerformBruteForceMethod();
 
             // Установка ширины столбцов
-            dataGridView.Columns[0].Width = 100;  
-            dataGridView.Columns[1].Width = 120; 
-            dataGridView.Columns[2].Width = 120; 
-            dataGridView.Columns[3].Width = 120; 
+            dataGridView.Columns[0].Width = 100;
+            dataGridView.Columns[1].Width = 120;
+            dataGridView.Columns[2].Width = 120;
+            dataGridView.Columns[3].Width = 120;
             dataGridView.Columns[4].Width = 120;
 
             // Добавление обработчика события CellFormatting
@@ -101,6 +101,12 @@ namespace Optimization_methods
         {
             this.Close();
 
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

@@ -78,7 +78,7 @@ namespace Optimization_methods.Cubic_Methods
                         else
                             dataGridView.Rows[iteration].Cells[2].Style.BackColor = Color.Yellow;
                     }
-                    x1 = x0; 
+                    x1 = x0;
                 }
                 else if (y0_derivative * y12 < 0)
                 {
@@ -93,10 +93,10 @@ namespace Optimization_methods.Cubic_Methods
                         else
                             dataGridView.Rows[iteration].Cells[2].Style.BackColor = Color.Yellow;
                     }
-                    x2 = x0; 
+                    x2 = x0;
                 }
                 // Окрашиваем предыдущую строку (если она существует)
-               
+
                 epsilon = Math.Abs(x2 - x1);
                 iteration++;
 
@@ -148,6 +148,12 @@ namespace Optimization_methods.Cubic_Methods
         private void exit_button_Cubic_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
         }
     }
 }

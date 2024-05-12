@@ -63,10 +63,13 @@
             // 
             // visualization_golden_button
             // 
-            visualization_golden_button.Location = new Point(526, 356);
+            visualization_golden_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            visualization_golden_button.FlatAppearance.MouseOverBackColor = Color.White;
+            visualization_golden_button.FlatStyle = FlatStyle.Flat;
+            visualization_golden_button.Location = new Point(547, 352);
             visualization_golden_button.Margin = new Padding(3, 4, 3, 4);
             visualization_golden_button.Name = "visualization_golden_button";
-            visualization_golden_button.Size = new Size(173, 34);
+            visualization_golden_button.Size = new Size(175, 35);
             visualization_golden_button.TabIndex = 60;
             visualization_golden_button.Text = "Визуализация метода";
             visualization_golden_button.UseVisualStyleBackColor = true;
@@ -74,10 +77,13 @@
             // 
             // button_golden_graph
             // 
-            button_golden_graph.Location = new Point(526, 303);
+            button_golden_graph.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            button_golden_graph.FlatAppearance.MouseOverBackColor = Color.White;
+            button_golden_graph.FlatStyle = FlatStyle.Flat;
+            button_golden_graph.Location = new Point(547, 297);
             button_golden_graph.Margin = new Padding(3, 4, 3, 4);
             button_golden_graph.Name = "button_golden_graph";
-            button_golden_graph.Size = new Size(173, 29);
+            button_golden_graph.Size = new Size(175, 35);
             button_golden_graph.TabIndex = 59;
             button_golden_graph.Text = "График";
             button_golden_graph.UseVisualStyleBackColor = true;
@@ -86,7 +92,7 @@
             // error_func_bit
             // 
             error_func_bit.AutoSize = true;
-            error_func_bit.Location = new Point(39, 174);
+            error_func_bit.Location = new Point(39, 186);
             error_func_bit.Name = "error_func_bit";
             error_func_bit.Size = new Size(75, 20);
             error_func_bit.TabIndex = 58;
@@ -95,7 +101,7 @@
             // error_label
             // 
             error_label.AutoSize = true;
-            error_label.Location = new Point(39, 495);
+            error_label.Location = new Point(39, 508);
             error_label.Name = "error_label";
             error_label.Size = new Size(41, 20);
             error_label.TabIndex = 54;
@@ -103,10 +109,13 @@
             // 
             // table_golden_button
             // 
-            table_golden_button.Location = new Point(526, 254);
+            table_golden_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            table_golden_button.FlatAppearance.MouseOverBackColor = Color.White;
+            table_golden_button.FlatStyle = FlatStyle.Flat;
+            table_golden_button.Location = new Point(547, 241);
             table_golden_button.Margin = new Padding(3, 4, 3, 4);
             table_golden_button.Name = "table_golden_button";
-            table_golden_button.Size = new Size(173, 29);
+            table_golden_button.Size = new Size(175, 35);
             table_golden_button.TabIndex = 57;
             table_golden_button.Text = "Таблица вычислений";
             table_golden_button.UseVisualStyleBackColor = true;
@@ -114,10 +123,13 @@
             // 
             // data_reset_button
             // 
-            data_reset_button.Location = new Point(245, 443);
+            data_reset_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            data_reset_button.FlatAppearance.MouseOverBackColor = Color.White;
+            data_reset_button.FlatStyle = FlatStyle.Flat;
+            data_reset_button.Location = new Point(259, 455);
             data_reset_button.Margin = new Padding(3, 4, 3, 4);
             data_reset_button.Name = "data_reset_button";
-            data_reset_button.Size = new Size(132, 38);
+            data_reset_button.Size = new Size(100, 35);
             data_reset_button.TabIndex = 56;
             data_reset_button.Text = "Сброс данных";
             data_reset_button.UseVisualStyleBackColor = true;
@@ -125,10 +137,13 @@
             // 
             // exit_button_golden
             // 
-            exit_button_golden.Location = new Point(742, 452);
+            exit_button_golden.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button_golden.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button_golden.FlatStyle = FlatStyle.Flat;
+            exit_button_golden.Location = new Point(717, 455);
             exit_button_golden.Margin = new Padding(3, 4, 3, 4);
             exit_button_golden.Name = "exit_button_golden";
-            exit_button_golden.Size = new Size(75, 29);
+            exit_button_golden.Size = new Size(100, 35);
             exit_button_golden.TabIndex = 55;
             exit_button_golden.Text = "Выход";
             exit_button_golden.UseVisualStyleBackColor = true;
@@ -140,7 +155,7 @@
             groupBox3.Controls.Add(label3);
             groupBox3.Controls.Add(result_label);
             groupBox3.Controls.Add(func_result_label);
-            groupBox3.Location = new Point(448, 86);
+            groupBox3.Location = new Point(448, 98);
             groupBox3.Margin = new Padding(3, 4, 3, 4);
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new Padding(3, 4, 3, 4);
@@ -189,7 +204,7 @@
             // 
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(accuracy_textBox);
-            groupBox2.Location = new Point(39, 342);
+            groupBox2.Location = new Point(39, 352);
             groupBox2.Margin = new Padding(3, 4, 3, 4);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(3, 4, 3, 4);
@@ -201,7 +216,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(23, 34);
+            label2.Location = new Point(28, 31);
             label2.Name = "label2";
             label2.Size = new Size(30, 20);
             label2.TabIndex = 13;
@@ -212,15 +227,18 @@
             accuracy_textBox.Location = new Point(64, 28);
             accuracy_textBox.Margin = new Padding(3, 4, 3, 4);
             accuracy_textBox.Name = "accuracy_textBox";
-            accuracy_textBox.Size = new Size(263, 27);
+            accuracy_textBox.Size = new Size(256, 27);
             accuracy_textBox.TabIndex = 8;
             // 
             // calculate_button
             // 
-            calculate_button.Location = new Point(76, 443);
+            calculate_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            calculate_button.FlatAppearance.MouseOverBackColor = Color.White;
+            calculate_button.FlatStyle = FlatStyle.Flat;
+            calculate_button.Location = new Point(67, 455);
             calculate_button.Margin = new Padding(3, 4, 3, 4);
             calculate_button.Name = "calculate_button";
-            calculate_button.Size = new Size(107, 38);
+            calculate_button.Size = new Size(100, 35);
             calculate_button.TabIndex = 50;
             calculate_button.Text = "Вычислить";
             calculate_button.UseVisualStyleBackColor = true;
@@ -232,7 +250,7 @@
             groupBox1.Controls.Add(label_2);
             groupBox1.Controls.Add(b_textBox);
             groupBox1.Controls.Add(a_textBox);
-            groupBox1.Location = new Point(39, 210);
+            groupBox1.Location = new Point(39, 222);
             groupBox1.Margin = new Padding(3, 4, 3, 4);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 4, 3, 4);
@@ -244,7 +262,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(23, 66);
+            label1.Location = new Point(26, 70);
             label1.Name = "label1";
             label1.Size = new Size(32, 20);
             label1.TabIndex = 12;
@@ -253,7 +271,7 @@
             // label_2
             // 
             label_2.AutoSize = true;
-            label_2.Location = new Point(23, 34);
+            label_2.Location = new Point(27, 35);
             label_2.Name = "label_2";
             label_2.Size = new Size(31, 20);
             label_2.TabIndex = 11;
@@ -261,18 +279,18 @@
             // 
             // b_textBox
             // 
-            b_textBox.Location = new Point(64, 63);
+            b_textBox.Location = new Point(64, 67);
             b_textBox.Margin = new Padding(3, 4, 3, 4);
             b_textBox.Name = "b_textBox";
-            b_textBox.Size = new Size(263, 27);
+            b_textBox.Size = new Size(256, 27);
             b_textBox.TabIndex = 6;
             // 
             // a_textBox
             // 
-            a_textBox.Location = new Point(64, 28);
+            a_textBox.Location = new Point(64, 32);
             a_textBox.Margin = new Padding(3, 4, 3, 4);
             a_textBox.Name = "a_textBox";
-            a_textBox.Size = new Size(263, 27);
+            a_textBox.Size = new Size(256, 27);
             a_textBox.TabIndex = 5;
             // 
             // function_groupBox
@@ -280,7 +298,7 @@
             function_groupBox.Controls.Add(label_1);
             function_groupBox.Controls.Add(function_textBox);
             function_groupBox.Controls.Add(function_button);
-            function_groupBox.Location = new Point(39, 86);
+            function_groupBox.Location = new Point(39, 98);
             function_groupBox.Margin = new Padding(3, 4, 3, 4);
             function_groupBox.Name = "function_groupBox";
             function_groupBox.Padding = new Padding(3, 4, 3, 4);
@@ -292,7 +310,7 @@
             // label_1
             // 
             label_1.AutoSize = true;
-            label_1.Location = new Point(15, 34);
+            label_1.Location = new Point(11, 31);
             label_1.Name = "label_1";
             label_1.Size = new Size(47, 20);
             label_1.TabIndex = 10;
@@ -303,12 +321,16 @@
             function_textBox.Location = new Point(64, 28);
             function_textBox.Margin = new Padding(3, 4, 3, 4);
             function_textBox.Name = "function_textBox";
-            function_textBox.Size = new Size(222, 27);
+            function_textBox.Size = new Size(256, 27);
             function_textBox.TabIndex = 4;
             // 
             // function_button
             // 
-            function_button.Location = new Point(301, 27);
+            function_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            function_button.FlatAppearance.BorderSize = 0;
+            function_button.FlatAppearance.MouseOverBackColor = Color.White;
+            function_button.FlatStyle = FlatStyle.Flat;
+            function_button.Location = new Point(326, 27);
             function_button.Margin = new Padding(3, 4, 3, 4);
             function_button.Name = "function_button";
             function_button.Size = new Size(37, 29);
@@ -319,20 +341,27 @@
             // 
             // info_button
             // 
-            info_button.Location = new Point(39, 26);
+            info_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            info_button.FlatAppearance.MouseOverBackColor = Color.White;
+            info_button.FlatStyle = FlatStyle.Flat;
+            info_button.Location = new Point(39, 43);
             info_button.Margin = new Padding(3, 4, 3, 4);
             info_button.Name = "info_button";
-            info_button.Size = new Size(100, 29);
+            info_button.Size = new Size(100, 35);
             info_button.TabIndex = 48;
             info_button.Text = "Справка";
             info_button.UseVisualStyleBackColor = true;
+            info_button.Click += info_button_Click;
             // 
             // exit_button
             // 
-            exit_button.Location = new Point(526, 452);
+            exit_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
+            exit_button.FlatAppearance.MouseOverBackColor = Color.White;
+            exit_button.FlatStyle = FlatStyle.Flat;
+            exit_button.Location = new Point(448, 455);
             exit_button.Margin = new Padding(3, 4, 3, 4);
             exit_button.Name = "exit_button";
-            exit_button.Size = new Size(173, 29);
+            exit_button.Size = new Size(175, 35);
             exit_button.TabIndex = 47;
             exit_button.Text = "На главную страницу";
             exit_button.UseVisualStyleBackColor = true;
@@ -342,7 +371,8 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(857, 542);
+            BackColor = Color.FromArgb(245, 245, 240);
+            ClientSize = new Size(863, 549);
             Controls.Add(visualization_golden_button);
             Controls.Add(button_golden_graph);
             Controls.Add(error_func_bit);
@@ -358,6 +388,7 @@
             Controls.Add(info_button);
             Controls.Add(exit_button);
             Name = "GoldenMethodsForm";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Метод золотого сечения";
             groupBox3.ResumeLayout(false);

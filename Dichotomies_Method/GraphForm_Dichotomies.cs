@@ -199,7 +199,7 @@ namespace Optimization_methods.Dichotomies_Method
                 x_1_label.Text = $"x_1: ({Math.Round(x1, 4)}, {Math.Round(CalculateFunctionValue(x1), 4)})";
                 x_2_label.Text = $"x_2: ({Math.Round(x2, 4)}, {Math.Round(CalculateFunctionValue(x2), 4)})";
             }
-            else 
+            else
             {
                 ab_coordinateLabel.Text = $"Интервал: ({Math.Round(a, 4)}; {Math.Round(b, 4)})";
                 x_1_label.Text = $"";
@@ -409,5 +409,10 @@ namespace Optimization_methods.Dichotomies_Method
             }
         }
 
+        private void info_button_Click(object sender, EventArgs e)
+        {
+            Reference_Form Reference = new Reference_Form();
+            Reference.Show();
+        }
     }
 }
