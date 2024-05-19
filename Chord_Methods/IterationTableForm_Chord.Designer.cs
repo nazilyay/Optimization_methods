@@ -31,6 +31,7 @@
             info_button = new Button();
             exit_button_chord = new Button();
             dataGridView = new DataGridView();
+            button1 = new Button();
             n = new DataGridViewTextBoxColumn();
             x_prev = new DataGridViewTextBoxColumn();
             x_k = new DataGridViewTextBoxColumn();
@@ -39,7 +40,6 @@
             def = new DataGridViewTextBoxColumn();
             second_def = new DataGridViewTextBoxColumn();
             epsilon = new DataGridViewTextBoxColumn();
-            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -81,63 +81,6 @@
             dataGridView.Size = new Size(837, 322);
             dataGridView.TabIndex = 33;
             // 
-            // n
-            // 
-            n.HeaderText = "Итерация";
-            n.MinimumWidth = 6;
-            n.Name = "n";
-            n.SortMode = DataGridViewColumnSortMode.NotSortable;
-            n.Width = 80;
-            // 
-            // x_prev
-            // 
-            x_prev.HeaderText = "x_(k-1)";
-            x_prev.MinimumWidth = 6;
-            x_prev.Name = "x_prev";
-            x_prev.Width = 125;
-            // 
-            // x_k
-            // 
-            x_k.HeaderText = "x_k";
-            x_k.MinimumWidth = 6;
-            x_k.Name = "x_k";
-            x_k.Width = 125;
-            // 
-            // x_next
-            // 
-            x_next.HeaderText = "x_(k+1)";
-            x_next.MinimumWidth = 6;
-            x_next.Name = "x_next";
-            x_next.Width = 125;
-            // 
-            // f_x
-            // 
-            f_x.HeaderText = "F'(x_(k-1))";
-            f_x.MinimumWidth = 6;
-            f_x.Name = "f_x";
-            f_x.Width = 125;
-            // 
-            // def
-            // 
-            def.HeaderText = "F'(x_k)";
-            def.MinimumWidth = 6;
-            def.Name = "def";
-            def.Width = 125;
-            // 
-            // second_def
-            // 
-            second_def.HeaderText = "F(x_(k+1))";
-            second_def.MinimumWidth = 6;
-            second_def.Name = "second_def";
-            second_def.Width = 125;
-            // 
-            // epsilon
-            // 
-            epsilon.HeaderText = "ε";
-            epsilon.MinimumWidth = 6;
-            epsilon.Name = "epsilon";
-            epsilon.Width = 125;
-            // 
             // button1
             // 
             button1.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
@@ -150,6 +93,78 @@
             button1.TabIndex = 110;
             button1.Text = "Справка";
             button1.UseVisualStyleBackColor = true;
+            // 
+            // n
+            // 
+            n.HeaderText = "Итерация";
+            n.MinimumWidth = 6;
+            n.Name = "n";
+            n.ReadOnly = true;
+            n.SortMode = DataGridViewColumnSortMode.NotSortable;
+            n.Width = 80;
+            // 
+            // x_prev
+            // 
+            x_prev.HeaderText = "x_(k-1)";
+            x_prev.MinimumWidth = 6;
+            x_prev.Name = "x_prev";
+            x_prev.ReadOnly = true;
+            x_prev.SortMode = DataGridViewColumnSortMode.NotSortable;
+            x_prev.Width = 125;
+            // 
+            // x_k
+            // 
+            x_k.HeaderText = "x_k";
+            x_k.MinimumWidth = 6;
+            x_k.Name = "x_k";
+            x_k.ReadOnly = true;
+            x_k.SortMode = DataGridViewColumnSortMode.NotSortable;
+            x_k.Width = 125;
+            // 
+            // x_next
+            // 
+            x_next.HeaderText = "x_(k+1)";
+            x_next.MinimumWidth = 6;
+            x_next.Name = "x_next";
+            x_next.ReadOnly = true;
+            x_next.SortMode = DataGridViewColumnSortMode.NotSortable;
+            x_next.Width = 125;
+            // 
+            // f_x
+            // 
+            f_x.HeaderText = "F'(x_(k-1))";
+            f_x.MinimumWidth = 6;
+            f_x.Name = "f_x";
+            f_x.ReadOnly = true;
+            f_x.SortMode = DataGridViewColumnSortMode.NotSortable;
+            f_x.Width = 125;
+            // 
+            // def
+            // 
+            def.HeaderText = "F'(x_k)";
+            def.MinimumWidth = 6;
+            def.Name = "def";
+            def.ReadOnly = true;
+            def.SortMode = DataGridViewColumnSortMode.NotSortable;
+            def.Width = 125;
+            // 
+            // second_def
+            // 
+            second_def.HeaderText = "F(x_(k+1))";
+            second_def.MinimumWidth = 6;
+            second_def.Name = "second_def";
+            second_def.ReadOnly = true;
+            second_def.SortMode = DataGridViewColumnSortMode.NotSortable;
+            second_def.Width = 125;
+            // 
+            // epsilon
+            // 
+            epsilon.HeaderText = "ε";
+            epsilon.MinimumWidth = 6;
+            epsilon.Name = "epsilon";
+            epsilon.ReadOnly = true;
+            epsilon.SortMode = DataGridViewColumnSortMode.NotSortable;
+            epsilon.Width = 125;
             // 
             // IterationTableForm_Chord
             // 
@@ -172,6 +187,7 @@
         private Button info_button;
         private Button exit_button_chord;
         private DataGridView dataGridView;
+        private Button button1;
         private DataGridViewTextBoxColumn n;
         private DataGridViewTextBoxColumn x_prev;
         private DataGridViewTextBoxColumn x_k;
@@ -180,6 +196,5 @@
         private DataGridViewTextBoxColumn def;
         private DataGridViewTextBoxColumn second_def;
         private DataGridViewTextBoxColumn epsilon;
-        private Button button1;
     }
 }

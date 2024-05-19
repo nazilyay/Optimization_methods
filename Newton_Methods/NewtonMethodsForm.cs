@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using NCalc;
 
 
@@ -229,6 +227,13 @@ namespace Optimization_methods.Newton_Methods
                 error_label.Visible = true;
                 return;
             }
+            // Проверка, что функция определена и трижды дифференцируема на [a, b]
+            if (!IsThirdDerivativeDefined(functionExpression, a) || !IsThirdDerivativeDefined(functionExpression, b))
+            {
+                error_label.Text = "У функции f(x) не существует третьей производной на [a, b].";
+                error_label.Visible = true;
+                return;
+            }
 
             if (CalculateDerivative(functionExpression, a) * CalculateDerivative(functionExpression, b) > 0)
             {
@@ -236,15 +241,7 @@ namespace Optimization_methods.Newton_Methods
                 error_label.Visible = true;
                 return;
             }
-
-            // Проверка правильности ввода значения x_0
-            if (!double.TryParse(x_0_textBox.Text, out x_0))
-            {
-                error_label.Text = "Некорректный ввод начального приближения.";
-                error_label.Visible = true;
-                return;
-            }
-
+          
             // Проверка корректности второй и третьей производных на отрезке [a, b]
             if (!IsSecondAndThirdDerivativesValid(functionExpression, a, b))
             {
@@ -253,16 +250,17 @@ namespace Optimization_methods.Newton_Methods
                 return;
             }
 
-            if (CalculateDerivative(functionExpression, a) * CalculateDerivative(functionExpression, b) >= 0)
+             // Проверка правильности ввода значения x_0
+            if (!double.TryParse(x_0_textBox.Text, out x_0))
             {
-                error_label.Text = "Производная на концах отрезка [a, b] имеют одинаковый знак. Метод Ньютона не сходится.";
+                error_label.Text = "Некорректный ввод начального приближения.";
                 error_label.Visible = true;
                 return;
             }
 
             if (CalculateThirdDerivative(functionExpression, x_0) * CalculateDerivative(functionExpression, x_0) < 0)
             {
-                error_label.Text = "Начальное приближение выбрано неверно: третья производная равна 0.";
+                error_label.Text = "Начальное приближение выбрано неверно.";
                 error_label.Visible = true;
                 return;
             }
@@ -297,18 +295,37 @@ namespace Optimization_methods.Newton_Methods
 
         private bool IsSecondAndThirdDerivativesValid(string expression, double a, double b)
         {
-            double secondDerivativeSign = CalculateSecondDerivative(expression, a) * CalculateSecondDerivative(expression, b);
-            double thirdDerivativeSign = CalculateThirdDerivative(expression, a) * CalculateThirdDerivative(expression, b);
+            // Вычисляем значения второй и третьей производных на границах интервала [a, b]
+            double secondDerivativeA = CalculateSecondDerivative(expression, a);
+            double thirdDerivativeA = CalculateThirdDerivative(expression, a);
+            double secondDerivativeB = CalculateSecondDerivative(expression, b);
+            double thirdDerivativeB = CalculateThirdDerivative(expression, b);
 
-            // Проверка знаков второй и третьей производных
-            if (secondDerivativeSign <= 0 || thirdDerivativeSign < 0)
+            // Проверяем, что производные сохраняют знак на границах интервала и что вторая производная не равна нулю
+            if ((secondDerivativeA > 0 && secondDerivativeB > 0) || (secondDerivativeA < 0 && secondDerivativeB < 0) && secondDerivativeA != 0)
+            {
+                if ((thirdDerivativeA > 0 && thirdDerivativeB > 0) || (thirdDerivativeA < 0 && thirdDerivativeB < 0))
+                {
+                    // Успешно прошли проверку для всех значений x в интервале [a, b]
+                    return true;
+                }
+            }
+            // Если хотя бы одно условие не выполнено, возвращаем false
+            return false;
+        }
+        private bool IsThirdDerivativeDefined(string expression, double x)
+        {
+            try
+            {
+                // Попытка вычислить третью производную в точке x
+                CalculateThirdDerivative(expression, x);
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }
-
-            return true;
         }
-
 
         private void data_reset_button_Click(object sender, EventArgs e)
         {

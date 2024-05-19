@@ -37,6 +37,7 @@
             BackColor = Color.FromArgb(218, 230, 238);
             ClientSize = new Size(470, 155);
             Name = "End_Form";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Результаты выполнения метода";
             ResumeLayout(false);

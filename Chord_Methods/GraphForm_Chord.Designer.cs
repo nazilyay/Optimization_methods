@@ -37,6 +37,7 @@
             pause_button = new Button();
             info_button = new Button();
             exit_button = new Button();
+            panel1 = new Panel();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -157,12 +158,20 @@
             exit_button.UseVisualStyleBackColor = true;
             exit_button.Click += exit_button_Click;
             // 
+            // panel1
+            // 
+            panel1.Location = new Point(215, 21);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(173, 58);
+            panel1.TabIndex = 112;
+            // 
             // GraphForm_Chord
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(218, 230, 238);
             ClientSize = new Size(845, 537);
+            Controls.Add(panel1);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(info_button);
@@ -188,5 +197,6 @@
         private Button pause_button;
         private Button info_button;
         private Button exit_button;
+        private Panel panel1;
     }
 }

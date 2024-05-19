@@ -17,7 +17,7 @@ namespace Optimization_methods.Cubic_Methods
         private Panel chartPanel;
         private Point mouseDownPoint;
         private ChartArea chartArea;
-        private Series currentABSeries, currentX0Series, series_new, horizontalLineSeries; // Серия для текущей позиции
+        private Series currentABSeries, currentX0Series, series_new, horizontalLineSeries, series; // Серия для текущей позиции
         private System.Windows.Forms.Timer timer; // Таймер для анимации
         private double a, b, accuracy, parameter, minX, minF, currentA_X, currentB_X, currentX_0;
         private bool isPaused; // Флаг для паузы
@@ -223,21 +223,6 @@ namespace Optimization_methods.Cubic_Methods
             f_0_label.Text = $"";
         }
 
-        private double CalculateMaxY(string functionExpression, double accuracy, double a, double b)
-        {
-            double maxY = double.MinValue; // Инициализация максимального значения Y
-
-            // Вычисление максимального значения Y
-            for (double x = a; x <= b; x += accuracy)
-            {
-                double y = CalculateFunctionValue(x);
-                if (y > maxY)
-                {
-                    maxY = y; // Обновляем максимальное значение, если текущее значение больше
-                }
-            }
-            return maxY;
-        }
         void AddLineAndLabel(Color color, string labelText, int lineHeight, int topMargin, int bottomMargin, TableLayoutPanel panel, int rowIndex)
         {
             Panel linePanel = new Panel
@@ -276,15 +261,40 @@ namespace Optimization_methods.Cubic_Methods
             chartArea = new ChartArea(); // Используем поле класса
             chartArea.AxisX.Minimum = a - 2;
             chartArea.AxisX.Maximum = b + 2;
-            chartArea.AxisY.Minimum = Math.Round(minResult - 5); // Начальное значение для оси Y
 
-            double maxY = CalculateMaxY(functionExpression, accuracy, a, b);
+            // Вычисление максимального и минимального значения Y
+            double minY = double.MaxValue; // Очень большое число
+            double maxY = double.MinValue; // Очень маленькое число
 
-            // Установка максимального значения для оси Y
-            chartArea.AxisY.Maximum = Math.Round(maxY + 5); // Увеличиваем максимальное значение на 5 для отступа
+            // Создание серии данных для графика функции
+            series = new Series();
+            series.ChartType = SeriesChartType.Line;
+            series.BorderWidth = 2;
 
-            chartArea.AxisX.LineColor = System.Drawing.Color.Black;
-            chartArea.AxisY.LineColor = System.Drawing.Color.Black;
+            // Создание серии данных для горизонтальной линии y=0
+            horizontalLineSeries = new Series();
+            horizontalLineSeries.ChartType = SeriesChartType.Line;
+            horizontalLineSeries.BorderWidth = 1;
+
+            // Создание серии данных для производной функции
+            Series Fseries = new Series();
+            Fseries.ChartType = SeriesChartType.Line;
+            Fseries.BorderWidth = 1;
+
+            // Добавление точек на график
+            for (double x = a - 2; x <= b + 2; x += accuracy)
+            {
+                double y = CalculateFunctionValue(x);
+                series.Points.AddXY(x, y);
+                minY = Math.Min(minY, y);
+                maxY = Math.Max(maxY, y);
+                horizontalLineSeries.Points.AddXY(x, 0);
+                double def = CalculateDerivative(x);
+                Fseries.Points.AddXY(x, def);
+                Fseries.Color = Color.Black;
+            }
+            chartArea.AxisY.Minimum = Math.Round(minY - 5);
+            chartArea.AxisY.Maximum = Math.Round(maxY + 5);
 
             // Добавление области на график
             chart.ChartAreas.Add(chartArea);
@@ -294,18 +304,12 @@ namespace Optimization_methods.Cubic_Methods
             // Подписываем ось Y
             chartArea.AxisY.Title = "Y";
 
-            // Создание серии данных для графика функции
-            Series series = new Series();
-            series.ChartType = SeriesChartType.Line;
-            series.BorderWidth = 2;
+            // Добавление серии данных на график
+            chart.Series.Add(horizontalLineSeries);
 
-            // Добавление точек на график
-            for (double x = a - 2; x <= b + 2; x += accuracy)
-            {
-                double y = CalculateFunctionValue(x);
-                series.Points.AddXY(x, y);
-            }
-
+            // Добавление серии данных на график
+            chart.Series.Add(Fseries);
+          
             // Добавление серии данных на график
             chart.Series.Add(series);
 
@@ -340,36 +344,6 @@ namespace Optimization_methods.Cubic_Methods
             currentX0Series.MarkerStyle = MarkerStyle.Circle;
             chart.Series.Add(currentX0Series);
 
-            // Создание серии данных для горизонтальной линии y=0
-            horizontalLineSeries = new Series();
-            horizontalLineSeries.ChartType = SeriesChartType.Line;
-            horizontalLineSeries.BorderWidth = 1;
-
-            // Добавление точек на график, чтобы создать линию y=0
-            for (double x = chartArea.AxisX.Minimum; x <= chartArea.AxisX.Maximum; x += accuracy)
-            {
-                double y = 0; // y=0
-                horizontalLineSeries.Points.AddXY(x, y);
-            }
-
-            // Добавление серии данных на график
-            chart.Series.Add(horizontalLineSeries);
-
-            // Создание серии данных для производной функции
-            Series Fseries = new Series();
-            Fseries.ChartType = SeriesChartType.Line;
-            Fseries.BorderWidth = 1;
-
-            // Добавление точек на график
-            for (double x = a - 2; x <= b + 2; x += accuracy)
-            {
-                double y = CalculateDerivative(x);
-                Fseries.Points.AddXY(x, y);
-                Fseries.Color = Color.Black;
-            }
-
-            // Добавление серии данных на график
-            chart.Series.Add(Fseries);
             UpdateCoordinateLabel(currentA_X, currentB_X, currentX_0);
         }
         private double CalculateFunctionValue(double x)

@@ -219,7 +219,7 @@
             // Stop_label
             // 
             Stop_label.AutoSize = true;
-            Stop_label.Location = new Point(355, 702);
+            Stop_label.Location = new Point(54, 717);
             Stop_label.Name = "Stop_label";
             Stop_label.Size = new Size(137, 20);
             Stop_label.TabIndex = 74;

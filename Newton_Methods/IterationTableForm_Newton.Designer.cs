@@ -67,6 +67,7 @@
             exit_button_middle.TabIndex = 28;
             exit_button_middle.Text = "Выход";
             exit_button_middle.UseVisualStyleBackColor = true;
+            exit_button_middle.Click += exit_button_middle_Click;
             // 
             // dataGridView
             // 

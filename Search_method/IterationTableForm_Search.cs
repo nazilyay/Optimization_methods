@@ -25,13 +25,14 @@ namespace Optimization_methods
             // Выполнение метода перебора и заполнение таблицы
             PerformBruteForceMethod();
 
-            // Установка ширины столбцов
+            // Установка ширины столбцов и необходимых свойств
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                column.Width = 120; // Устанавливаем ширину столбца
+                column.ReadOnly = true; // Отключаем редактирование столбцов
+                column.SortMode = DataGridViewColumnSortMode.NotSortable; // Отключаем сортировку
+            }
             dataGridView.Columns[0].Width = 100;
-            dataGridView.Columns[1].Width = 120;
-            dataGridView.Columns[2].Width = 120;
-            dataGridView.Columns[3].Width = 120;
-            dataGridView.Columns[4].Width = 120;
-
             // Добавление обработчика события CellFormatting
             dataGridView.CellFormatting += DataGridView_CellFormatting;
 

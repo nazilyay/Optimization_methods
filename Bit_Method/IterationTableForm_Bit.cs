@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using NCalc;
 
 namespace Optimization_methods.Bit_Method
 {
-
     public partial class IterationTableForm : Form
     {
         private string functionExpression;
@@ -27,21 +21,35 @@ namespace Optimization_methods.Bit_Method
             this.b = b;
             this.accuracy = accuracy;
 
+            // Отключаем автоматическую генерацию столбцов
+            dataGridView.AutoGenerateColumns = false;
+
+            // Добавляем столбцы вручную
+            dataGridView.Columns.Add(CreateColumn("Iteration", "Итерация", 100));
+            dataGridView.Columns.Add(CreateColumn("X", "x", 120));
+            dataGridView.Columns.Add(CreateColumn("FunctionValue", "F(x)", 120));
+            dataGridView.Columns.Add(CreateColumn("Step", "h", 120));
+
             // Выполнение метода перебора и заполнение таблицы
             PerformBitMethod();
 
-            // Установка ширины столбцов
-            dataGridView.Columns[0].Width = 100;
-            dataGridView.Columns[1].Width = 120;
-            dataGridView.Columns[2].Width = 120;
-            dataGridView.Columns[3].Width = 120;
-
             // Добавление обработчика события CellFormatting
             dataGridView.CellFormatting += DataGridView_CellFormatting;
-
-
         }
 
+        private DataGridViewColumn CreateColumn(string name, string headerText, int width)
+        {
+            return new DataGridViewTextBoxColumn
+            {
+                Name = name,
+                HeaderText = headerText,
+                Width = width,
+                DataPropertyName = name,
+                ReadOnly = true, // Отключаем редактирование столбцов
+                SortMode = DataGridViewColumnSortMode.NotSortable // Отключаем сортировку
+
+            };
+        }
 
         private void PerformBitMethod()
         {
@@ -53,14 +61,14 @@ namespace Optimization_methods.Bit_Method
             // Начальное значение x
             double x = a;
             double prevResult = CalculateFunctionValue(x);
-            int itteration = -1;
+            int iteration = -1;
             // Цикл поиска минимума
             while (true)
             {
-                itteration++;
+                iteration++;
 
                 // Запись данных итерации в таблицу
-                dataGridView.Rows.Add(itteration, x, prevResult, h);
+                dataGridView.Rows.Add(iteration, x, prevResult, h);
                 // Вычисление значения функции в следующей точке
                 double nextX = x + h;
                 double nextResult = CalculateFunctionValue(nextX);
@@ -73,7 +81,8 @@ namespace Optimization_methods.Bit_Method
                     if (a < x && x < b)
                         continue;
                     else
-                    {  // Проверка условия окончания поиска
+                    {
+                        // Проверка условия окончания поиска
                         if (Math.Abs(h) <= accuracy)
                             break;
 
@@ -97,29 +106,33 @@ namespace Optimization_methods.Bit_Method
                     prevResult = nextResult;
                 }
             }
-
         }
+
         // Метод, который будет обрабатывать событие CellFormatting
         private void DataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Проверка условия, чтобы выделить клетку с x, если не выполняется условие if (a < x && x < b)
-            if (e.ColumnIndex == 1 && e.RowIndex >= 1 && e.RowIndex < dataGridView.Rows.Count - 1)  // проверяем, что это столбец с x и это не заголовок столбца
+            // Проверка, что это не заголовок столбца
+            if (e.RowIndex >= 0)
             {
-                double xValue = Convert.ToDouble(dataGridView.Rows[e.RowIndex].Cells[1].Value);
-                if (!(a < xValue && xValue < b))
+                // Проверка условия, чтобы выделить клетку с x, если не выполняется условие if (a < x && x < b)
+                if (e.ColumnIndex == 1) // проверяем, что это столбец с x
                 {
-                    e.CellStyle.BackColor = Color.Yellow; // устанавливаем желтый цвет фона для ячейки с x
+                    double xValue = Convert.ToDouble(dataGridView.Rows[e.RowIndex].Cells[1].Value);
+                    if (!(a < xValue && xValue < b))
+                    {
+                        e.CellStyle.BackColor = Color.Yellow; // устанавливаем желтый цвет фона для ячейки с x
+                    }
                 }
-            }
 
-            // Проверка условия, чтобы выделить клетку с f(x), если не выполняется условие if (prevResult > nextResult)
-            if (e.ColumnIndex == 2 && e.RowIndex < dataGridView.Rows.Count - 1 && e.RowIndex >= 1) // проверяем, что это столбец с f(x) и это не последняя строка
-            {
-                double prevResultValue = Convert.ToDouble(dataGridView.Rows[e.RowIndex - 1].Cells[2].Value);
-                double nextResultValue = Convert.ToDouble(dataGridView.Rows[e.RowIndex].Cells[2].Value); // Получаем значение из следующей строки
-                if (!(prevResultValue > nextResultValue))
+                // Проверка условия, чтобы выделить клетку с f(x), если не выполняется условие if (prevResult > nextResult)
+                if (e.ColumnIndex == 2 && e.RowIndex < dataGridView.Rows.Count - 1 && e.RowIndex > 0) // проверяем, что это столбец с f(x) и это не последняя строка
                 {
-                    e.CellStyle.BackColor = Color.Red; // устанавливаем красный цвет фона для ячейки с f(x)
+                    double prevResultValue = Convert.ToDouble(dataGridView.Rows[e.RowIndex - 1].Cells[2].Value);
+                    double nextResultValue = Convert.ToDouble(dataGridView.Rows[e.RowIndex].Cells[2].Value); // Получаем значение из следующей строки
+                    if (!(prevResultValue > nextResultValue))
+                    {
+                        e.CellStyle.BackColor = Color.Red; // устанавливаем красный цвет фона для ячейки с f(x)
+                    }
                 }
             }
         }

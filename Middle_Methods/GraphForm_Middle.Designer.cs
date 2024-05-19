@@ -179,7 +179,7 @@
             // 
             // panel1
             // 
-            panel1.Location = new Point(213, 12);
+            panel1.Location = new Point(210, 35);
             panel1.Name = "panel1";
             panel1.Size = new Size(173, 58);
             panel1.TabIndex = 103;

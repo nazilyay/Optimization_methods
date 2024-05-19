@@ -28,10 +28,13 @@ namespace Optimization_methods.Cubic_Methods
             // Выполнение метода средней точки и заполнение таблицы
             PerformMiddlePointMethod();
 
-            // Установка ширины столбцов
+
+            // Установка ширины столбцов и необходимых свойств
             foreach (DataGridViewColumn column in dataGridView.Columns)
             {
                 column.Width = 100; // Устанавливаем ширину столбца
+                column.ReadOnly = true; // Отключаем редактирование столбцов
+                column.SortMode = DataGridViewColumnSortMode.NotSortable; // Отключаем сортировку
             }
             dataGridView.Columns[0].Width = 80;
         }

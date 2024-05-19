@@ -16,7 +16,8 @@ namespace Optimization_methods.Chord_Methods
         private Chart chart;
         private Panel chartPanel;
         private ChartArea chartArea;
-        private Series currentXSeries, lineSeries, horizontalLineSeries, punct; // Серия для текущей позиции
+        private TableLayoutPanel tableLayoutPanel;
+        private Series currentXSeries, lineSeries, horizontalLineSeries, punct, series, Fseries; // Серия для текущей позиции
         private System.Windows.Forms.Timer timer; // Таймер для анимации
         private double a, b, accuracy, minX, minF, currentX, x_0, extensionLength;
         private bool isPaused; // Флаг для паузы
@@ -37,6 +38,7 @@ namespace Optimization_methods.Chord_Methods
 
             // Однократное вычисление массивов значений x и f(x)
             (xValues, minX, minF) = CalculateFunctionOnInterval(a, b, accuracy);
+
             // Создаем панель для размещения графика
             chartPanel = new Panel();
             chartPanel.Dock = DockStyle.None; // Отменяем автоматическое занимание всей формы
@@ -171,17 +173,7 @@ namespace Optimization_methods.Chord_Methods
                 double currentX = xValues[animationStep];
                 double currentY = CalculateFunctionValue(currentX);
                 this.currentX = currentX; // Сохраняем текущее значение x
-                currentY = CalculateFunctionValue(currentX);
-
-                // Определение новых границ осей
-                double minX = currentX;
-                double minY = currentY;
-
-                // Установка новых границ осей
-                chartArea.AxisX.Minimum = Math.Round(minX) - 1; // Примерное новое минимальное значение по X
-                chartArea.AxisX.Maximum = Math.Round(minX) + 1; // Примерное новое максимальное значение по X
-                chartArea.AxisY.Minimum = Math.Round(minY) - 1; // Примерное новое минимальное значение по Y
-                chartArea.AxisY.Maximum = Math.Round(minY) + 1; // Примерное новое максимальное значение по Y
+                double currentF = CalculateDerivative(currentX);
 
                 // Если нажата кнопка паузы, останавливаем анимацию
                 if (isPaused)
@@ -197,6 +189,8 @@ namespace Optimization_methods.Chord_Methods
                     // Обновляем координаты точки текущей позиции
                     currentXSeries.Points.Clear();
                     currentXSeries.Points.AddXY(currentX, currentY);
+                    currentXSeries.Points.AddXY(currentX, currentF);
+                    currentXSeries.Points.AddXY(currentX, 0);
                     if (animationStep % 2 == 1) currentXSeries.Color = System.Drawing.Color.Blue;
                     else currentXSeries.Color = System.Drawing.Color.Black;
 
@@ -210,6 +204,8 @@ namespace Optimization_methods.Chord_Methods
 
                     punct.Points.AddXY(xValues[animationStep], CalculateFunctionValue(xValues[animationStep]));
                     punct.Points.AddXY(xValues[animationStep], 0);
+                    punct.Points.AddXY(xValues[animationStep], CalculateDerivative(xValues[animationStep]));
+
                     // Увеличиваем шаг анимации для следующего вызова
                     animationStep++;
 
@@ -238,12 +234,6 @@ namespace Optimization_methods.Chord_Methods
 
         private void ResetChart()
         {
-            // Возвращаемся к первоначальным значениям графика
-            chartArea.AxisX.Minimum = a - 1;
-            chartArea.AxisX.Maximum = b + 1;
-            chartArea.AxisY.Minimum = Math.Round(minF) - 1;
-            chartArea.AxisY.Maximum = Math.Round(CalculateMaxY(functionExpression, accuracy, a, b)) + 1;
-
             // Очищаем серии данных
             currentXSeries.Points.Clear();
             lineSeries.Points.Clear();
@@ -253,13 +243,15 @@ namespace Optimization_methods.Chord_Methods
             currentX = xValues[2];
             double currentY = CalculateFunctionValue(currentX);
 
-            currentXSeries.Points.AddXY(currentX, currentY);
-            currentXSeries.Points.AddXY(currentX, 0);
+            currentXSeries.Points.AddXY(xValues[2], CalculateFunctionValue(xValues[2]));
+            currentXSeries.Points.AddXY(xValues[2], 0);
+            currentXSeries.Points.AddXY(xValues[2], CalculateDerivative(xValues[2]));
+
             lineSeries.Points.AddXY(xValues[0], CalculateDerivative(xValues[0]));
             lineSeries.Points.AddXY(xValues[1], CalculateDerivative(xValues[1]));
-            lineSeries.Points.AddXY(xValues[animationStep], 0);
 
             punct.Points.AddXY(xValues[2], CalculateFunctionValue(xValues[2]));
+            punct.Points.AddXY(xValues[2], CalculateDerivative(xValues[2]));
             punct.Points.AddXY(xValues[2], 0);
 
             animationStep = 3;
@@ -290,44 +282,86 @@ namespace Optimization_methods.Chord_Methods
 
         private void StopAnimation()
         {
+            exit_button.Enabled = true;
             timer.Stop();
             ResetChart();
         }
-
-        private double CalculateMaxY(string functionExpression, double accuracy, double a, double b)
+        void AddLineAndLabel(Color color, string labelText, int lineHeight, int topMargin, int bottomMargin, TableLayoutPanel panel, int columnIndex)
         {
-            double maxY = double.MinValue; // Инициализация максимального значения Y
+            Panel linePanel = new Panel
+            {
+                BackColor = color,
+                Height = lineHeight,
+                Margin = new Padding(0, topMargin, 0, bottomMargin)
+            };
+            panel.Controls.Add(linePanel, columnIndex * 2 + 1, 0);
 
-            // Вычисление максимального значения Y
+            Label label = new Label
+            {
+                Text = labelText,
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Anchor = AnchorStyles.None
+            };
+            panel.Controls.Add(label, columnIndex * 2, 0);
+        }
+
+
+        private void DisplayFunctionGraph(double accuracy, double a, double b, double minX, double minResult)
+        {
+
+            tableLayoutPanel = new TableLayoutPanel();
+            tableLayoutPanel.RowCount = 2;
+            tableLayoutPanel.ColumnCount = 2; // Добавляем 2 столбца
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel.Dock = DockStyle.Fill;
+            panel1.Controls.Add(tableLayoutPanel);
+
+            // Добавляем текст и линии в соответствующие столбцы
+            AddLineAndLabel(Color.DarkOrange, "y = f(x)", 2, 15, 10, tableLayoutPanel, 0);
+            AddLineAndLabel(Color.Blue, "y = f'(x)", 3, 15, 10, tableLayoutPanel, 1);
+            chartArea = new ChartArea();
+            chartArea.AxisX.Minimum = a;
+            chartArea.AxisX.Maximum = b;
+            // Вычисление максимального и минимального значения Y
+            double minY = double.MaxValue; // Очень большое число
+            double maxY = double.MinValue; // Очень маленькое число
+        
+            series = new Series();
+            series.ChartType = SeriesChartType.Line;
+            series.BorderWidth = 2;
+            series.Color = Color.DarkOrange;
+
+            horizontalLineSeries = new Series();
+            horizontalLineSeries.ChartType = SeriesChartType.Line;
+            horizontalLineSeries.BorderWidth = 1;
+            horizontalLineSeries.Color = Color.Black;
+
+            Fseries = new Series();
+            Fseries.ChartType = SeriesChartType.Line;
+            Fseries.BorderWidth = 3;
+            
             for (double x = a; x <= b; x += accuracy)
             {
                 double y = CalculateFunctionValue(x);
-                if (y > maxY)
-                {
-                    maxY = y; // Обновляем максимальное значение, если текущее значение больше
-                }
+                double def = CalculateDerivative(x);
+                minY = Math.Min(minY, y);
+                maxY = Math.Max(maxY, y);
+                horizontalLineSeries.Points.AddXY(x, 0);
+                Fseries.Points.AddXY(x, def);
+                series.Points.AddXY(x, y);
             }
-            return maxY;
-        }
-        private void DisplayFunctionGraph(double accuracy, double a, double b, double minX, double minResult)
-        {
-            chartArea = new ChartArea();
-            chartArea.AxisX.Minimum = a - 1;
-            chartArea.AxisX.Maximum = b + 1;
-            chartArea.AxisY.Minimum = Math.Round(minResult - 1) - 1;
-            chartArea.AxisY.Maximum = Math.Round(CalculateMaxY(functionExpression, accuracy, a, b) + 1) + 1;
-            chartArea.AxisX.LineColor = Color.Black;
-            chartArea.AxisY.LineColor = Color.Black;
-            chart.ChartAreas.Add(chartArea);
+
+            chartArea.AxisY.Minimum = Math.Round(minY - 5);
+            chartArea.AxisY.Maximum = Math.Round(maxY + 5);
             chartArea.AxisX.Title = "X";
             chartArea.AxisY.Title = "Y";
+            chart.ChartAreas.Add(chartArea);
 
-            Series series = new Series();
-            series.ChartType = SeriesChartType.Line;
-            series.BorderWidth = 2;
-            for (double x = a; x <= b; x += accuracy)
-                series.Points.AddXY(x, CalculateFunctionValue(x));
             chart.Series.Add(series);
+            chart.Series.Add(horizontalLineSeries);
+            chart.Series.Add(Fseries);
 
             lineSeries = new Series();
             lineSeries.ChartType = SeriesChartType.Line;
@@ -337,25 +371,15 @@ namespace Optimization_methods.Chord_Methods
             lineSeries.Points.AddXY(xValues[1], CalculateDerivative(xValues[1]));
             chart.Series.Add(lineSeries);
 
-            horizontalLineSeries = new Series();
-            horizontalLineSeries.ChartType = SeriesChartType.Line;
-            horizontalLineSeries.BorderWidth = 1;
-            horizontalLineSeries.Color = Color.Black;
-            for (double x = chartArea.AxisX.Minimum; x <= chartArea.AxisX.Maximum + 5; x += accuracy)
-                horizontalLineSeries.Points.AddXY(x, 0);
-            chart.Series.Add(horizontalLineSeries);
-
             currentXSeries = new Series();
             currentXSeries.ChartType = SeriesChartType.Point;
             currentXSeries.Points.AddXY(xValues[2], CalculateFunctionValue(xValues[2]));
             currentXSeries.Points.AddXY(xValues[2], 0);
+            currentXSeries.Points.AddXY(xValues[2], CalculateDerivative(xValues[2]));
             currentXSeries.Color = Color.Black;
             currentXSeries.MarkerSize = 5;
             currentXSeries.MarkerStyle = MarkerStyle.Circle;
-            currentXSeries.LegendText = "x";
             chart.Series.Add(currentXSeries);
-
-            UpdateCoordinateLabel(xValues[2]);
 
             punct = new Series();
             punct.ChartType = SeriesChartType.Line;
@@ -363,8 +387,11 @@ namespace Optimization_methods.Chord_Methods
             punct.Color = Color.Red;
             punct.BorderDashStyle = ChartDashStyle.Dot;
             punct.Points.AddXY(xValues[2], CalculateFunctionValue(xValues[2]));
+            punct.Points.AddXY(xValues[2], CalculateDerivative(xValues[2]));
             punct.Points.AddXY(xValues[2], 0);
             chart.Series.Add(punct);
+
+            UpdateCoordinateLabel(xValues[2]);
             animationStep = 3;
         }
 

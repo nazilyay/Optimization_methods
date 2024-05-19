@@ -8,7 +8,8 @@ namespace Optimization_methods.Middle_Methods
         private Chart chart;
         private Panel chartPanel;
         private ChartArea chartArea;
-        private Series currentASeries, currentBSeries, currentXSeries, series_new, currentFSeries; // Серия для текущей позиции
+        private TableLayoutPanel tableLayoutPanel;
+        private Series currentABSeries, currentXSeries, series_new; // Серия для текущей позиции
         private System.Windows.Forms.Timer timer; // Таймер для анимации
         private double a, b, accuracy, minX, minF, currentA_X, currentB_X, currentX;
         private bool isPaused; // Флаг для паузы
@@ -31,6 +32,7 @@ namespace Optimization_methods.Middle_Methods
 
             // Однократное вычисление массивов значений x и f(x)
             (aValues, bValues, xValues, minX, minF) = CalculateFunctionOnInterval(a, b, accuracy);
+
             // Создаем панель для размещения графика
             chartPanel = new Panel();
             chartPanel.Dock = DockStyle.None; // Отменяем автоматическое занимание всей формы
@@ -51,6 +53,7 @@ namespace Optimization_methods.Middle_Methods
 
             // Отображение функции на графике
             DisplayFunctionGraph(accuracy, a, b, minX, minF);
+
             // Инициализация таймера для анимации
             timer = new System.Windows.Forms.Timer();
             timer.Tick += Timer_Tick;
@@ -152,17 +155,13 @@ namespace Optimization_methods.Middle_Methods
                 double currentF = CalculateDerivative(currentX);
 
                 // Обновляем координаты точки текущей позиции
-                currentASeries.Points.Clear();
-                currentASeries.Points.AddXY(currentA_X, currentA_Y);
-
-                currentBSeries.Points.Clear();
-                currentBSeries.Points.AddXY(currentB_X, currentB_Y);
+                currentABSeries.Points.Clear();
+                currentABSeries.Points.AddXY(currentA_X, currentA_Y);
+                currentABSeries.Points.AddXY(currentB_X, currentB_Y);
 
                 currentXSeries.Points.Clear();
                 currentXSeries.Points.AddXY(currentX, currentY);
-
-                currentFSeries.Points.Clear();
-                currentFSeries.Points.AddXY(currentX, currentF);
+                currentXSeries.Points.AddXY(currentX, currentF);
 
                 chart.Series.Remove(series_new);
 
@@ -220,77 +219,81 @@ namespace Optimization_methods.Middle_Methods
             def_label.Text = $"";
         }
 
-        private double CalculateMaxY(string functionExpression, double accuracy, double a, double b)
+        void AddLineAndLabel(Color color, string labelText, int lineHeight, int topMargin, int bottomMargin, TableLayoutPanel panel, int columnIndex)
         {
-            double maxY = double.MinValue; // Инициализация максимального значения Y
-
-            // Вычисление максимального значения Y
-            for (double x = a; x <= b; x += accuracy)
+            Panel linePanel = new Panel
             {
-                double y = CalculateFunctionValue(x);
-                if (y > maxY)
-                {
-                    maxY = y; // Обновляем максимальное значение, если текущее значение больше
-                }
-            }
-            return maxY;
+                BackColor = color,
+                Height = lineHeight,
+                Margin = new Padding(0, topMargin, 0, bottomMargin)
+            };
+            panel.Controls.Add(linePanel, columnIndex * 2 + 1, 0);
+
+            Label label = new Label
+            {
+                Text = labelText,
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Anchor = AnchorStyles.None
+            };
+            panel.Controls.Add(label, columnIndex * 2, 0); 
         }
+
 
         private void DisplayFunctionGraph(double accuracy, double a, double b, double minX, double minResult)
         {
-            // Создаем TableLayoutPanel
-            TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
-            tableLayoutPanel.RowCount = 2; // Две строки
+            tableLayoutPanel = new TableLayoutPanel();
+            tableLayoutPanel.RowCount = 2;
+            tableLayoutPanel.ColumnCount = 2; // Добавляем 2 столбца
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F)); 
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.Dock = DockStyle.Fill; // Заполняет всю доступную область panel1
+            tableLayoutPanel.Dock = DockStyle.Fill;
             panel1.Controls.Add(tableLayoutPanel);
 
-            // Создаем голубую линию
-            Panel blueLinePanel = new Panel();
-            blueLinePanel.BackColor = Color.Blue; // Цвет линии
-            blueLinePanel.Height = 2; // Высота линии
-            blueLinePanel.Margin = new Padding(0, 15, 0, 10); // Отступы сверху и снизу для центрирования
-            tableLayoutPanel.Controls.Add(blueLinePanel, 0, 0); // Добавляем в первую ячейку
+            // Добавляем текст и линии в соответствующие столбцы
+            AddLineAndLabel(Color.Blue, "y = f(x)", 2, 15, 10, tableLayoutPanel, 0);
+            AddLineAndLabel(Color.Black, "y = f'(x)", 1, 15, 10, tableLayoutPanel, 1);
+            double minY = double.MaxValue;
+            double maxY = double.MinValue;
 
-            // Создаем текст "y = f(x)"
-            Label fLabel = new Label();
-            fLabel.Text = "y = f(x)";
-            fLabel.AutoSize = true;
-            fLabel.Font = new Font("Segoe UI", 9, FontStyle.Regular); // Шрифт Segoe UI размером 9pt
-            fLabel.TextAlign = ContentAlignment.MiddleCenter; // Выравнивание текста по центру
-            fLabel.Anchor = AnchorStyles.None; // Центрирует элемент внутри ячейки
-            tableLayoutPanel.Controls.Add(fLabel, 0, 0); // Добавляем в первую ячейку
+            // Создание серии данных для графика функции
+            Series series = new Series();
+            series.ChartType = SeriesChartType.Line;
+            series.BorderWidth = 2;
 
-            // Создаем черную линию
-            Panel blackLinePanel = new Panel();
-            blackLinePanel.BackColor = Color.Black; // Цвет линии
-            blackLinePanel.Height = 1; // Высота линии
-            blackLinePanel.Margin = new Padding(0, 20, 0, 10); // Отступы сверху и снизу для центрирования
-            tableLayoutPanel.Controls.Add(blackLinePanel, 1, 0); // Добавляем во вторую ячейку
+            // Создание серии данных для производной функции
+            Series Fseries = new Series();
+            Fseries.ChartType = SeriesChartType.Line;
+            Fseries.BorderWidth = 1;
+            Fseries.Color = Color.Black;
 
-            // Создаем текст "y = f'(x)"
-            Label defLabel = new Label();
-            defLabel.Text = "y = f'(x)";
-            defLabel.AutoSize = true;
-            defLabel.Font = new Font("Segoe UI", 9, FontStyle.Regular); // Шрифт Segoe UI размером 9pt
-            defLabel.TextAlign = ContentAlignment.MiddleCenter; // Выравнивание текста по центру
-            defLabel.Anchor = AnchorStyles.None; // Центрирует элемент внутри ячейки
-            tableLayoutPanel.Controls.Add(defLabel, 1, 0); // Добавляем во вторую ячейку
+            // Создание серии данных для горизонтальной линии y=0
+            Series horizontalLineSeries = new Series();
+            horizontalLineSeries.ChartType = SeriesChartType.Line;
+            horizontalLineSeries.BorderWidth = 1;
+            horizontalLineSeries.Color = Color.Red;
+
+            // Добавление точек на график
+            for (double x = a; x <= b; x += accuracy)
+            {
+                double y = CalculateFunctionValue(x);
+                double def = CalculateDerivative(x);
+                series.Points.AddXY(x, y);
+                Fseries.Points.AddXY(x, def);
+                horizontalLineSeries.Points.AddXY(x, 0);
+                minY = Math.Min(minY, y);
+                maxY = Math.Max(maxY, y);
+            }
 
             // Создание области для графика
             chartArea = new ChartArea(); // Используем поле класса
             chartArea.AxisX.Minimum = a - 2;
             chartArea.AxisX.Maximum = b + 2;
-            chartArea.AxisY.Minimum = Math.Round(minResult - 5); // Начальное значение для оси Y
+            chartArea.AxisY.Minimum = Math.Round(minY - 5); 
+            chartArea.AxisY.Maximum = Math.Round(maxY + 5);
 
-            double maxY = CalculateMaxY(functionExpression, accuracy, a, b);
-
-            // Установка максимального значения для оси Y
-            chartArea.AxisY.Maximum = Math.Round(maxY + 5); // Увеличиваем максимальное значение на 5 для отступа
-
-            chartArea.AxisX.LineColor = System.Drawing.Color.Black;
-            chartArea.AxisY.LineColor = System.Drawing.Color.Black;
+            chartArea.AxisX.LineColor = Color.Black;
+            chartArea.AxisY.LineColor = Color.Black;
 
             // Добавление области на график
             chart.ChartAreas.Add(chartArea);
@@ -300,106 +303,45 @@ namespace Optimization_methods.Middle_Methods
             // Подписываем ось Y
             chartArea.AxisY.Title = "Y";
 
-            // Создание серии данных для графика функции
-            Series series = new Series();
-            series.ChartType = SeriesChartType.Line;
-            series.BorderWidth = 2;
-
-            // Добавление точек на график
-            for (double x = a; x <= b; x += accuracy)
-            {
-                double y = CalculateFunctionValue(x);
-                series.Points.AddXY(x, y);
-            }
-
             // Добавление серии данных на график
             chart.Series.Add(series);
-
-
-            // Создание серии данных для производной функции
-            Series Fseries = new Series();
-            Fseries.ChartType = SeriesChartType.Line;
-            Fseries.BorderWidth = 1;
-
-            // Добавление точек на график
-            for (double x = a; x <= b; x += accuracy)
-            {
-                double y = CalculateDerivative(x);
-                Fseries.Points.AddXY(x, y);
-                Fseries.Color = Color.Black;
-            }
-
-            // Добавление серии данных на график
-            chart.Series.Add(Fseries);
-
-            // Создание серии данных для горизонтальной линии y=0
-            Series horizontalLineSeries = new Series();
-            horizontalLineSeries.ChartType = SeriesChartType.Line;
-            horizontalLineSeries.BorderWidth = 1;
-            horizontalLineSeries.Color = Color.Red; // Цвет линии можно выбрать по вашему усмотрению
-
-
-            // Добавление точек на график, чтобы создать линию y=0
-            for (double x = chartArea.AxisX.Minimum; x <= chartArea.AxisX.Maximum; x += accuracy)
-            {
-                double y = 0; // y=0
-                horizontalLineSeries.Points.AddXY(x, y);
-            }
 
             // Добавление серии данных на график
             chart.Series.Add(horizontalLineSeries);
 
+            // Добавление серии данных на график
+            chart.Series.Add(Fseries);
 
             double currentA_X = aValues[animationStep];
             double currentA_Y = CalculateFunctionValue(currentA_X);
 
-            // Инициализация a b
-            currentASeries = new Series();
-            currentASeries.ChartType = SeriesChartType.Point;
-            currentASeries.Points.AddXY(currentA_X, currentA_Y); // Начальная позиция - точка минимума
-            currentASeries.Color = Color.Blue;
-            currentASeries.MarkerSize = 5;
-            currentASeries.MarkerStyle = MarkerStyle.Circle;
-            currentASeries.LegendText = "a";
-            chart.Series.Add(currentASeries);
-
             double currentB_X = bValues[animationStep];
             double currentB_Y = CalculateFunctionValue(currentB_X);
 
-            currentBSeries = new Series();
-            currentBSeries.ChartType = SeriesChartType.Point;
-            currentBSeries.Points.AddXY(currentB_X, currentB_Y); // Начальная позиция - точка минимума
-            currentBSeries.Color = Color.Blue;
-            currentBSeries.MarkerSize = 5;
-            currentBSeries.MarkerStyle = MarkerStyle.Circle;
-            currentBSeries.LegendText = "b";
-            chart.Series.Add(currentBSeries);
+            // Инициализация a b
+            currentABSeries = new Series();
+            currentABSeries.ChartType = SeriesChartType.Point;
+            currentABSeries.Points.AddXY(currentA_X, currentA_Y); // Начальная позиция - точка минимума
+            currentABSeries.Points.AddXY(currentB_X, currentB_Y); // Начальная позиция - точка минимума
+            currentABSeries.Color = Color.Blue;
+            currentABSeries.MarkerSize = 5;
+            currentABSeries.MarkerStyle = MarkerStyle.Circle;
+            chart.Series.Add(currentABSeries);
 
             // Инициализация x
             double currentX = xValues[animationStep];
             double currentY = CalculateFunctionValue(currentX);
+            double currentF = CalculateDerivative(currentX);
 
             currentXSeries = new Series();
             currentXSeries.ChartType = SeriesChartType.Point;
-            currentXSeries.Points.AddXY(currentX, currentY); // Начальная позиция - точка минимума
+            currentXSeries.Points.AddXY(currentX, currentY); 
+            currentXSeries.Points.AddXY(currentX, currentF); 
+
             currentXSeries.Color = System.Drawing.Color.Black;
             currentXSeries.MarkerSize = 5;
             currentXSeries.MarkerStyle = MarkerStyle.Circle;
-            currentXSeries.LegendText = "x";
             chart.Series.Add(currentXSeries);
-
-
-            // Инициализация F'
-            double currentF = CalculateDerivative(currentX);
-
-            currentFSeries = new Series();
-            currentFSeries.ChartType = SeriesChartType.Point;
-            currentFSeries.Points.AddXY(currentX, currentF); // Начальная позиция - точка минимума
-            currentFSeries.Color = System.Drawing.Color.Black;
-            currentFSeries.MarkerSize = 5;
-            currentFSeries.MarkerStyle = MarkerStyle.Circle;
-            currentFSeries.LegendText = "x";
-            chart.Series.Add(currentFSeries);
         }
 
         private void stop_button_Click(object sender, EventArgs e)
@@ -410,17 +352,13 @@ namespace Optimization_methods.Middle_Methods
             currentB_X = b;
             currentX = xValues[0];
 
-            currentASeries.Points.Clear();
-            currentASeries.Points.AddXY(currentA_X, CalculateFunctionValue(currentA_X)); // Обновляем точку текущей позиции
-
-            currentBSeries.Points.Clear();
-            currentBSeries.Points.AddXY(currentB_X, CalculateFunctionValue(currentB_X)); // Обновляем точку текущей позиции
+            currentABSeries.Points.Clear();
+            currentABSeries.Points.AddXY(currentA_X, CalculateFunctionValue(currentA_X)); // Обновляем точку текущей позиции
+            currentABSeries.Points.AddXY(currentB_X, CalculateFunctionValue(currentB_X)); // Обновляем точку текущей позиции
 
             currentXSeries.Points.Clear();
             currentXSeries.Points.AddXY(currentX, CalculateFunctionValue(currentX)); // Обновляем точку текущей позиции
-
-            currentFSeries.Points.Clear();
-            currentFSeries.Points.AddXY(currentX, CalculateDerivative(currentX)); // Обновляем точку текущей позиции
+            currentXSeries.Points.AddXY(currentX, CalculateDerivative(currentX)); // Обновляем точку текущей позиции
 
             chart.Series.Remove(series_new);
 

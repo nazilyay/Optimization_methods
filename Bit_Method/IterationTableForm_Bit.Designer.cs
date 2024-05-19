@@ -31,10 +31,6 @@
             info_button = new Button();
             exit_button_search = new Button();
             dataGridView = new DataGridView();
-            iteration = new DataGridViewTextBoxColumn();
-            x = new DataGridViewTextBoxColumn();
-            result = new DataGridViewTextBoxColumn();
-            step = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -69,45 +65,11 @@
             // dataGridView
             // 
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView.Columns.AddRange(new DataGridViewColumn[] { iteration, x, result, step });
             dataGridView.Location = new Point(51, 110);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 51;
             dataGridView.Size = new Size(541, 322);
             dataGridView.TabIndex = 15;
-            // 
-            // iteration
-            // 
-            iteration.Frozen = true;
-            iteration.HeaderText = "Итерация";
-            iteration.MinimumWidth = 6;
-            iteration.Name = "iteration";
-            iteration.SortMode = DataGridViewColumnSortMode.NotSortable;
-            iteration.Width = 125;
-            // 
-            // x
-            // 
-            x.HeaderText = "x";
-            x.MinimumWidth = 6;
-            x.Name = "x";
-            x.SortMode = DataGridViewColumnSortMode.NotSortable;
-            x.Width = 125;
-            // 
-            // result
-            // 
-            result.HeaderText = "F(x)";
-            result.MinimumWidth = 6;
-            result.Name = "result";
-            result.SortMode = DataGridViewColumnSortMode.NotSortable;
-            result.Width = 125;
-            // 
-            // step
-            // 
-            step.HeaderText = "h";
-            step.MinimumWidth = 6;
-            step.Name = "step";
-            step.SortMode = DataGridViewColumnSortMode.NotSortable;
-            step.Width = 125;
             // 
             // IterationTableForm
             // 
@@ -131,9 +93,5 @@
         private Button info_button;
         private Button exit_button_search;
         private DataGridView dataGridView;
-        private DataGridViewTextBoxColumn iteration;
-        private DataGridViewTextBoxColumn x;
-        private DataGridViewTextBoxColumn result;
-        private DataGridViewTextBoxColumn step;
     }
 }

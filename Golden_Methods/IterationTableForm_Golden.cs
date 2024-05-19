@@ -24,15 +24,15 @@ namespace Optimization_methods.Golden_Methods
             // Выполнение метода золотого сечения и заполнение таблицы
             PerformGoldenSectionMethod();
 
-            // Установка ширины столбцов
+
+            // Установка ширины столбцов и необходимых свойств
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                column.Width = 100; // Устанавливаем ширину столбца
+                column.ReadOnly = true; // Отключаем редактирование столбцов
+                column.SortMode = DataGridViewColumnSortMode.NotSortable; // Отключаем сортировку
+            }
             dataGridView.Columns[0].Width = 80;
-            dataGridView.Columns[1].Width = 100;
-            dataGridView.Columns[2].Width = 100;
-            dataGridView.Columns[3].Width = 100;
-            dataGridView.Columns[4].Width = 100;
-            dataGridView.Columns[5].Width = 100;
-            dataGridView.Columns[6].Width = 100;
-            dataGridView.Columns[7].Width = 100;
 
         }
 

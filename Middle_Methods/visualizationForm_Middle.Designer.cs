@@ -182,7 +182,7 @@
             // Stop_label
             // 
             Stop_label.AutoSize = true;
-            Stop_label.Location = new Point(355, 681);
+            Stop_label.Location = new Point(46, 689);
             Stop_label.Name = "Stop_label";
             Stop_label.Size = new Size(137, 20);
             Stop_label.TabIndex = 97;
@@ -331,7 +331,7 @@
             exit_button.FlatAppearance.BorderColor = Color.FromArgb(78, 59, 45);
             exit_button.FlatAppearance.MouseOverBackColor = Color.White;
             exit_button.FlatStyle = FlatStyle.Flat;
-            exit_button.Location = new Point(706, 666);
+            exit_button.Location = new Point(706, 674);
             exit_button.Margin = new Padding(3, 4, 3, 4);
             exit_button.Name = "exit_button";
             exit_button.Size = new Size(100, 35);

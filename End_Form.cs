@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Optimization_methods
@@ -15,12 +9,13 @@ namespace Optimization_methods
         public End_Form(int mistake, string text, bool end, double x_min, double f_min)
         {
             InitializeComponent();
+
             // Создаем и настраиваем Label
             Label label = new Label();
             label.TextAlign = ContentAlignment.MiddleCenter; // Выравниваем текст по центру
-            label.Dock = DockStyle.Fill; // Занимаем всю доступную область формы
-            label.Font = new Font("Segoe UI", 12); // Устанавливаем шрифт и размер текста
-            label.AutoEllipsis = true; // Включаем перенос текста
+            label.Font = new Font("Segoe UI", 14); // Устанавливаем шрифт и размер текста
+            label.AutoSize = true; // Включаем автоматическое изменение размера
+            label.Padding = new Padding(20, 20, 20, 20); // Устанавливаем отступы: слева, сверху, справа, снизу
 
             string mistakeText = GetMistakeText(mistake); // Получаем строку с правильным склонением слова "ошибка"
 
@@ -33,8 +28,18 @@ namespace Optimization_methods
                                    $"Студент не завершил метод до конца!";
 
             label.Text = endText;
+
+            // Устанавливаем AutoSize для формы
+            this.AutoSize = true;
+            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+
+            // Добавляем Label на форму
             this.Controls.Add(label);
+
+            // Центрируем форму на экране
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
+
         private string GetMistakeText(int mistake)
         {
             // Определяем правильное склонение в зависимости от числа ошибок
@@ -45,6 +50,5 @@ namespace Optimization_methods
             else
                 return "ошибок";
         }
-
     }
 }
